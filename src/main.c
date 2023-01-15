@@ -6,7 +6,7 @@
 /*   By: vfries <vfries@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/14 18:07:30 by vfries            #+#    #+#             */
-/*   Updated: 2023/01/15 15:02:24 by vfries           ###   ########lyon.fr   */
+/*   Updated: 2023/01/15 20:40:06 by vfries           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,28 +14,50 @@
 #include "ft_string.h"
 #include <stdlib.h>
 #include <stdio.h>
+#include "ft_linked_list.h"
+#include "tokens.h"
 
-char	*get_input(void);
-int		deal_input(char *input);
+void	parse_tokens(t_list **tokens);
 
-int	main(void)
+t_token	*new_token(enum e_type type, enum e_operators operator, char *name)
 {
-	char	*input;
+	t_token	*new_token = malloc(sizeof(t_token));
 
-	input = get_input();
-	while (input != NULL && ft_strcmp(input, "exit\n") != 0)
+	new_token->type = type;
+	new_token->operator = operator;
+	new_token->name = name;
+
+	return new_token;
+}
+
+void	print_list(t_list *tokens)
+{
+	while (tokens)
 	{
-		if (deal_input(input) == -1)
-		{
-			free(input);
-			return (1);
-		}
-		free(input);
-		input = get_input();
+		ft_printf("Type = %d\n", ((t_token *)tokens->content)->type);
+		ft_printf("Operator = %d\n", ((t_token *)tokens->content)->operator);
+		ft_printf("Name = %s\n", ((t_token *)tokens->content)->name);
+		ft_printf("----------------------------------->\n");
+		tokens = tokens->next;
 	}
-	if (input != NULL)
-		free(input);
-	else
-		ft_putstr("exit\n");
-	return (0);
+	ft_printf("(NULL)\n");
+}
+
+int	main(int argc, char **argv)
+{
+	t_list	*tokens;
+
+	if (argc == 1)
+	{
+		ft_printf("No args!!!");
+		return (1);
+	}
+	(void)argc;
+	tokens = get_tokens(argv[1]);
+	print_list(tokens);
+
+	ft_printf("\n\n");
+
+	parse_tokens(&tokens);
+	print_list(tokens);
 }

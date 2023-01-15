@@ -4,8 +4,9 @@ NAME			=	minishell
 SRC_PATH		=	src/
 
 SRC				=\
+	parser/parse_tokens.c	\
+\
 	main.c	\
-	lexer/operator.c	\
 	token.c
 
 
