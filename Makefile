@@ -22,7 +22,7 @@ RM				=	rm -rf
 AR				=	ar rcs
 
 
-LIBFT_PATH		=	libs/libft/
+LIBFT_PATH		=	lib/libft/
 LIBFT_INCLUDES	=	$(LIBFT_PATH)include
 LIBFT_L			=	-L$(LIBFT_PATH) -lft
 LIBFT_L_DEBUG	=	-L$(LIBFT_PATH) -lft_debug
