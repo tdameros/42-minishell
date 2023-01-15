@@ -4,8 +4,9 @@ NAME			=	minishell
 SRC_PATH		=	src/
 
 SRC				=\
-	main.c \
-	lexer/operator.c
+	main.c	\
+	lexer/operator.c	\
+	token.c
 
 
 DIR_INCS		=\
