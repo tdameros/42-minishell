@@ -1,9 +1,14 @@
+# Norm
+better_norminette.log
+
 # IDE
 .idea/
 .VSCode/
 
 # Executables
 minishell
+libft_test
+libft_test_debug
 *.exe
 *.out
 *.app
@@ -15,6 +20,7 @@ minishell
 *.d
 
 # Object files
+.build/
 *.o
 *.ko
 *.obj

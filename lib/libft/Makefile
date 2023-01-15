@@ -7,9 +7,9 @@ NAME_TEST =			libft_test
 NAME_TEST_DEBUG =	libft_test_debug
 
 
-SRCS_PATH =		src/
+SRC_PATH =		src/
 
-SRCS =\
+SRC =\
 				bools/reverse_bool.c	\
 \
 \
@@ -121,21 +121,21 @@ SRCS =\
 TEST_DIR = test/
 
 SRCS_TEST =\
-				headers/test/ft_string_test.h.c	\
+				header/test/ft_string_test.h.c	\
 \
 \
-				includes/ft_bools.h.c		\
-				includes/ft_char.h.c		\
-				includes/ft_io.h.c			\
-				includes/ft_linked_list.h.c	\
-				includes/ft_math.h.c		\
-				includes/ft_mem.h.c			\
-				includes/ft_numbers.h.c		\
-				includes/ft_string.h.c		\
-				includes/libft.h.c			\
+				${INCLUDES}/ft_bools.h.c		\
+				${INCLUDES}/ft_char.h.c		\
+				${INCLUDES}/ft_io.h.c			\
+				${INCLUDES}/ft_linked_list.h.c	\
+				${INCLUDES}/ft_math.h.c		\
+				${INCLUDES}/ft_mem.h.c			\
+				${INCLUDES}/ft_numbers.h.c		\
+				${INCLUDES}/ft_string.h.c		\
+				${INCLUDES}/libft.h.c			\
 \
 \
-				srcs/string/join/join_strs_test.c	\
+				src/string/join/join_strs_test.c	\
 \
 \
 				main.c
@@ -157,11 +157,11 @@ INCLUDES =		include/
 
 TEST_OBJS_DIR = ${DIR_OBJS}test/
 
-DIR_OBJS = 		build/
+DIR_OBJS = 		.build/
 
-OBJS =			${addprefix ${DIR_OBJS},${SRCS:.c=.o}}
+OBJS =			${addprefix ${DIR_OBJS},${SRC:.c=.o}}
 
-OBJS_DEBUG =	${addprefix ${DIR_OBJS},${SRCS:.c=_debug.o}}
+OBJS_DEBUG =	${addprefix ${DIR_OBJS},${SRC:.c=_debug.o}}
 
 OBJS_TEST =		${addprefix ${TEST_OBJS_DIR},${SRCS_TEST:.c=.o}}
 
@@ -196,10 +196,10 @@ ${DIR_OBJS}: Makefile
 				@# Adds mkdir -p at start of each lines
 				@# Executes the script (Creates all folders)
 
-${DIR_OBJS}%.o: ${SRCS_PATH}%.c ${HEADERS} Makefile
+${DIR_OBJS}%.o: ${SRC_PATH}%.c ${HEADERS} Makefile
 				${CC} ${FLAGS} -I ${INCLUDES} -c $< -o $@
 
-${DIR_OBJS}%_debug.o: ${SRCS_PATH}%.c ${HEADERS} Makefile
+${DIR_OBJS}%_debug.o: ${SRC_PATH}%.c ${HEADERS} Makefile
 				${CC} ${DEBUG_FLAGS} -I ${INCLUDES} -c $< -o $@
 
 clean:
@@ -240,9 +240,9 @@ ${NAME_TEST_DEBUG}: ${OBJS_TEST_DEBUG}
 					${OBJS_TEST_DEBUG} -o ${NAME_TEST_DEBUG}
 
 ${TEST_OBJS_DIR}%.o: ${TEST_DIR}%.c ${HEADERS} Makefile
-				${CC} ${FLAGS} -I ${INCLUDES} -I test/headers -c $< -o $@
+				${CC} ${FLAGS} -I ${INCLUDES} -I test/header -c $< -o $@
 
 ${TEST_OBJS_DIR}%_debug.o: ${TEST_DIR}%.c ${HEADERS} Makefile
-				${CC} ${DEBUG_FLAGS} -I ${INCLUDES} -I test/headers -c $< -o $@
+				${CC} ${DEBUG_FLAGS} -I ${INCLUDES} -I test/header -c $< -o $@
 
 .PHONY:			all clean fclean re re_debug echo_objs debug test
