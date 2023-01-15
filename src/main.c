@@ -20,17 +20,17 @@ int	is_operator(char *string);
 
 int	main()
 {
-//	char	*input;
-//
-//	input = get_input();
-//	while (input != NULL && ft_strcmp(input, "exit\n") != 0)
-//	{
-//		deal_input(input);
-//		free(input);
-//		input = get_input();
-//	}
-//	if (input != NULL)
-//		free(input);
-	ft_printf("%d\n", is_operator())
+	char	*input;
+
+	input = get_input();
+	while (input != NULL && ft_strcmp(input, "exit\n") != 0)
+	{
+		deal_input(input);
+		free(input);
+		input = get_input();
+	}
+	if (input != NULL)
+		free(input);
+	printf("%d\n", is_operator(">"));
 	return (0);
 }

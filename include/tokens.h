@@ -15,8 +15,8 @@
 
 enum e_type
 {
-	PARENTHESES = 0,
-	COMMAND = 1,
+	COMMAND = 0,
+	ARGUMENT = 1,
 	OPERATOR = 2,
 	PATH_FILE = 3,
 };
@@ -39,7 +39,6 @@ typedef struct s_token
 	enum e_type			type;
 	enum e_operators	operator;
 	char				*name;
-	char				**args;
 }	t_token;
 
 #endif

@@ -4,7 +4,8 @@ NAME			=	minishell
 SRC_PATH		=	src/
 
 SRC				=\
-	main.c
+	main.c \
+	lexer/operator.c
 
 
 DIR_INCS		=\
@@ -17,7 +18,7 @@ DIR_BUILD		=	.build/
 OBJS			=	$(patsubst %.c, $(DIR_BUILD)%.o, $(SRC))
 DEPS			=	$(patsubst %.c, $(DIR_BUILD)%.d, $(SRC))
 DEPS_FLAGS		=	-MMD -MP
-CFLAGS			=	-Wall -Wextra -Werror
+CFLAGS			=	-Wall -Wextra -Werror -fsanitize=address
 RM				=	rm -rf
 AR				=	ar rcs
 
