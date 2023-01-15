@@ -13,6 +13,8 @@
 #ifndef TOKENS_H
 # define TOKENS_H
 
+# include "libft.h"
+
 enum e_type
 {
 	COMMAND = 0,
@@ -41,4 +43,10 @@ typedef struct s_token
 	char				*name;
 }	t_token;
 
+int	get_operator(char *string);
+t_token	*create_token(enum e_type type, enum e_operators operator, char *name);
+int	add_operator_token(t_list **tokens, enum e_operators operator, enum e_type type, char *name);
+
+void	print_tokens(t_list *tokens);
+t_list	*get_tokens(char *command);
 #endif

@@ -5,7 +5,8 @@ SRC_PATH		=	src/
 
 SRC				=\
 	main.c \
-	lexer/operator.c
+	lexer/operator.c \
+	lexer/token.c
 
 
 DIR_INCS		=\
@@ -18,7 +19,7 @@ DIR_BUILD		=	.build/
 OBJS			=	$(patsubst %.c, $(DIR_BUILD)%.o, $(SRC))
 DEPS			=	$(patsubst %.c, $(DIR_BUILD)%.d, $(SRC))
 DEPS_FLAGS		=	-MMD -MP
-CFLAGS			=	-Wall -Wextra -Werror -fsanitize=address
+CFLAGS			=	-Wall -Wextra -Werror -fsanitize=address -g3
 RM				=	rm -rf
 AR				=	ar rcs
 

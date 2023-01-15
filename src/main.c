@@ -10,32 +10,37 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_io.h"
-#include "ft_string.h"
 #include <stdlib.h>
 #include <stdio.h>
+#include "tokens.h"
+#include "libft.h"
 
 char	*get_input(void);
 int		deal_input(char *input);
 
-int	main(void)
+int	main(int argc, char **argv)
 {
-	char	*input;
+	t_list	*tokens;
 
-	input = get_input();
-	while (input != NULL && ft_strcmp(input, "exit\n") != 0)
-	{
-		if (deal_input(input) == -1)
-		{
-			free(input);
-			return (1);
-		}
-		free(input);
-		input = get_input();
-	}
-	if (input != NULL)
-		free(input);
-	else
-		ft_putstr("exit\n");
+	(void) argc;
+	tokens = get_tokens(argv[1]);
+	print_tokens(tokens);
+//	char	*input;
+//
+//	input = get_input();
+//	while (input != NULL && ft_strcmp(input, "exit\n") != 0)
+//	{
+//		if (deal_input(input) == -1)
+//		{
+//			free(input);
+//			return (1);
+//		}
+//		free(input);
+//		input = get_input();
+//	}
+//	if (input != NULL)
+//		free(input);
+//	else
+//		ft_putstr("exit\n");
 	return (0);
 }
