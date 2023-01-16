@@ -7,6 +7,8 @@ SRC				=\
 	main.c \
 	lexer/operator.c \
 	lexer/token.c \
+	parser/quote/remove.c \
+	parser/quote/valid.c
 
 
 DIR_INCS		=\

@@ -63,10 +63,16 @@ int	get_index_end_token(char *command)
 	int	index;
 
 	index = 0;
-//	if (*command == '"')
-//		return (ft_strchr())
-	while (get_operator(command + index) < 0 && command[index] != ' ' && command[index] != '\0')
-		index++;
+	if (*command == '"' || *command == '\'')
+	{
+		while (get_operator(command + index) < 0 && command[index] != '\0')
+			index++;
+	}
+	else
+	{
+		while (get_operator(command + index) < 0 && command[index] != ' ' && command[index] != '\0')
+			index++;
+	}
 	return (index);
 }
 

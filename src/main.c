@@ -14,26 +14,34 @@
 #include <stdio.h>
 #include "tokens.h"
 #include "libft.h"
+#include "quote.h"
 
 #include <readline/readline.h>
 #include <readline/history.h>
 
-#define PROMPT "minishell-1.0$ "
+#define PROMPT "➜ minishell-1.0$ "
 
 char	*get_input(void);
 int		deal_input(char *input);
 
-
 int	main(void)
 {
 	char	*command;
+	char	*save;
 	t_list	*tokens;
 
 	command = readline(PROMPT);
 	while (ft_strncmp(command, "exit", 4))
 	{
-		add_history(command);
-		tokens = get_tokens(command);
+		save = command;
+		while (!is_valid_quote(save))
+		{
+			command = readline("> ");
+			save = ft_strjoin(save, command);
+		}
+		add_history(save);
+		tokens = get_tokens(save);
+		remove_quotes(tokens);
 		print_tokens(tokens);
 		command = readline(PROMPT);
 	}
