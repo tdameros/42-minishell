@@ -6,7 +6,7 @@ SRC_PATH		=	src/
 SRC				=\
 	main.c \
 	lexer/operator.c \
-	lexer/token.c
+	lexer/token.c \
 
 
 DIR_INCS		=\
@@ -40,7 +40,7 @@ all:
 			$(MAKE) $(NAME)
 
 $(NAME):	$(OBJS)
-			$(CC) $(CFLAGS) $(INCLUDES) $(OBJS) $(LIBFT_L) -o $(NAME)
+			$(CC) $(CFLAGS) $(INCLUDES) $(OBJS) $(LIBFT_L) -o $(NAME) -lreadline
 
 
 .PHONY:	clean

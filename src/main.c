@@ -15,16 +15,28 @@
 #include "tokens.h"
 #include "libft.h"
 
+#include <readline/readline.h>
+#include <readline/history.h>
+
+#define PROMPT "minishell-1.0$ "
+
 char	*get_input(void);
 int		deal_input(char *input);
 
-int	main(int argc, char **argv)
+
+int	main(void)
 {
+	char	*command;
 	t_list	*tokens;
 
-	(void) argc;
-	tokens = get_tokens(argv[1]);
-	print_tokens(tokens);
+	command = readline(PROMPT);
+	while (ft_strncmp(command, "exit", 4))
+	{
+		add_history(command);
+		tokens = get_tokens(command);
+		print_tokens(tokens);
+		command = readline(PROMPT);
+	}
 //	char	*input;
 //
 //	input = get_input();
