@@ -60,13 +60,23 @@ enum e_type	identify_token(t_token *previous_token, char *command)
 
 int	get_index_end_token(char *command)
 {
-	int	index;
+	int		index;
+	char	quote;
+	int		count_quote;
 
 	index = 0;
+	count_quote = 0;
 	if (*command == '"' || *command == '\'')
 	{
-		while (get_operator(command + index) < 0 && command[index] != '\0')
+		quote = *command;
+		while (command[index] != '\0')
+		{
+			if (command[index] == quote)
+				count_quote++;
+			if (get_operator(command + index) >= 0 && count_quote % 2 == 0)
+				return (index);
 			index++;
+		}
 	}
 	else
 	{
