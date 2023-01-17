@@ -6,7 +6,7 @@
 /*   By: vfries <vfries@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/16 20:14:16 by vfries            #+#    #+#             */
-/*   Updated: 2023/01/17 17:57:58 by vfries           ###   ########lyon.fr   */
+/*   Updated: 2023/01/17 18:46:59 by vfries           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static void	simplify_files(t_list **files);
 static char	**get_args_strs(t_list **args, t_list **parsed_tokens);
 
 // TODO Delete me
-int	is_file_operator_token(t_token *token)
+static int	is_file_operator_token_tmp(t_token *token)
 {
 	if (token == NULL || token->type != OPERATOR)
 		return (0);
@@ -52,12 +52,13 @@ static void	seperate_command_elements(t_list **tokens,
 	*args = NULL;
 	*files = NULL;
 	while (*tokens != NULL && (((t_token *)(*tokens)->content)->type != OPERATOR
-		|| is_file_operator_token((*tokens)->content)))
+		|| is_file_operator_token_tmp((*tokens)->content)))
 	{
-		if (is_file_operator_token((*tokens)->content))
-			ft_lst_push(files, tokens);
-		else
+		if (((t_token *)(*tokens)->content)->type == ARGUMENT
+			|| ((t_token *)(*tokens)->content)->type == COMMAND)
 			ft_lst_push(args, tokens);
+		else
+			ft_lst_push(files, tokens);
 	}
 }
 
