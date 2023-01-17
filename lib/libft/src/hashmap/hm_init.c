@@ -1,26 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   libft.h                                            :+:      :+:    :+:   */
+/*   hm_init.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vfries <vfries@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/09/07 19:22:16 by vfries            #+#    #+#             */
-/*   Updated: 2023/01/17 15:58:03 by vfries           ###   ########lyon.fr   */
+/*   Created: 2023/01/17 14:30:27 by vfries            #+#    #+#             */
+/*   Updated: 2023/01/17 16:40:39 by vfries           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef LIBFT_H
-# define LIBFT_H
+#include "ft_hashmap.h"
+#include "ft_mem.h"
 
-# include "ft_bools.h"
-# include "ft_char.h"
-# include "ft_hashmap.h"
-# include "ft_io.h"
-# include "ft_linked_list.h"
-# include "ft_math.h"
-# include "ft_mem.h"
-# include "ft_numbers.h"
-# include "ft_string.h"
-
-#endif
+/// @brief 		Mallocs a hashmap and sets all its t_list to NULL
+/// @return 	Returns an empty hashmap
+t_hashmap	ft_hm_init(void)
+{
+	return (ft_calloc(HASHMAP_ARR_SIZE, sizeof(t_hashmap)));
+}

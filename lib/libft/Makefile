@@ -23,6 +23,14 @@ SRC =\
 				char/tolower.c	\
 \
 \
+				hashmap/hm_add_elem.c		\
+				hashmap/hm_clear.c			\
+				hashmap/hm_get_content.c	\
+				hashmap/hm_get_elem.c		\
+				hashmap/hm_get_index.c		\
+				hashmap/hm_init.c			\
+\
+\
 				io/get_next_line/get_next_line_multi_fd.c		\
 				io/get_next_line/get_next_line_utils_multi_fd.c	\
 				io/get_next_line/get_next_line_utils.c			\
@@ -124,18 +132,21 @@ SRCS_TEST =\
 				header/test/ft_string_test.h.c	\
 \
 \
-				${INCLUDES}/ft_bools.h.c		\
-				${INCLUDES}/ft_char.h.c		\
-				${INCLUDES}/ft_io.h.c			\
-				${INCLUDES}/ft_linked_list.h.c	\
-				${INCLUDES}/ft_math.h.c		\
-				${INCLUDES}/ft_mem.h.c			\
-				${INCLUDES}/ft_numbers.h.c		\
-				${INCLUDES}/ft_string.h.c		\
-				${INCLUDES}/libft.h.c			\
+				${INCLUDES}ft_bools.h.c			\
+				${INCLUDES}ft_char.h.c			\
+				${INCLUDES}ft_hashmap.h.c		\
+				${INCLUDES}ft_io.h.c			\
+				${INCLUDES}ft_linked_list.h.c	\
+				${INCLUDES}ft_math.h.c			\
+				${INCLUDES}ft_mem.h.c			\
+				${INCLUDES}ft_numbers.h.c		\
+				${INCLUDES}ft_string.h.c		\
+				${INCLUDES}libft.h.c			\
 \
 \
-				src/string/join/join_strs_test.c	\
+				${SRC_PATH}hashmap/hashmap_test.c	\
+\
+				${SRC_PATH}string/join/join_strs_test.c	\
 \
 \
 				main.c
@@ -144,6 +155,7 @@ SRCS_TEST =\
 HEADERS =\
 				${INCLUDES}ft_bools.h		\
 				${INCLUDES}ft_char.h		\
+				${INCLUDES}ft_hashmap.h		\
 				${INCLUDES}ft_io.h			\
 				${INCLUDES}ft_linked_list.h	\
 				${INCLUDES}ft_math.h		\
@@ -228,8 +240,11 @@ test:			${DIR_OBJS}
 				${MAKE} debug
 				${MAKE} ${NAME_TEST}
 				${MAKE} ${NAME_TEST_DEBUG}
-				./${NAME_TEST}
-				./${NAME_TEST_DEBUG}
+				@echo
+				leaks -atExit -- ./${NAME_TEST}
+				@echo
+				@echo
+				leaks -atExit -- ./${NAME_TEST_DEBUG}
 
 ${NAME_TEST}:	${OBJS_TEST}
 				${CC} ${FLAGS} -I ${INCLUDES} -L. -lft ${OBJS_TEST}\
