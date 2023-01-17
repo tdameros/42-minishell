@@ -6,7 +6,7 @@
 /*   By: vfries <vfries@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/16 20:14:16 by vfries            #+#    #+#             */
-/*   Updated: 2023/01/17 02:36:05 by vfries           ###   ########lyon.fr   */
+/*   Updated: 2023/01/17 17:57:58 by vfries           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,15 +18,26 @@ static void	seperate_command_elements(t_list **tokens,
 				t_list **args, t_list **files);
 static void	push_command_in_parsed_tokens_and_reverse_args(
 				t_list **parsed_tokens, t_list **args);
-void	simplify_files(t_list **files);
+static void	simplify_files(t_list **files);
 static char	**get_args_strs(t_list **args, t_list **parsed_tokens);
+
+// TODO Delete me
+int	is_file_operator_token(t_token *token)
+{
+	if (token == NULL || token->type != OPERATOR)
+		return (0);
+	return (token->operator == INPUT_REDIRECT
+		|| token->operator == OUTPUT_REDIRECT
+		|| token->operator == HERE_DOC
+		|| token->operator == APPEND);
+}
+//!
 
 void	add_command(t_list **parsed_tokens, t_list **tokens)
 {
 	t_list	*args;
 	t_list	*files;
 
-	ft_printf("%s pre loop\n", __FUNCTION__);
 	seperate_command_elements(tokens, &args, &files);
 	push_command_in_parsed_tokens_and_reverse_args(parsed_tokens, &args);
 	((t_token *)(*parsed_tokens)->content)->args = get_args_strs(&args,
@@ -40,15 +51,13 @@ static void	seperate_command_elements(t_list **tokens,
 {
 	*args = NULL;
 	*files = NULL;
-	ft_printf("%s pre loop\n", __FUNCTION__);
-	while (*tokens != NULL && ((t_token *)(*tokens)->content)->type != OPERATOR)
+	while (*tokens != NULL && (((t_token *)(*tokens)->content)->type != OPERATOR
+		|| is_file_operator_token((*tokens)->content)))
 	{
-		ft_printf("seperate_command_elements()\n");
-		if (((t_token *)(*tokens)->content)->type == COMMAND
-			|| ((t_token *)(*tokens)->content)->type == ARGUMENT)
-			ft_lst_push(args, tokens);
-		else
+		if (is_file_operator_token((*tokens)->content))
 			ft_lst_push(files, tokens);
+		else
+			ft_lst_push(args, tokens);
 	}
 }
 
@@ -60,7 +69,6 @@ static void	push_command_in_parsed_tokens_and_reverse_args(
 	reversed_args = NULL;
 	while (*args != NULL)
 	{
-		ft_printf("%s pre loop\n", __FUNCTION__);
 		if (((t_token *)(*args)->content)->type == COMMAND)
 			ft_lst_push(parsed_tokens, args);
 		else
@@ -69,14 +77,13 @@ static void	push_command_in_parsed_tokens_and_reverse_args(
 	*args = reversed_args;
 }
 
-void	simplify_files(t_list **files)
+static void	simplify_files(t_list **files)
 {
 	t_list	*simplified_files;
 
 	simplified_files = NULL;
 	while (*files != NULL)
 	{
-		ft_printf("%s pre loop\n", __FUNCTION__);
 		ft_lst_push(&simplified_files, files);
 		if (*files == NULL)
 		{
@@ -111,7 +118,6 @@ static char	**get_args_strs(t_list **args, t_list **parsed_tokens)
 	i = 1;
 	while (*args != NULL)
 	{
-		ft_printf("get_args_strs()\n");
 		args_strs[i] = ((t_token *)(*args)->content)->name;
 		((t_token *)(*args)->content)->name = NULL;
 		*args = ft_lst_get_next_free_current(*args, &free_token);

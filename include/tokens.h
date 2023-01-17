@@ -6,12 +6,14 @@
 /*   By: vfries <vfries@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/14 18:08:31 by vfries            #+#    #+#             */
-/*   Updated: 2023/01/17 17:23:01 by vfries           ###   ########lyon.fr   */
+/*   Updated: 2023/01/17 17:51:45 by vfries           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef TOKENS_H
 # define TOKENS_H
+
+# include "libft.h"
 
 enum e_type
 {
