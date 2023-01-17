@@ -50,10 +50,10 @@ enum e_type	identify_token(t_token *previous_token, char *command)
 {
 	if (get_operator(command) >= 0)
 		return (OPERATOR);
-	else if (previous_token == NULL || previous_token->type == OPERATOR)
-		return (COMMAND);
 	else if (is_file_operator_token(previous_token))
 		return (PATH_FILE);
+	else if (previous_token == NULL || previous_token->type == OPERATOR)
+		return (COMMAND);
 	else
 		return (ARGUMENT);
 }
