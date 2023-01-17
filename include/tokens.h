@@ -6,7 +6,7 @@
 /*   By: vfries <vfries@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/14 18:08:31 by vfries            #+#    #+#             */
-/*   Updated: 2023/01/15 16:09:03 by vfries           ###   ########lyon.fr   */
+/*   Updated: 2023/01/17 17:23:01 by vfries           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,8 @@ typedef struct s_token
 	enum e_type			type;
 	enum e_operators	operator;
 	char				*name;
+	char				**args;
+	t_list				*files;
 }	t_token;
 
 void	free_token(void *token);
