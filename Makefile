@@ -4,7 +4,8 @@ NAME			=	minishell
 SRC_PATH		=	src/
 
 SRC				=\
-	parser/parse_tokens.c	\
+	simplify_tokens/add_command.c	\
+	simplify_tokens/simplify_tokens.c	\
 \
 	main.c	\
 	token.c
@@ -20,7 +21,7 @@ DIR_BUILD		=	.build/
 OBJS			=	$(patsubst %.c, $(DIR_BUILD)%.o, $(SRC))
 DEPS			=	$(patsubst %.c, $(DIR_BUILD)%.d, $(SRC))
 DEPS_FLAGS		=	-MMD -MP
-CFLAGS			=	-Wall -Wextra -Werror -fsanitize=address
+CFLAGS			=	-Wall -Wextra -Werror -fsanitize=address -g3
 RM				=	rm -rf
 AR				=	ar rcs
 
@@ -41,7 +42,7 @@ all:
 			$(MAKE) $(NAME)
 
 $(NAME):	$(OBJS)
-			$(CC) $(CFLAGS) $(INCLUDES) $(OBJS) $(LIBFT_L) -o $(NAME)
+			$(CC) $(CFLAGS) $(INCLUDES) $(OBJS) $(LIBFT_L) -o $(NAME) -lreadline
 
 
 .PHONY:	clean
