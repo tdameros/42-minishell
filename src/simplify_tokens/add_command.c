@@ -6,7 +6,7 @@
 /*   By: vfries <vfries@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/16 20:14:16 by vfries            #+#    #+#             */
-/*   Updated: 2023/01/17 18:46:59 by vfries           ###   ########lyon.fr   */
+/*   Updated: 2023/01/18 17:27:28 by vfries           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,21 +33,47 @@ static int	is_file_operator_token_tmp(t_token *token)
 }
 //!
 
-void	add_command(t_list **parsed_tokens, t_list **tokens)
+static bool	fix_parsed_tokens_equals_null(t_list **parsed_tokens,
+				t_list **args, t_list **files)
+{
+	t_token	*tmp;
+
+	tmp = malloc(sizeof(t_token));
+	if (tmp != NULL)
+	{
+		ft_bzero(tmp, sizeof(t_token));
+		tmp->type = COMMAND;
+		*parsed_tokens = ft_lstnew(tmp);
+	}
+	if (*parsed_tokens == NULL)
+	{
+		free(tmp);
+		ft_lstclear(args, &free_token);
+		ft_lstclear(files, &free_token);
+		return (true);
+	}
+	return (false);
+}
+
+bool	add_command(t_list **parsed_tokens, t_list **tokens)
 {
 	t_list	*args;
 	t_list	*files;
 
 	seperate_command_elements(tokens, &args, &files);
 	push_command_in_parsed_tokens_and_reverse_args(parsed_tokens, &args);
+	if (*parsed_tokens == NULL
+		&& fix_parsed_tokens_equals_null(parsed_tokens, &args, &files))
+		return (true);
 	((t_token *)(*parsed_tokens)->content)->args = get_args_strs(&args,
 			parsed_tokens);
 	simplify_files(&files);
 	((t_token *)(*parsed_tokens)->content)->files = files;
+	return (false);
 }
 
-static void	seperate_command_elements(t_list **tokens,
-				t_list **args, t_list **files)
+static void	seperate_command_elements(t_list **tokens, t_list **args,
+				t_list **files)
 {
 	*args = NULL;
 	*files = NULL;
