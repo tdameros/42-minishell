@@ -6,7 +6,7 @@
 /*   By: vfries <vfries@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/14 18:08:31 by vfries            #+#    #+#             */
-/*   Updated: 2023/01/17 17:51:45 by vfries           ###   ########lyon.fr   */
+/*   Updated: 2023/01/20 00:29:04 by vfries           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,16 @@ typedef struct s_token
 	t_list				*files;
 }	t_token;
 
+
+int		get_operator(char *string);
+t_token	*create_token(enum e_type type, enum e_operators operator, char *name);
+int		add_operator_token(t_list **tokens, enum e_operators operator);
+int	is_file_operator_token(t_token *token);
+
+void	print_tokens(t_list *tokens);
+t_list	*get_tokens(char *command);
 void	free_token(void *token);
+
+void	simplify_tokens(t_list **tokens);
 
 #endif

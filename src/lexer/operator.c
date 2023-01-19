@@ -10,9 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdbool.h>
 #include "libft.h"
 #include "tokens.h"
+#include <stdlib.h>
 
 int	get_operator(char *string)
 {
@@ -31,15 +31,36 @@ int	get_operator(char *string)
 	else if (ft_strncmp(string, "<", 1) == 0)
 		return (INPUT_REDIRECT);
 	else if (ft_strncmp(string, "(", 1) == 0)
-		return (OPEN_PARENTHESE);
+		return (OPEN_PARENTHESES);
 	else if (ft_strncmp(string, ")", 1) == 0)
-		return (CLOSE_PARENTHESE);
+		return (CLOSE_PARENTHESES);
 	return (-1);
 }
 
-int	add_operator_token(t_list **tokens, enum e_operators)
+int	add_operator_token(t_list **tokens, enum e_operators operator)
 {
 	t_token	*token;
+	t_list	*element;
 
+	token = create_token(OPERATOR, operator, NULL);
+	if (token == NULL)
+		return (-1);
+	element = ft_lstnew((void *) token);
+	if (element == NULL)
+	{
+		free(token);
+		return (-1);
+	}
+	ft_lstadd_front(tokens, element);
+	return (0);
+}
 
+int	is_file_operator_token(t_token *token)
+{
+	if (token == NULL || token->type != OPERATOR)
+		return (0);
+	return (token->operator == INPUT_REDIRECT
+		|| token->operator == OUTPUT_REDIRECT
+		|| token->operator == HERE_DOC
+		|| token->operator == APPEND);
 }

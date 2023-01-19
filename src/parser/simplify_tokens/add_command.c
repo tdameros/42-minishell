@@ -6,7 +6,7 @@
 /*   By: vfries <vfries@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/16 20:14:16 by vfries            #+#    #+#             */
-/*   Updated: 2023/01/18 17:27:28 by vfries           ###   ########lyon.fr   */
+/*   Updated: 2023/01/20 00:16:22 by vfries           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,18 +20,6 @@ static void	push_command_in_parsed_tokens_and_reverse_args(
 				t_list **parsed_tokens, t_list **args);
 static void	simplify_files(t_list **files);
 static char	**get_args_strs(t_list **args, t_list **parsed_tokens);
-
-// TODO Delete me
-static int	is_file_operator_token_tmp(t_token *token)
-{
-	if (token == NULL || token->type != OPERATOR)
-		return (0);
-	return (token->operator == INPUT_REDIRECT
-		|| token->operator == OUTPUT_REDIRECT
-		|| token->operator == HERE_DOC
-		|| token->operator == APPEND);
-}
-//!
 
 static bool	fix_parsed_tokens_equals_null(t_list **parsed_tokens,
 				t_list **args, t_list **files)
@@ -78,7 +66,7 @@ static void	seperate_command_elements(t_list **tokens, t_list **args,
 	*args = NULL;
 	*files = NULL;
 	while (*tokens != NULL && (((t_token *)(*tokens)->content)->type != OPERATOR
-		|| is_file_operator_token_tmp((*tokens)->content)))
+		|| is_file_operator_token((*tokens)->content)))
 	{
 		if (((t_token *)(*tokens)->content)->type == ARGUMENT
 			|| ((t_token *)(*tokens)->content)->type == COMMAND)

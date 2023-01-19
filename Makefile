@@ -4,11 +4,17 @@ NAME			=	minishell
 SRC_PATH		=	src/
 
 SRC				=\
-	simplify_tokens/add_command.c	\
-	simplify_tokens/simplify_tokens.c	\
+	lexer/operator.c	\
+	lexer/token.c		\
 \
-	main.c	\
-	token.c
+\
+	parser/quote/remove.c	\
+	parser/quote/valid.c	\
+\
+	parser/simplify_tokens/add_command.c	\
+	parser/simplify_tokens/simplify_tokens.c	\
+\
+	main.c
 
 
 DIR_INCS		=\
