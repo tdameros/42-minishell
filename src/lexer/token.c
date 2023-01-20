@@ -6,11 +6,12 @@
 /*   By: vfries <vfries@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/15 15:01:00 by tdameros          #+#    #+#             */
-/*   Updated: 2023/01/20 00:35:04 by vfries           ###   ########lyon.fr   */
+/*   Updated: 2023/01/20 04:22:10 by vfries           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "tokens.h"
+#include "lexer.h"
 #include <stdlib.h>
 
 enum e_type	identify_token(t_token *previous_token, char *command);

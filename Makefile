@@ -4,6 +4,10 @@ NAME			=	minishell
 SRC_PATH		=	src/
 
 SRC				=\
+	env_variables/get_env_variables.c	\
+	env_variables/print_env_variables.c	\
+\
+\
 	lexer/operator.c	\
 	lexer/token.c		\
 \

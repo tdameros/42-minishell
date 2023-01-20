@@ -6,11 +6,12 @@
 /*   By: vfries <vfries@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/16 20:14:16 by vfries            #+#    #+#             */
-/*   Updated: 2023/01/20 00:16:22 by vfries           ###   ########lyon.fr   */
+/*   Updated: 2023/01/20 04:23:07 by vfries           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "tokens.h"
+#include "lexer.h"
 #include <unistd.h>
 #include <stdlib.h>
 

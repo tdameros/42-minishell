@@ -3,15 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   operator.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdameros <tdameros@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: vfries <vfries@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/15 14:06:00 by tdameros          #+#    #+#             */
-/*   Updated: 2023/01/15 14:06:00 by tdameros         ###   ########lyon.fr   */
+/*   Updated: 2023/01/20 04:21:38 by vfries           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
 #include "tokens.h"
+#include"lexer.h"
+#include "libft.h"
 #include <stdlib.h>
 
 int	get_operator(char *string)

@@ -6,15 +6,13 @@
 /*   By: vfries <vfries@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/16 15:55:09 by vfries            #+#    #+#             */
-/*   Updated: 2023/01/20 00:28:56 by vfries           ###   ########lyon.fr   */
+/*   Updated: 2023/01/20 04:23:36 by vfries           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "tokens.h"
-
-// TODO delete me
-bool	add_command(t_list **parsed_tokens, t_list **tokens);
-//!
+#include "lexer.h"
+#include "parser.h"
 
 void	simplify_tokens(t_list **tokens)
 {
