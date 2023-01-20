@@ -6,7 +6,7 @@
 /*   By: vfries <vfries@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 09:17:54 by vfries            #+#    #+#             */
-/*   Updated: 2023/01/20 13:56:52 by vfries           ###   ########lyon.fr   */
+/*   Updated: 2023/01/20 18:53:29 by vfries           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static bool	add_new_fd(t_list_i **here_docs_fds, int fd);
 ///					(n is the number of HERE_DOCs)
 /// @param tokens
 /// @return 	Returns NULL if they aren't any HERE_DOCs,
-///					a with all fds if they are HERE_DOCs,
+///					a t_list_i with all fds if they are HERE_DOCs,
 ///					(void *)-1 if a malloc failed
 t_list_i	*get_here_docs(t_list *tokens)
 {
