@@ -6,10 +6,11 @@
 /*   By: vfries <vfries@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/14 18:07:30 by vfries            #+#    #+#             */
-/*   Updated: 2023/01/20 09:07:04 by vfries           ###   ########lyon.fr   */
+/*   Updated: 2023/01/20 13:59:01 by vfries           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "get_here_docs.h"
 #include "lexer.h"
 #include "env_variables.h"
 #include "parser.h"
@@ -27,6 +28,7 @@ int	main(int argc, char **argv, char **envp)
 	char		*command;
 	char		*save;
 	t_list		*tokens;
+	t_list_i	*here_docs;
 	t_hashmap	env_variables;
 
 	(void)argc;
@@ -55,6 +57,22 @@ int	main(int argc, char **argv, char **envp)
 
 		simplify_tokens(&tokens, env_variables);
 		print_tokens(tokens);
+
+
+		here_docs = get_here_docs(tokens);
+		while (here_docs != NULL)
+		{
+			char *gnl = get_next_line(here_docs->content);
+			while (gnl != NULL)
+			{
+				ft_printf("%s", gnl);
+				free(gnl);
+				gnl = get_next_line(here_docs->content);
+			}
+			ft_printf("(null)\n");
+			close(here_docs->content);
+			here_docs = ft_lsti_get_next_free_current(here_docs);
+		}
 
 		command = readline(PROMPT);
 	}

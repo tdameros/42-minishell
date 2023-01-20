@@ -21,6 +21,7 @@ SRC				=\
 \
 	parser/simplify_tokens/simplify_tokens.c		\
 \
+	get_here_docs.c	\
 	main.c
 
 
