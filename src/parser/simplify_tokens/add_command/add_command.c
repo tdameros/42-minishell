@@ -6,7 +6,7 @@
 /*   By: vfries <vfries@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/16 20:14:16 by vfries            #+#    #+#             */
-/*   Updated: 2023/01/20 09:01:32 by vfries           ###   ########lyon.fr   */
+/*   Updated: 2023/01/20 16:56:55 by vfries           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,8 @@ bool	add_command(t_list **parsed_tokens, t_list **tokens,
 			((t_token *)(*parsed_tokens)->content)->args, env_variables);
 	if (((t_token *)(*parsed_tokens)->content)->name == NULL)
 		return (true);
+	if (((t_token *)(*parsed_tokens)->content)->name == (void *)-1)
+		((t_token *)(*parsed_tokens)->content)->name = NULL;
 	return (false);
 }
 

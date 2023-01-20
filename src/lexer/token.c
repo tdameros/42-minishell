@@ -6,7 +6,7 @@
 /*   By: vfries <vfries@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/15 15:01:00 by tdameros          #+#    #+#             */
-/*   Updated: 2023/01/20 04:22:10 by vfries           ###   ########lyon.fr   */
+/*   Updated: 2023/01/20 16:58:26 by vfries           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -159,9 +159,16 @@ void	print_tokens(t_list *tokens)
 		ft_printf("Args: ");
 		i = 0;
 		if (((t_token *)tokens->content)->args != NULL)
+		{
+			ft_printf("{ ");
 			while (((t_token *)tokens->content)->args[i] != NULL)
 				ft_printf("%s, ", ((t_token *)tokens->content)->args[i++]);
-		ft_printf("(null)\n");
+		}
+		ft_printf("(null)");
+		if (((t_token *)tokens->content)->args != NULL)
+			ft_printf(" }\n");
+		else
+			ft_printf("\n");
 		ft_printf("Files: ");
 		cursor = ((t_token *)tokens->content)->files;
 		while (cursor != NULL)

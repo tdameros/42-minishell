@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   add_command_path_args.c                            :+:      :+:    :+:   */
+/*   add_command_path.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vfries <vfries@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 05:32:11 by vfries            #+#    #+#             */
-/*   Updated: 2023/01/20 09:06:24 by vfries           ###   ########lyon.fr   */
+/*   Updated: 2023/01/20 16:56:30 by vfries           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@ char	*get_command_path(enum e_type *token_type, char **args,
 {
 	char	*command_path;
 
+	if (*args == NULL)
+		return ((void *)-1);
 	command_path = command_is_builtin(*args, token_type);
 	if (command_path == (void *)-1)
 		return (NULL);
