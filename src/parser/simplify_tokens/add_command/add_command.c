@@ -6,12 +6,13 @@
 /*   By: vfries <vfries@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/16 20:14:16 by vfries            #+#    #+#             */
-/*   Updated: 2023/01/20 04:23:07 by vfries           ###   ########lyon.fr   */
+/*   Updated: 2023/01/20 09:01:32 by vfries           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "tokens.h"
 #include "lexer.h"
+#include "parser.h"
 #include <unistd.h>
 #include <stdlib.h>
 
@@ -20,31 +21,11 @@ static void	seperate_command_elements(t_list **tokens,
 static void	push_command_in_parsed_tokens_and_reverse_args(
 				t_list **parsed_tokens, t_list **args);
 static void	simplify_files(t_list **files);
-static char	**get_args_strs(t_list **args, t_list **parsed_tokens);
-
 static bool	fix_parsed_tokens_equals_null(t_list **parsed_tokens,
-				t_list **args, t_list **files)
-{
-	t_token	*tmp;
+				t_list **args, t_list **files);
 
-	tmp = malloc(sizeof(t_token));
-	if (tmp != NULL)
-	{
-		ft_bzero(tmp, sizeof(t_token));
-		tmp->type = COMMAND;
-		*parsed_tokens = ft_lstnew(tmp);
-	}
-	if (*parsed_tokens == NULL)
-	{
-		free(tmp);
-		ft_lstclear(args, &free_token);
-		ft_lstclear(files, &free_token);
-		return (true);
-	}
-	return (false);
-}
-
-bool	add_command(t_list **parsed_tokens, t_list **tokens)
+bool	add_command(t_list **parsed_tokens, t_list **tokens,
+			t_hashmap env_variables)
 {
 	t_list	*args;
 	t_list	*files;
@@ -58,6 +39,11 @@ bool	add_command(t_list **parsed_tokens, t_list **tokens)
 			parsed_tokens);
 	simplify_files(&files);
 	((t_token *)(*parsed_tokens)->content)->files = files;
+	((t_token *)(*parsed_tokens)->content)->name = get_command_path(
+			&((t_token *)(*parsed_tokens)->content)->type,
+			((t_token *)(*parsed_tokens)->content)->args, env_variables);
+	if (((t_token *)(*parsed_tokens)->content)->name == NULL)
+		return (true);
 	return (false);
 }
 
@@ -118,27 +104,24 @@ static void	simplify_files(t_list **files)
 	*files = simplified_files;
 }
 
-static char	**get_args_strs(t_list **args, t_list **parsed_tokens)
+static bool	fix_parsed_tokens_equals_null(t_list **parsed_tokens,
+				t_list **args, t_list **files)
 {
-	char	**args_strs;
-	int		i;
+	t_token	*tmp;
 
-	args_strs = malloc(sizeof(char *) * (ft_lstsize(*args) + 2));
-	if (args_strs == NULL)
+	tmp = malloc(sizeof(t_token));
+	if (tmp != NULL)
 	{
+		ft_bzero(tmp, sizeof(t_token));
+		tmp->type = COMMAND;
+		*parsed_tokens = ft_lstnew(tmp);
+	}
+	if (*parsed_tokens == NULL)
+	{
+		free(tmp);
 		ft_lstclear(args, &free_token);
-		return (NULL);
+		ft_lstclear(files, &free_token);
+		return (true);
 	}
-	args_strs[0] = ((t_token *)(*parsed_tokens)->content)->name;
-	((t_token *)(*parsed_tokens)->content)->name = NULL;
-	i = 1;
-	while (*args != NULL)
-	{
-		args_strs[i] = ((t_token *)(*args)->content)->name;
-		((t_token *)(*args)->content)->name = NULL;
-		*args = ft_lst_get_next_free_current(*args, &free_token);
-		i++;
-	}
-	args_strs[i] = NULL;
-	return (args_strs);
+	return (false);
 }

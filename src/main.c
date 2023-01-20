@@ -6,7 +6,7 @@
 /*   By: vfries <vfries@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/14 18:07:30 by vfries            #+#    #+#             */
-/*   Updated: 2023/01/20 04:25:47 by vfries           ###   ########lyon.fr   */
+/*   Updated: 2023/01/20 09:07:04 by vfries           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ int	main(int argc, char **argv, char **envp)
 
 		ft_printf("\n\n------------------------------------------------\n\n\n");
 
-		simplify_tokens(&tokens);
+		simplify_tokens(&tokens, env_variables);
 		print_tokens(tokens);
 
 		command = readline(PROMPT);

@@ -15,8 +15,11 @@ SRC				=\
 	parser/quote/remove.c	\
 	parser/quote/valid.c	\
 \
-	parser/simplify_tokens/add_command.c	\
-	parser/simplify_tokens/simplify_tokens.c	\
+	parser/simplify_tokens/add_command/add_command_path_args.c	\
+	parser/simplify_tokens/add_command/add_command.c			\
+	parser/simplify_tokens/add_command/get_args.c				\
+\
+	parser/simplify_tokens/simplify_tokens.c		\
 \
 	main.c
 
