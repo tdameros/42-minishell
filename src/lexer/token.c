@@ -10,15 +10,12 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "tokens.h"
 #include <stdlib.h>
+#include "libft.h"
+#include "lexer.h"
 
-enum e_type	identify_token(t_token *previous_token, char *command);
-int	is_file_operator_token(t_token *token);
-int	get_index_end_token(char *command);
-int	get_index_next_token(char *command);
-int	add_token(t_list **tokens, enum e_type type, enum e_operators operator, char *name);
-t_token	*create_token(enum e_type type, enum e_operators operator, char *name);
+static int	add_token(t_list **tokens, enum e_type type,
+				enum e_operators operator, char *name);
 
 t_list	*get_tokens(char *command)
 {
@@ -36,76 +33,21 @@ t_list	*get_tokens(char *command)
 		if (type == OPERATOR)
 			return_code = add_operator_token(&tokens, get_operator(command));
 		else
-			return_code = add_token(&tokens, type, 0,
+			return_code = add_token(&tokens, type, -1,
 					ft_substr(command, 0, get_index_end_token(command)));
 		command += get_index_next_token(command);
 		if (return_code < 0)
-			exit(1);
+		{
+			ft_lstclear(&tokens, free_token);
+			return (NULL);
+		}
 	}
 	ft_lst_reverse(&tokens);
 	return (tokens);
 }
 
-enum e_type	identify_token(t_token *previous_token, char *command)
-{
-	if (get_operator(command) >= 0)
-		return (OPERATOR);
-	else if (is_file_operator_token(previous_token))
-		return (PATH_FILE);
-	else if (previous_token == NULL || previous_token->type == OPERATOR)
-		return (COMMAND);
-	else
-		return (ARGUMENT);
-}
-
-int	get_index_end_token(char *command)
-{
-	int		index;
-	char	quote;
-	int		count_quote;
-
-	index = 0;
-	count_quote = 0;
-	if (*command == '"' || *command == '\'')
-	{
-		quote = *command;
-		while (command[index] != '\0')
-		{
-			if (command[index] == quote)
-				count_quote++;
-			if (get_operator(command + index) >= 0 && count_quote % 2 == 0)
-				return (index);
-			index++;
-		}
-	}
-	else
-	{
-		while (get_operator(command + index) < 0 && command[index] != ' ' && command[index] != '\0')
-			index++;
-	}
-	return (index);
-}
-
-int	get_index_next_token(char *command)
-{
-	int	index;
-
-	index = 0;
-	if (get_operator(command) >= 0)
-	{
-		if (command[0] != '\0' && command[0] == command[1])
-			index += 2;
-		else
-			index++;
-	}
-	else
-		index += get_index_end_token(command);
-	while (command[index] == ' ')
-		index++;
-	return (index);
-}
-
-int	add_token(t_list **tokens, enum e_type type, enum e_operators operator, char *name)
+static int	add_token(t_list **tokens,
+						enum e_type type, enum e_operators operator, char *name)
 {
 	t_token	*token;
 	t_list	*element;
@@ -130,13 +72,22 @@ t_token	*create_token(enum e_type type, enum e_operators operator, char *name)
 {
 	t_token	*token;
 
-	token = malloc(sizeof(*token));
+	token = ft_calloc(1, sizeof(*token));
 	if (token == NULL)
 		return (NULL);
 	token->type = type;
 	token->operator = operator;
 	token->name = name;
 	return (token);
+}
+
+void	free_token(void *token)
+{
+	t_token	*cast_token;
+
+	cast_token = token;
+	free(cast_token->name);
+	free(cast_token);
 }
 
 void	print_tokens(t_list *tokens)

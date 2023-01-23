@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "tokens.h"
+#include "lexer.h"
 #include <stdlib.h>
 
 char			*strdup_without_quote(char *command);

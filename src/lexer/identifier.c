@@ -10,32 +10,57 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "tokens.h"
+#include "lexer.h"
+
+static int	skip_quote_in_token(char *command);
+
+enum e_type	identify_token(t_token *previous_token, char *command)
+{
+	if (is_operator(command))
+		return (OPERATOR);
+	else if (is_file_operator_token(previous_token))
+		return (PATH_FILE);
+	else if (previous_token == NULL || previous_token->type == OPERATOR)
+		return (COMMAND);
+	else
+		return (ARGUMENT);
+}
 
 int	get_index_end_token(char *command)
 {
 	int		index;
-	char	quote;
-	int		count_quote;
 
 	index = 0;
-	count_quote = 0;
-	if (*command == '"' || *command == '\'')
-	{
-		quote = *command;
-		while (command[index] != '\0')
-		{
-			if (command[index] == quote)
-				count_quote++;
-			if (get_operator(command + index) >= 0 && count_quote % 2 == 0)
-				return (index);
-			index++;
-		}
-	}
+	if (command[index] == '"' || command[index] == '\'')
+		index += skip_quote_in_token(command);
 	else
 	{
-		while (get_operator(command + index) < 0 && command[index] != ' ' && command[index] != '\0')
+		while (!is_operator(command + index)
+			&& command[index] != ' ' && command[index] != '\0')
 			index++;
+	}
+	return (index);
+}
+
+static int	skip_quote_in_token(char *command)
+{
+	int		count_quote;
+	int		index;
+	char	quote;
+
+	count_quote = 0;
+	index = 0;
+	if (command[index] != '"' && command[index] != '\'')
+		return (index);
+	quote = command[index];
+	while (command[index] != '\0')
+	{
+		if (command[index] == quote)
+			count_quote++;
+		if ((is_operator(command) || command[index] == ' ')
+			&& count_quote % 2 == 0)
+			return (index);
+		index++;
 	}
 	return (index);
 }
@@ -47,7 +72,7 @@ int	get_index_next_token(char *command)
 	index = 0;
 	if (get_operator(command) >= 0)
 	{
-		if (command[0] != '\0' && command[0] == command[1])
+		if (command[0] != '\0' && command[0] == command[1] && (command[0] != ')' && command[0] != '(' && command[0] != '|'))
 			index += 2;
 		else
 			index++;

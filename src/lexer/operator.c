@@ -10,9 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
-#include "tokens.h"
 #include <stdlib.h>
+#include "libft.h"
+#include "lexer.h"
 
 int	get_operator(char *string)
 {
@@ -55,7 +55,7 @@ int	add_operator_token(t_list **tokens, enum e_operators operator)
 	return (0);
 }
 
-int	is_file_operator_token(t_token *token)
+bool	is_file_operator_token(t_token *token)
 {
 	if (token == NULL || token->type != OPERATOR)
 		return (0);
@@ -63,4 +63,9 @@ int	is_file_operator_token(t_token *token)
 		|| token->operator == OUTPUT_REDIRECT
 		|| token->operator == HERE_DOC
 		|| token->operator == APPEND);
+}
+
+bool	is_operator(char *command)
+{
+	return (get_operator(command) >= 0);
 }
