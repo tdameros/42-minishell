@@ -6,7 +6,7 @@
 /*   By: vfries <vfries@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/16 15:55:09 by vfries            #+#    #+#             */
-/*   Updated: 2023/01/20 04:33:03 by vfries           ###   ########lyon.fr   */
+/*   Updated: 2023/01/24 06:24:32 by vfries           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,22 +14,39 @@
 #include "lexer.h"
 #include "parser.h"
 
-void	simplify_tokens(t_list **tokens, t_hashmap env_variables)
-{
-	t_list	*parsed_tokens;
+static void	free_lsts(t_list **simplified_tokens, t_list **tokens);
 
-	parsed_tokens = NULL;
+int	simplify_tokens(t_list **tokens, t_hashmap env_variables)
+{
+	t_list	*simplified_tokens;
+	t_token	*new_command;
+	t_list	*new_node;
+	t_token	*token;
+
+	simplified_tokens = NULL;
 	while (*tokens != NULL)
 	{
-		if (((t_token *)(*tokens)->content)->type == OPERATOR
-			&& is_file_operator_token((*tokens)->content) == 0)
-			ft_lst_push(&parsed_tokens, tokens);
-		else if (add_command(&parsed_tokens, tokens, env_variables))
+		token = (*tokens)->content;
+		if (token->type == OPERATOR && is_file_operator_token(token) == 0)
 		{
-			ft_lstclear(tokens, &free_token);
-			ft_lstclear(&parsed_tokens, &free_token);
-			return ;
+			ft_lst_push(&simplified_tokens, tokens);
+			continue ;
 		}
+		new_command = get_new_command(tokens, env_variables);
+		new_node = ft_lstnew(new_command);
+		if (new_command == NULL || new_node == NULL)
+		{
+			free_lsts(&simplified_tokens, tokens);
+			return (-1);
+		}
+		ft_lstadd_front(&simplified_tokens, new_node);
 	}
-	*tokens = ft_lst_reverse(&parsed_tokens);
+	*tokens = ft_lst_reverse(&simplified_tokens);
+	return (0);
+}
+
+static void	free_lsts(t_list **simplified_tokens, t_list **tokens)
+{
+	ft_lstclear(simplified_tokens, &free_token);
+	ft_lstclear(tokens, &free_token);
 }

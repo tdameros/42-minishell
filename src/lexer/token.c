@@ -6,7 +6,7 @@
 /*   By: vfries <vfries@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/15 15:01:00 by tdameros          #+#    #+#             */
-/*   Updated: 2023/01/20 16:58:26 by vfries           ###   ########lyon.fr   */
+/*   Updated: 2023/01/23 18:30:51 by vfries           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -186,6 +186,8 @@ void	print_tokens(t_list *tokens)
 
 void	free_token(void *token)
 {
+	if (token == NULL)
+		return ;
 	ft_free_split(((t_token *)token)->args);
 	free(((t_token *)token)->name);
 	if (((t_token *)token)->files != NULL)

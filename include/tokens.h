@@ -6,7 +6,7 @@
 /*   By: vfries <vfries@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/14 18:08:31 by vfries            #+#    #+#             */
-/*   Updated: 2023/01/20 08:28:00 by vfries           ###   ########lyon.fr   */
+/*   Updated: 2023/01/24 06:08:39 by vfries           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,8 @@ enum e_type
 };
 
 // EXECUTABLE is used to change error msg when execve fails:
-//		COMMAND:	"zsh: command not found: CMD"
-//		EXECUTABLE:	"zsh: no such file or directory: EXE"
+//		COMMAND:	"bash: CMD: command not found"
+//		EXECUTABLE:	"bash: EXE: No such file or directory"
 
 enum e_operators
 {
@@ -42,10 +42,22 @@ enum e_operators
 	APPEND = 8,
 };
 
+enum e_builtin
+{
+	ECHO = 0,
+	CD = 1,
+	PWD = 2,
+	EXPORT = 3,
+	UNSET = 4,
+	ENV = 5,
+	EXIT = 6,
+};
+
 typedef struct s_token
 {
 	enum e_type			type;
 	enum e_operators	operator;
+	enum e_builtin		builtin;
 	char				*name;
 	char				**args;
 	t_list				*files;

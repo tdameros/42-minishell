@@ -6,7 +6,7 @@
 /*   By: vfries <vfries@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/14 18:07:30 by vfries            #+#    #+#             */
-/*   Updated: 2023/01/20 13:59:01 by vfries           ###   ########lyon.fr   */
+/*   Updated: 2023/01/24 06:22:16 by vfries           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,13 +49,16 @@ int	main(int argc, char **argv, char **envp)
 		add_history(save);
 
 		tokens = get_tokens(save);
+		if (tokens == NULL)
+			ft_printf("Malloc failed\n");
 		remove_quotes(tokens);
 
 		print_tokens(tokens);
 
 		ft_printf("\n\n------------------------------------------------\n\n\n");
 
-		simplify_tokens(&tokens, env_variables);
+		if (simplify_tokens(&tokens, env_variables))
+			ft_printf("simplified_tokens failed!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n");
 		print_tokens(tokens);
 
 
@@ -71,7 +74,7 @@ int	main(int argc, char **argv, char **envp)
 			}
 			ft_printf("(null)\n");
 			close(here_docs->content);
-			here_docs = ft_lsti_get_next_free_current(here_docs);
+			ft_lsti_get_next_free_current(&here_docs);
 		}
 
 		command = readline(PROMPT);
