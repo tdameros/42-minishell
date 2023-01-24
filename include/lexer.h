@@ -53,7 +53,7 @@ int		add_operator_token(t_list **tokens, enum e_operators operator);
 bool	is_file_operator_token(t_token *token);
 bool	is_operator(char *command);
 
-enum e_type	identify_token(t_token *previous_token, char *command);
+enum e_type	identify_token(t_list *previous_tokens, char *command);
 int			get_index_end_token(char *command);
 int			get_index_next_token(char *command);
 

@@ -14,16 +14,30 @@
 
 static int	skip_quote_in_token(char *command);
 
-enum e_type	identify_token(t_token *previous_token, char *command)
+enum e_type	identify_token(t_list *previous_tokens, char *command)
 {
+	t_token	*previous_token;
+
 	if (is_operator(command))
 		return (OPERATOR);
-	else if (is_file_operator_token(previous_token))
+	else if (previous_tokens == NULL)
+		return (COMMAND);
+	previous_token = previous_tokens->content;
+	if (is_file_operator_token(previous_token))
 		return (PATH_FILE);
 	else if (previous_token == NULL || previous_token->type == OPERATOR)
 		return (COMMAND);
-	else
-		return (ARGUMENT);
+	while (previous_tokens != NULL)
+	{
+		previous_token = previous_tokens->content;
+		if (!is_file_operator_token(previous_token)
+			&& previous_token->type == OPERATOR)
+			return (COMMAND);
+		if (previous_token->type == COMMAND)
+			return (ARGUMENT);
+		previous_tokens = previous_tokens->next;
+	}
+	return (COMMAND);
 }
 
 int	get_index_end_token(char *command)
@@ -70,7 +84,7 @@ int	get_index_next_token(char *command)
 	int	index;
 
 	index = 0;
-	if (get_operator(command) >= 0)
+	if (is_operator(command))
 	{
 		if (command[0] != '\0' && command[0] == command[1] && (command[0] != ')' && command[0] != '(' && command[0] != '|'))
 			index += 2;

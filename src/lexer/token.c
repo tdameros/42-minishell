@@ -26,10 +26,7 @@ t_list	*get_tokens(char *command)
 	tokens = NULL;
 	while (*command != '\0')
 	{
-		if (tokens == NULL)
-			type = identify_token(NULL, command);
-		else
-			type = identify_token(tokens->content, command);
+		type = identify_token(tokens, command);
 		if (type == OPERATOR)
 			return_code = add_operator_token(&tokens, get_operator(command));
 		else

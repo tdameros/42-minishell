@@ -33,9 +33,9 @@ static bool	is_valid_parentheses(t_list *tokens, enum e_operators *error)
 	while (tokens != NULL)
 	{
 		token = tokens->content;
-		if (token->type == OPERATOR && token->operator == OPEN_PARENTHESES)
+		if (token->operator == OPEN_PARENTHESES)
 			open_parentheses++;
-		else if (token->type == OPERATOR && token->operator == CLOSE_PARENTHESES)
+		else if (token->operator == CLOSE_PARENTHESES)
 			close_parentheses++;
 		if (close_parentheses > open_parentheses)
 		{
