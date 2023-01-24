@@ -58,4 +58,5 @@ int			get_index_end_token(char *command);
 int			get_index_next_token(char *command);
 
 int	is_match(char *pattern, char *string);
+void	print_wildcard(char *pattern);
 #endif

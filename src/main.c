@@ -54,22 +54,22 @@ void	print_parsing_error(enum e_operators operator)
 
 int	main(void)
 {
-	ft_printf("%d\n", is_match("*.c", "test.c"));
-//	char	*command;
-//	char	*save;
+	char	*command;
+	char	*save;
 //	enum e_operators	error;
 //	t_list	*tokens;
-//
-//	command = readline(PROMPT);
-//	while (ft_strncmp(command, "exit", 4))
-//	{
-//		save = command;
-//		while (!is_valid_quote(save))
-//		{
-//			command = readline("> ");
-//			save = ft_strjoin(save, command);
-//		}
-//		add_history(save);
+
+	command = readline(PROMPT);
+	while (ft_strncmp(command, "exit", 4))
+	{
+		save = command;
+		while (!is_valid_quote(save))
+		{
+			command = readline("> ");
+			save = ft_strjoin(save, command);
+		}
+		add_history(save);
+		print_wildcard(save);
 //		save = ft_strtrim(save, " ");
 //		tokens = get_tokens(save);
 //		remove_quotes(tokens);
@@ -78,7 +78,7 @@ int	main(void)
 //			print_parsing_error(error);
 //		else
 //			ft_printf("OK\n");
-//		command = readline(PROMPT);
-//	}
+		command = readline(PROMPT);
+	}
 	return (0);
 }

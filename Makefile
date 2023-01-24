@@ -7,8 +7,11 @@ SRC				=\
 	main.c \
 	lexer/operator.c \
 	lexer/token.c \
+	lexer/identifier.c \
 	parser/quote/remove.c \
-	parser/quote/valid.c
+	parser/quote/valid.c \
+	parser/operator/valid.c \
+	parser/wildcard/match.c
 
 
 DIR_INCS		=\
@@ -21,7 +24,7 @@ DIR_BUILD		=	.build/
 OBJS			=	$(patsubst %.c, $(DIR_BUILD)%.o, $(SRC))
 DEPS			=	$(patsubst %.c, $(DIR_BUILD)%.d, $(SRC))
 DEPS_FLAGS		=	-MMD -MP
-CFLAGS			=	-Wall -Wextra -Werror -fsanitize=address -g3
+CFLAGS			=	-Wall -Wextra -Werror -g3
 RM				=	rm -rf
 AR				=	ar rcs
 
