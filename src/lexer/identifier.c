@@ -82,9 +82,11 @@ static int	skip_quote_in_token(char *command)
 int	get_index_next_token(char *command)
 {
 	int	index;
+	int operator;
 
 	index = 0;
-	if (is_operator(command))
+	operator = get_operator(command);
+	if (operator >= 0)
 	{
 		if (command[0] != '\0' && command[0] == command[1] && (command[0] != ')' && command[0] != '(' && command[0] != '|'))
 			index += 2;
