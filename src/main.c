@@ -56,8 +56,8 @@ int	main(void)
 {
 	char	*command;
 	char	*save;
-//	enum e_operators	error;
-//	t_list	*tokens;
+	enum e_operators	error;
+	t_list	*tokens;
 
 	command = readline(PROMPT);
 	while (ft_strncmp(command, "exit", 4))
@@ -69,15 +69,14 @@ int	main(void)
 			save = ft_strjoin(save, command);
 		}
 		add_history(save);
-		print_wildcard(save);
-//		save = ft_strtrim(save, " ");
-//		tokens = get_tokens(save);
-//		remove_quotes(tokens);
-//		print_tokens(tokens);
-//		if (!is_valid_operators(tokens, &error))
-//			print_parsing_error(error);
-//		else
-//			ft_printf("OK\n");
+		save = ft_strtrim(save, " ");
+		tokens = get_tokens(save);
+		remove_quotes(tokens);
+		print_tokens(tokens);
+		if (!is_valid_operators(tokens, &error))
+			print_parsing_error(error);
+		else
+			ft_printf("OK\n");
 		command = readline(PROMPT);
 	}
 	return (0);
