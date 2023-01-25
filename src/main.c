@@ -23,6 +23,7 @@
 #include "libft.h"
 #include "lexer.h"
 #include "quote.h"
+#include "built-in.h"
 
 #define PROMPT "➜ minishell-1.0$ "
 

@@ -8,17 +8,21 @@ SRC				=\
 	env_variables/print_env_variables.c	\
 \
 \
+	built-in/echo.c		\
+\
+\
 	execution/execute_commands.c	\
 	execution/get_next_command.c	\
 \
 \
+	lexer/identifier.c \
 	lexer/operator.c	\
 	lexer/token.c		\
 \
 \
 	parser/quote/remove.c	\
 	parser/quote/valid.c	\
-	lexer/identifier.c \
+\
 \
 	parser/operator/valid.c \
 \

@@ -14,6 +14,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include "lexer.h"
+#include "built-in.h"
 
 static int	execute_commands_loop(t_list *tokens);
 static enum e_operators	get_next_operator(t_list *tokens);
@@ -127,8 +128,10 @@ static int	execute_normal_command(t_list *tokens)
 int	execute_builtin(t_token *token)
 {
 	//TODO DO BUILTINS
-	(void) token;
-	return (execute_path_command(token));
+	if (ft_strncmp(token->args[0], "echo", 4) == 0)
+		return (echo(token->args));
+	else
+		return (execute_path_command(token));
 }
 
 int	execute_subshell(t_list *tokens)
