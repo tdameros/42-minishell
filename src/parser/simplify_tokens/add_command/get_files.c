@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "tokens.h"
+#include "lexer.h"
 
 t_list	*get_files(t_list **files)
 {

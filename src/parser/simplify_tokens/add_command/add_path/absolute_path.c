@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "tokens.h"
+#include "lexer.h"
 #include <stdbool.h>
 
 bool	is_absolute_path(t_token *command, t_hashmap env_variables)

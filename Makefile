@@ -14,6 +14,9 @@ SRC				=\
 \
 	parser/quote/remove.c	\
 	parser/quote/valid.c	\
+	lexer/identifier.c \
+\
+	parser/operator/valid.c \
 \
 	parser/simplify_tokens/add_command/add_path/absolute_path.c		\
 	parser/simplify_tokens/add_command/add_path/add_path.c			\
@@ -25,6 +28,8 @@ SRC				=\
 	parser/simplify_tokens/add_command/get_files.c		\
 \
 	parser/simplify_tokens/simplify_tokens.c		\
+\
+	parser/wildcard/match.c	\
 \
 	get_here_docs.c	\
 	main.c

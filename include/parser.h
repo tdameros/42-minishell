@@ -13,7 +13,7 @@
 #ifndef PARSER_H
 # define PARSER_H
 
-# include "tokens.h"
+# include "lexer.h"
 # include <stdbool.h>
 
 // quote

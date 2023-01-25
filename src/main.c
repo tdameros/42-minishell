@@ -17,6 +17,14 @@
 #include "libft.h"
 #include <stdlib.h>
 #include <stdio.h>
+#include <readline/readline.h>
+#include <readline/history.h>
+
+#include "libft.h"
+#include "lexer.h"
+#include "quote.h"
+
+#define PROMPT "➜ minishell-1.0$ "
 
 #include <readline/readline.h>
 #include <readline/history.h>

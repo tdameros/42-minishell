@@ -1,13 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   tokens.h.c                                         :+:      :+:    :+:   */
+/*   quote.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vfries <vfries@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: tomy <tomy@student.42lyon.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/14 18:10:33 by vfries            #+#    #+#             */
-/*   Updated: 2023/01/14 18:10:37 by vfries           ###   ########lyon.fr   */
+/*   Created: 2023/01/16 21:19:00 by tomy              #+#    #+#             */
+/*   Updated: 2023/01/16 21:19:00 by tomy             ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "tokens.h"
+#ifndef QUOTE_H
+# define QUOTE_H
+
+# include "libft.h"
+
+int	remove_quotes(t_list *tokens);
+int	is_valid_quote(char *command);
+
+bool	is_valid_operators(t_list *tokens, enum e_operators *error);
+
+#endif

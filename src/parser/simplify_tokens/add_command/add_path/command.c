@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "tokens.h"
+#include "lexer.h"
 #include <stdlib.h>
 
 static int	get_path(t_token *command, char **path_strs, char **paths);

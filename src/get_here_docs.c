@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "tokens.h"
+#include "lexer.h"
 #include <stdlib.h>
 
 static bool	add_token_here_docs(t_list_i **here_docs_fds, t_list *token);
