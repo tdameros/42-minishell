@@ -30,6 +30,7 @@ char	**get_wildcards(char *pattern, char *path)
 			ft_printf("%s\n", file->d_name);
 		file = readdir(dir);
 	}
+	return (NULL);
 }
 
 int	is_match(char *pattern, char *string)
