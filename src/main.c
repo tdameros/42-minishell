@@ -31,6 +31,8 @@
 
 #define PROMPT "➜ minishell-1.0$ "
 
+int	execute_commands(t_list *tokens, t_list_i *here_docs);
+
 int	main(int argc, char **argv, char **envp)
 {
 	char		*command;
@@ -84,7 +86,7 @@ int	main(int argc, char **argv, char **envp)
 			close(here_docs->content);
 			ft_lsti_get_next_free_current(&here_docs);
 		}
-
+		execute_commands(tokens, here_docs);
 		command = readline(PROMPT);
 	}
 	free(command);

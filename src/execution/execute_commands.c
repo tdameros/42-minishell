@@ -10,13 +10,29 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "tokens.h"
+#include <sys/wait.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include "lexer.h"
+
+static int	execute_commands_loop(t_list *tokens);
+static enum e_operators	get_next_operator(t_list *tokens);
+static int	execute_piped_command(t_list *tokens);
+static int	execute_normal_command(t_list *tokens);
+int	execute_builtin(t_token *token);
+int	execute_subshell(t_list *tokens);
+char	**get_envp(void);
+int	execute_path_command(t_token *token);
+
+void	get_next_command_to_run(t_list **tokens, enum e_operators operator,
+								int last_exit_code);
 
 int	execute_commands(t_list *tokens, t_list_i *here_docs)
 {
 	pid_t	pid;
 	int		exit_code;
 
+	(void) here_docs;
 	pid = fork();
 	if (pid == -1)
 		return (-1);
@@ -27,13 +43,11 @@ int	execute_commands(t_list *tokens, t_list_i *here_docs)
 		exit(exit_code);
 	}
 	wait(&exit_code);
-	exit_code = WEXITSTATUS(exit_code);
-	return (exit_code);
+	return (WEXITSTATUS(exit_code));
 }
 
 static int	execute_commands_loop(t_list *tokens)
 {
-	t_token 			*token;
 	enum e_operators	operator;
 	int					last_exit_code;
 
@@ -41,9 +55,9 @@ static int	execute_commands_loop(t_list *tokens)
 	{
 		operator = get_next_operator(tokens);
 		if (operator == PIPE)
-			last_exit_code = execute_piped_command();
+			last_exit_code = execute_piped_command(tokens);
 		else
-			last_exit_code = execute_normal_command();
+			last_exit_code = execute_normal_command(tokens);
 		get_next_command_to_run(&tokens, operator, last_exit_code);
 	}
 	return (last_exit_code);
@@ -51,15 +65,15 @@ static int	execute_commands_loop(t_list *tokens)
 
 static enum e_operators	get_next_operator(t_list *tokens)
 {
-	t_token *token;
+	t_token	*token;
 
 	if (tokens == NULL)
 		return (-1);
 	token = tokens->content;
 	while (token->type != OPERATOR || token->operator == OPEN_PARENTHESES
-		|| token->operator == CLOSE_PARENTHESES)
+		   || token->operator == CLOSE_PARENTHESES)
 	{
-		tokens == tokens->next;
+		tokens = tokens->next;
 		if (tokens == NULL)
 			return (-1);
 		token = tokens->content;
@@ -67,79 +81,86 @@ static enum e_operators	get_next_operator(t_list *tokens)
 	return (token->operator);
 }
 
-static void	get_next_command_to_run(t_list **tokens, enum e_operators operator,
-				int last_exit_code)
+static int	execute_piped_command(t_list *tokens)
 {
-	if (operator == OR && last_exit_code == 0)
-		return (skip_one_command(tokens));
-	if (operator == AND && last_exit_code != 0)
-		return (get_command_following_or(tokens));
-	return (get_next_command(tokens));
+	pid_t	id;
+	int		pipe_fd[2];
+	int		command_exit_code;
+
+	if (pipe(pipe_fd) == -1)
+		return (-1);
+	id = fork();
+	if (id == -1)
+	{
+		close(pipe_fd[0]);
+		close(pipe_fd[1]);
+		// TODO free_all
+		return (-1);
+	}
+	if (id == 0)
+	{
+		dup2(pipe_fd[1], STDOUT_FILENO);
+		close(pipe_fd[0]);
+		close(pipe_fd[1]);
+		// TODO free_all
+		execute_normal_command(tokens);
+	}
+	dup2(pipe_fd[0], STDIN_FILENO);
+	close(pipe_fd[1]);
+	close(pipe_fd[0]);
+	wait(&command_exit_code);
+	return (WEXITSTATUS(command_exit_code));
 }
 
-static void	skip_one_command(t_list **tokens)
+static int	execute_normal_command(t_list *tokens)
 {
-	int		parentheses;
 	t_token	*token;
-	int		commands_skipped;
 
-	if (token->operator != OPEN_PARENTHESES)
-		ft_lst_get_next_free_current(&tokens, &free_token);
-	commands_skipped = 0;
-	parentheses = 0;
-	while (tokens != NULL)
-	{
-		token = tokens->content;
-		if (token->operator == OPEN_PARENTHESES)
-			parentheses++;
-		else if (token->operator == CLOSE_PARENTHESES)
-			parentheses--;
-		else if (parentheses == 0 && token->type != OPERATOR)
-			commands_skipped++;
-		if (commands_skipped > 1 && parentheses == 0 && token->type != OPERATOR)
-			return (tokens);
-		ft_lst_get_next_free_current(&tokens, &free_token);
-	}
+	token = tokens->content;
+	if (token->type == BUILTIN)
+		return (execute_builtin(token));
+	if (token->type == OPERATOR)
+		return (execute_subshell(tokens));
+	return (execute_path_command(token));
 }
 
-static void	get_command_following_or(t_list **tokens)
+int	execute_builtin(t_token *token)
 {
-	int		parentheses;
-	t_token	*token;
-	int		or_found;
-
-	or_found = 0;
-	parentheses = 0;
-	while (tokens != NULL)
-	{
-		token = tokens->content;
-		if (token->operator == OPEN_PARENTHESES)
-			parentheses++;
-		else if (token->operator == CLOSE_PARENTHESES)
-			parentheses--;
-		else if (parentheses == 0 && token->operator == OR)
-			or_found++;
-		else if (or_found > 0 && parentheses == 0 && token->type != OPERATOR)
-			return (tokens);
-		ft_lst_get_next_free_current(&tokens, &free_token);
-	}
+	//TODO DO BUILTINS
+	(void) token;
+	return (execute_path_command(token));
 }
 
-static void	get_next_command(t_list **tokens)
+int	execute_subshell(t_list *tokens)
 {
-	int		parentheses;
-	t_token	*token;
+	//TODO
+	(void) tokens;
+	return (0);
+}
 
-	parentheses = 0;
-	while (tokens != NULL)
+char	**get_envp(void)
+{
+	return (ft_calloc(1, sizeof(char *)));
+}
+
+int	execute_path_command(t_token *token)
+{
+	pid_t	pid;
+	int		command_exit_code;
+
+	pid = fork();
+	//TODO pid == -1
+	if (pid == 0)
 	{
-		token = tokens->content;
-		if (token->operator == OPEN_PARENTHESES)
-			parentheses++;
-		else if (token->operator == CLOSE_PARENTHESES)
-			parentheses--;
-		else if (parentheses == 0 && token->type != OPERATOR)
-			return (tokens);
-		ft_lst_get_next_free_current(&tokens, &free_token);
+		execve(token->name, token->args, get_envp());
+		if (token->type == COMMAND)
+			ft_printf("minishell: %s: command not found", token->args[0]);
+		else
+			ft_printf("minishell: %s: No such file or directory",
+				token->args[0]);
+		// TODO FIND RIGHT EXIT CODE
+		exit(-1);
 	}
+	wait(&command_exit_code);
+	return (WEXITSTATUS(command_exit_code));
 }

@@ -8,6 +8,10 @@ SRC				=\
 	env_variables/print_env_variables.c	\
 \
 \
+	execution/execute_commands.c	\
+	execution/get_next_command.c	\
+\
+\
 	lexer/operator.c	\
 	lexer/token.c		\
 \
