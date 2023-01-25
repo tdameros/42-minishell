@@ -29,6 +29,7 @@ SRC =\
 				hashmap/hm_get_elem.c		\
 				hashmap/hm_get_index.c		\
 				hashmap/hm_init.c			\
+				hashmap/hm_size.c			\
 \
 \
 				io/get_next_line/get_next_line_multi_fd.c		\
@@ -244,7 +245,7 @@ test:			${DIR_OBJS}
 				leaks -atExit -- ./${NAME_TEST}
 				@echo
 				@echo
-				leaks -atExit -- ./${NAME_TEST_DEBUG}
+				./${NAME_TEST_DEBUG}
 
 ${NAME_TEST}:	${OBJS_TEST}
 				${CC} ${FLAGS} -I ${INCLUDES} -L. -lft ${OBJS_TEST}\
