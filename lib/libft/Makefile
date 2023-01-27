@@ -65,6 +65,7 @@ SRC =\
 				linked_list/int/lsti_size.c						\
 \
 				linked_list/lst_get_next_free_current.c	\
+				linked_list/lst_of_lst_clear.c			\
 				linked_list/lst_push.c					\
 				linked_list/lst_reverse.c				\
 				linked_list/lstadd_back.c				\

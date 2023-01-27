@@ -6,7 +6,7 @@
 /*   By: vfries <vfries@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/19 11:01:01 by vfries            #+#    #+#             */
-/*   Updated: 2023/01/23 16:29:03 by vfries           ###   ########lyon.fr   */
+/*   Updated: 2023/01/27 06:16:24 by vfries           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ typedef struct s_list
 }	t_list;
 
 t_list		*ft_lst_get_next_free_current(t_list **lst, void (*del)(void *));
+void		ft_lst_of_lst_clear(t_list **lst, void (*del)(void *));
 void		ft_lst_push(t_list **dst, t_list **src);
 t_list		*ft_lst_reverse(t_list **lst);
 void		ft_lstadd_back(t_list **lst, t_list *new);
