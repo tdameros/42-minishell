@@ -87,7 +87,8 @@ int	main(int argc, char **argv, char **envp)
 			close(here_docs->content);
 			ft_lsti_get_next_free_current(&here_docs);
 		}
-		execute_commands(tokens, here_docs);
+		cd(((t_token *)tokens->content)->args, env_variables);
+//		execute_commands(tokens, here_docs);
 		command = readline(PROMPT);
 	}
 	free(command);
