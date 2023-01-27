@@ -33,6 +33,7 @@ SRC				=\
 	parser/simplify_tokens/add_command/add_command.c	\
 	parser/simplify_tokens/add_command/get_files.c		\
 \
+	parser/simplify_tokens/get_subshells.c			\
 	parser/simplify_tokens/simplify_tokens.c		\
 \
 	parser/wildcard/match.c	\

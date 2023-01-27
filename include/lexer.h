@@ -11,6 +11,7 @@ enum e_type
 	PATH_FILE = 3,
 	BUILTIN = 4,
 	EXECUTABLE = 5,
+	SUBSHELL = 6,
 };
 
 // EXECUTABLE is used to change error msg when execve fails:
@@ -49,6 +50,7 @@ typedef struct s_token
 	char				*name;
 	char				**args;
 	t_list				*files;
+	t_list				*subshell;
 }	t_token;
 
 t_list	*get_tokens(char *command);

@@ -6,7 +6,7 @@
 /*   By: vfries <vfries@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/15 15:01:00 by tdameros          #+#    #+#             */
-/*   Updated: 2023/01/23 18:30:51 by vfries           ###   ########lyon.fr   */
+/*   Updated: 2023/01/27 19:14:13 by vfries           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,16 +78,31 @@ t_token	*create_token(enum e_type type, enum e_operators operator, char *name)
 	return (token);
 }
 
-void	print_tokens(t_list *tokens)
+void	print_tabs(int tabs)
+{
+	while (tabs-- > 0)
+		ft_printf("\t");
+}
+
+int	__print_tokens__(t_list *tokens, int tabs)
 {
 	int		i;
 	t_list	*cursor;
 
+	if (tokens == NULL)
+		return (-1);
 	while (tokens != NULL)
 	{
+		print_tabs(tabs);
 		ft_printf("Type: %d\n", ((t_token *)tokens->content)->type);
+
+		print_tabs(tabs);
 		ft_printf("Operator: %d\n", ((t_token *)tokens->content)->operator);
+
+		print_tabs(tabs);
 		ft_printf("Name: %s\n", ((t_token *)tokens->content)->name);
+
+		print_tabs(tabs);
 		ft_printf("Args: ");
 		i = 0;
 		if (((t_token *)tokens->content)->args != NULL)
@@ -101,6 +116,8 @@ void	print_tokens(t_list *tokens)
 			ft_printf(" }\n");
 		else
 			ft_printf("\n");
+
+		print_tabs(tabs);
 		ft_printf("Files: ");
 		cursor = ((t_token *)tokens->content)->files;
 		while (cursor != NULL)
@@ -111,18 +128,38 @@ void	print_tokens(t_list *tokens)
 				cursor = cursor->next;
 		}
 		ft_printf("(null)\n");
+
+		print_tabs(tabs);
+		ft_printf("Subshell:\n");
+		if (__print_tokens__(((t_token *)tokens->content)->subshell, tabs + 1)
+			== -1)
+		{
+			print_tabs(tabs);
+			ft_printf("(null)\n");
+		}
+
+		print_tabs(tabs);
 		ft_printf("--------------\n");
 		tokens = tokens->next;
 	}
+	return (0);
 }
 
-void	free_token(void *token)
+void	print_tokens(t_list *tokens)
 {
-	if (token == NULL)
+	__print_tokens__(tokens, 0);
+}
+
+void	free_token(void *token_void)
+{
+	t_token	*token;
+
+	if (token_void == NULL)
 		return ;
-	ft_free_split(((t_token *)token)->args);
-	free(((t_token *)token)->name);
-	if (((t_token *)token)->files != NULL)
-		ft_lstclear(&((t_token *)token)->files, &free_token);
+	token = token_void;
+	free(token->name);
+	ft_free_split(token->args);
+	ft_lstclear(&token->files, &free_token);
+	ft_lstclear(&token->subshell, &free_token);
 	free(token);
 }
