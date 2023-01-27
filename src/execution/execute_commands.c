@@ -140,11 +140,11 @@ int	execute_subshell(t_list *tokens)
 	(void) tokens;
 	return (0);
 }
-
-char	**get_envp(void)
-{
-	return (ft_calloc(1, sizeof(char *)));
-}
+//
+//char	**get_envp(void)
+//{
+//	return (ft_calloc(1, sizeof(char *)));
+//}
 
 int	execute_path_command(t_token *token)
 {

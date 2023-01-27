@@ -27,10 +27,13 @@ typedef struct s_hashmap_content
 
 int					ft_hm_add_elem(t_hashmap dst, char *target, void *content,
 						void (*del)(void *));
+int					ft_hm_delete_elem(t_hashmap map,
+						char *target, void (*del)(void *));
 void				ft_hm_clear(t_hashmap *map, void (*del)(void *));
 void				*ft_hm_get_content(t_hashmap map, char *target);
 t_hashmap_content	*ft_hm_get_elem(t_hashmap map, char *target);
 size_t				ft_hm_get_index(char *target);
 t_hashmap			ft_hm_init(void);
+int					ft_hm_size(t_hashmap hashmap);
 
 #endif

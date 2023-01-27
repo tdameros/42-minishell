@@ -39,9 +39,9 @@ static int	merge(char **tab, int start, int middle, int end)
 {
 	char	**left_tab;
 	char	**right_tab;
-	int	index_left_tab;
-	int	index_right_tab;
-	int	index;
+	int		index_left_tab;
+	int		index_right_tab;
+	int		index;
 
 	left_tab = duplicate_tab(tab, start, middle);
 	right_tab = duplicate_tab(tab, middle + 1, end);
@@ -54,7 +54,7 @@ static int	merge(char **tab, int start, int middle, int end)
 		&& index_right_tab < end - middle)
 	{
 		if (ft_strcmp(left_tab[index_left_tab],
-				right_tab[index_right_tab]) >= 0)
+				right_tab[index_right_tab]) <= 0)
 			tab[index++] = left_tab[index_left_tab++];
 		else
 			tab[index++] = right_tab[index_right_tab++];

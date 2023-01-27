@@ -5,10 +5,17 @@ SRC_PATH		=	src/
 
 SRC				=\
 	env_variables/get_env_variables.c	\
+	env_variables/get_envp.c			\
 	env_variables/print_env_variables.c	\
 \
 \
+	error/error.c	\
+\
+\
 	built-in/echo.c		\
+	built-in/cd.c		\
+	built-in/pwd.c		\
+	built-in/export.c	\
 \
 \
 	execution/execute_commands.c	\

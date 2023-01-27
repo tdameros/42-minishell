@@ -46,7 +46,7 @@ int	main(int argc, char **argv, char **envp)
 	(void)argv;
 
 	env_variables = get_env_variables(envp);
-	print_env_variables(env_variables);
+//	print_env_variables(env_variables);
 
 	command = readline(PROMPT);
 	while (command != NULL && ft_strcmp(command, "exit")) // TODO should be able to do "echo test && exit"
@@ -87,7 +87,7 @@ int	main(int argc, char **argv, char **envp)
 			close(here_docs->content);
 			ft_lsti_get_next_free_current(&here_docs);
 		}
-		cd(((t_token *)tokens->content)->args, env_variables);
+		export(((t_token *)tokens->content)->args, env_variables);
 //		execute_commands(tokens, here_docs);
 		command = readline(PROMPT);
 	}

@@ -24,11 +24,13 @@ SRC =\
 \
 \
 				hashmap/hm_add_elem.c		\
+				hashmap/hm_delete_elem.c	\
 				hashmap/hm_clear.c			\
 				hashmap/hm_get_content.c	\
 				hashmap/hm_get_elem.c		\
 				hashmap/hm_get_index.c		\
 				hashmap/hm_init.c			\
+				hashmap/hm_size.c			\
 \
 \
 				io/get_next_line/get_next_line_multi_fd.c		\
@@ -125,6 +127,8 @@ SRC =\
 				string/strtrim.c	\
 				string/substr.c		\
 \
+				string/is_number.c	\
+\
 \
 				sort/msort_int.c	\
 				sort/msort_str.c
@@ -186,7 +190,7 @@ OBJS_TEST_DEBUG =	${addprefix ${TEST_OBJS_DIR},${SRCS_TEST:.c=_debug.o}}
 
 FLAGS_NO_O3 =	-Wall -Wextra -Werror
 
-FLAGS =			${FLAGS_NO_O3} -O3
+FLAGS =			${FLAGS_NO_O3}
 
 DEBUG_FLAGS	=	${FLAGS_NO_O3} -g3 -fsanitize=address
 

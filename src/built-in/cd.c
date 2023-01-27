@@ -38,6 +38,6 @@ int	cd(char **args, t_hashmap env_variables)
 		return (1);
 	}
 	ft_hm_add_elem(env_variables, "OLDPWD", old_path, free);
-	ft_hm_add_elem(path, "PWD", ft_strdup(path), free);
+	ft_hm_add_elem(env_variables, "PWD", ft_strdup(path), free);
 	return (0);
 }

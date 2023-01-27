@@ -1,31 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pwd.c                                              :+:      :+:    :+:   */
+/*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdameros <tdameros@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: tomy <tomy@student.42lyon.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/27 17:33:00 by tdameros          #+#    #+#             */
-/*   Updated: 2023/01/27 17:33:00 by tdameros         ###   ########lyon.fr   */
+/*   Created: 2023/01/28 00:07:00 by tomy              #+#    #+#             */
+/*   Updated: 2023/01/28 00:07:00 by tomy             ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
-#include <unistd.h>
-#include "libft.h"
-#include "error.h"
+#include "ft_hashmap.h"
 
-int	pwd(void)
+int	unset(char **args, t_hashmap env_variables)
 {
-	char	*current_path;
+	size_t	index;
 
-	current_path = getcwd(NULL, 0);
-	if (current_path == NULL)
+	index = 1;
+	while (args[index] != NULL)
 	{
-		print_error("pwd", NULL, strerror(errno));
-		return (1);
+		if (ft_hm_delete_elem(env_variables, args[index], free) < 0)
+			return (1);
+		index++;
 	}
-	ft_printf("%s\n", current_path);
-	free(current_path);
 	return (0);
 }

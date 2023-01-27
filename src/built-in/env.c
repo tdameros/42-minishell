@@ -1,22 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env_variables.h                                    :+:      :+:    :+:   */
+/*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vfries <vfries@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: tomy <tomy@student.42lyon.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/20 02:57:50 by vfries            #+#    #+#             */
-/*   Updated: 2023/01/20 03:15:51 by vfries           ###   ########lyon.fr   */
+/*   Created: 2023/01/28 00:18:00 by tomy              #+#    #+#             */
+/*   Updated: 2023/01/28 00:18:00 by tomy             ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef ENV_VARIABLES_H
-# define ENV_VARIABLES_H
+#include "env_variables.h"
 
-# include "ft_hashmap.h"
-
-t_hashmap	get_env_variables(char **envp);
-char		**get_envp(t_hashmap env_variables);
-void		print_env_variables(t_hashmap env_variables);
-
-#endif
+int	env(char **args, t_hashmap env_variables)
+{
+	print_env_variables(env_variables);
+	return (0);
+}

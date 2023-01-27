@@ -16,5 +16,8 @@
 int	echo(char **args);
 int	cd(char **args, t_hashmap env_variables);
 int	pwd(void);
+int	export(char **args, t_hashmap env_variables);
+int	env(char **args, t_hashmap env_variables);
+int	exit_builtin(char **args);
 
 #endif

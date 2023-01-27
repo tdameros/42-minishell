@@ -12,6 +12,7 @@
 
 #include "lexer.h"
 #include <stdlib.h>
+#include <sys/wait.h>
 
 static bool	add_token_here_docs(t_list_i **here_docs_fds, t_list *token);
 static bool	add_here_doc(t_list_i **here_docs_fds, char *limiter);
