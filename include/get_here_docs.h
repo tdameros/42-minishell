@@ -6,7 +6,7 @@
 /*   By: vfries <vfries@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 13:51:48 by vfries            #+#    #+#             */
-/*   Updated: 2023/01/20 13:52:27 by vfries           ###   ########lyon.fr   */
+/*   Updated: 2023/01/27 07:18:34 by vfries           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,6 @@
 
 # include "libft.h"
 
-t_list_i	*get_here_docs(t_list *tokens);
+int	get_here_docs(t_list **here_docs, t_list *tokens);
 
 #endif

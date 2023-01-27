@@ -6,7 +6,7 @@
 /*   By: vfries <vfries@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/14 18:07:30 by vfries            #+#    #+#             */
-/*   Updated: 2023/01/27 05:53:55 by vfries           ###   ########lyon.fr   */
+/*   Updated: 2023/01/27 07:27:44 by vfries           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,14 +32,14 @@
 
 #define PROMPT "➜ minishell-1.0$ "
 
-int	execute_commands(t_list *tokens, t_list_i *here_docs);
+static void	print_here_docs(t_list *here_docs);
 
 int	main(int argc, char **argv, char **envp)
 {
 	char		*command;
 	char		*save;
 	t_list		*tokens;
-	t_list_i	*here_docs;
+	t_list		*here_docs;
 	t_hashmap	env_variables;
 
 	(void)argc;
@@ -73,26 +73,37 @@ int	main(int argc, char **argv, char **envp)
 		// print_tokens(tokens);
 
 
-		here_docs = get_here_docs(tokens);
-		while (here_docs != NULL)
-		{
-			char *gnl = get_next_line(here_docs->content);
-			while (gnl != NULL)
-			{
-				ft_printf("%s", gnl);
-				free(gnl);
-				gnl = get_next_line(here_docs->content);
-			}
-			ft_printf("(null)\n");
-			close(here_docs->content);
-			ft_lsti_get_next_free_current(&here_docs);
-		}
+		if (get_here_docs(&here_docs, tokens))
+			ft_printf("get_here_docs() failed\n");
+		print_here_docs(here_docs);
+
 		// execute_commands(tokens, env_variables, -1, &here_docs);
-		execute_forked_command(&tokens, &here_docs, NULL);
 		command = readline(PROMPT);
 	}
 	free(command);
 	ft_putstr("exit\n");
 	ft_hm_clear(&env_variables, &free);
 	return (0);
+}
+
+static void	print_here_docs(t_list *here_docs)
+{
+	t_list	*cursor;
+	int		i;
+
+	i = 0;
+	ft_printf("========= HERE DOCS ==========\n");
+	while (here_docs != NULL)
+	{
+		ft_printf("========= HERE DOC %d ==========\n", i);
+		ft_printf("         (Reversed)\n");
+		cursor = here_docs->content;
+		while (cursor != NULL)
+		{
+			ft_printf("%s", cursor->content);
+			cursor = cursor->next;
+		}
+		here_docs = here_docs->next;
+		i++;
+	}
 }

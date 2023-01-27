@@ -3,14 +3,12 @@ NAME			=	minishell
 
 SRC_PATH		=	src/
 
+#execution/
 SRC				=\
 	env_variables/get_env_variables.c	\
 	env_variables/print_env_variables.c	\
 \
 \
-	execution/execute_commands.c		\
-	execution/execute_forked_command.c	\
-	execution/get_next_command.c		\
 \
 \
 	lexer/identifier.c \
@@ -36,8 +34,9 @@ SRC				=\
 \
 	parser/wildcard/match.c	\
 \
-	get_here_docs.c	\
-	main.c
+	here_docs.c	\
+	main.c		\
+	minishell_fork.c
 
 
 DIR_INCS		=\
