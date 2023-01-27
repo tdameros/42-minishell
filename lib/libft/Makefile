@@ -123,7 +123,11 @@ SRC =\
 				string/strnstr.c	\
 				string/strrchr.c	\
 				string/strtrim.c	\
-				string/substr.c
+				string/substr.c		\
+\
+\
+				sort/msort_int.c	\
+				sort/msort_str.c
 
 
 TEST_DIR = test/

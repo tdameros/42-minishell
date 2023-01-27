@@ -1,20 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   built-in.h                                         :+:      :+:    :+:   */
+/*   ft_sort.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tdameros <tdameros@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/25 15:28:00 by tdameros          #+#    #+#             */
-/*   Updated: 2023/01/25 15:28:00 by tdameros         ###   ########lyon.fr   */
+/*   Created: 2023/01/27 18:13:00 by tdameros          #+#    #+#             */
+/*   Updated: 2023/01/27 18:13:00 by tdameros         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef BUILT_IN_H
-# define BUILT_IN_H
+#ifndef FT_SORT_H
+# define FT_SORT_H
 
-int	echo(char **args);
-int	cd(char **args, t_hashmap env_variables);
-int	pwd(void);
+int	ft_msort_int(int *tab, int index_left, int index_right);
+int	ft_msort_str(char **tab, int index_left, int index_right);
 
 #endif
