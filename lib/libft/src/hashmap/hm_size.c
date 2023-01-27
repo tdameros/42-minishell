@@ -6,7 +6,7 @@
 /*   By: vfries <vfries@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/25 16:30:19 by vfries            #+#    #+#             */
-/*   Updated: 2023/01/25 16:36:01 by vfries           ###   ########lyon.fr   */
+/*   Updated: 2023/01/27 05:51:19 by vfries           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ int	ft_hm_size(t_hashmap hashmap)
 	int		i;
 	t_list	*cursor;
 
+	if (hashmap == NULL)
+		return (0);
 	size = 0;
 	i = HASHMAP_ARR_SIZE;
 	while (i-- > 0)
