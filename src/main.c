@@ -6,7 +6,7 @@
 /*   By: vfries <vfries@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/14 18:07:30 by vfries            #+#    #+#             */
-/*   Updated: 2023/01/27 07:27:44 by vfries           ###   ########lyon.fr   */
+/*   Updated: 2023/01/27 08:10:51 by vfries           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,8 @@
 
 #define PROMPT "➜ minishell-1.0$ "
 
-static void	print_here_docs(t_list *here_docs);
+void	print_here_docs(t_list *here_docs);
+void	test_get_envp(t_hashmap env_variables);
 
 int	main(int argc, char **argv, char **envp)
 {
@@ -46,6 +47,7 @@ int	main(int argc, char **argv, char **envp)
 	(void)argv;
 
 	env_variables = get_env_variables(envp);
+	// test_get_envp(env_variables);
 	// print_env_variables(env_variables);
 
 	command = readline(PROMPT);
@@ -75,7 +77,7 @@ int	main(int argc, char **argv, char **envp)
 
 		if (get_here_docs(&here_docs, tokens))
 			ft_printf("get_here_docs() failed\n");
-		print_here_docs(here_docs);
+		// print_here_docs(here_docs);
 
 		// execute_commands(tokens, env_variables, -1, &here_docs);
 		command = readline(PROMPT);
@@ -86,7 +88,7 @@ int	main(int argc, char **argv, char **envp)
 	return (0);
 }
 
-static void	print_here_docs(t_list *here_docs)
+void	print_here_docs(t_list *here_docs)
 {
 	t_list	*cursor;
 	int		i;
@@ -106,4 +108,25 @@ static void	print_here_docs(t_list *here_docs)
 		here_docs = here_docs->next;
 		i++;
 	}
+}
+
+void	test_get_envp(t_hashmap env_variables)
+{
+	char	**envp;
+	int		i;
+
+	envp = get_envp(env_variables);
+	if (envp == NULL)
+	{
+		ft_printf("ENVP == NULL\n");
+		return ;
+	}
+	i = 0;
+	while (envp[i] != NULL)
+	{
+		ft_printf("%s\n", envp[i]);
+		i++;
+	}
+	ft_printf("(null)\n");
+	ft_free_split(envp);
 }
