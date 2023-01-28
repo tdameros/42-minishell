@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tomy <tomy@student.42lyon.fr>              +#+  +:+       +#+        */
+/*   By: vfries <vfries@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/28 00:18:00 by tomy              #+#    #+#             */
-/*   Updated: 2023/01/28 00:18:00 by tomy             ###   ########lyon.fr   */
+/*   Updated: 2023/01/28 17:26:37 by vfries           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,9 @@
 #include <stdlib.h>
 #include "libft.h"
 #include "error.h"
+#include "built_in.h"
 
-int	exit_builtin(char **args)
+void	exit_builtin(char **args, t_hashmap env_variables)
 {
 	unsigned char	status;
 
@@ -30,7 +31,7 @@ int	exit_builtin(char **args)
 	if (args[2] != NULL)
 	{
 		print_error("exit", NULL, "too many arguments");
-		return (1);
+		return (update_last_exit_code(env_variables, 1));
 	}
 	status = ft_atoi(args[1]);
 	exit(status);

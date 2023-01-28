@@ -4,13 +4,14 @@ NAME			=	minishell
 SRC_PATH		=	src/
 
 SRC				=\
-	built-in/cd.c		\
-	built-in/echo.c		\
-	built-in/env.c		\
-	built-in/exit.c		\
-	built-in/export.c	\
-	built-in/pwd.c		\
-	built-in/unset.c	\
+	built-in/cd.c						\
+	built-in/echo.c						\
+	built-in/env.c						\
+	built-in/exit.c						\
+	built-in/export.c					\
+	built-in/pwd.c						\
+	built-in/unset.c					\
+	built-in/update_last_exit_code.c	\
 \
 \
 	env_variables/get_env_variables.c	\
@@ -21,13 +22,10 @@ SRC				=\
 	execution/execute_command.c	\
 	execution/execute_pipes.c	\
 	execution/execution.c		\
+	execution/get_next.c		\
 \
 \
 	error/error.c	\
-\
-\
-	execution/execute_command.c		\
-	execution/execute_pipes.c		\
 \
 \
 	lexer/identifier.c \

@@ -6,7 +6,7 @@
 /*   By: vfries <vfries@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/14 18:07:30 by vfries            #+#    #+#             */
-/*   Updated: 2023/01/28 10:18:31 by vfries           ###   ########lyon.fr   */
+/*   Updated: 2023/01/28 17:29:52 by vfries           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 #include "env_variables.h"
 #include "parser.h"
 #include "libft.h"
+#include "execution.h"
 #include <stdlib.h>
 #include <stdio.h>
 #include <readline/readline.h>
@@ -23,7 +24,6 @@
 #include "libft.h"
 #include "lexer.h"
 #include "quote.h"
-#include "built-in.h"
 #include "execution.h"
 
 #define PROMPT "➜ minishell-1.0$ "
@@ -35,6 +35,8 @@
 
 void	print_here_docs(t_list *here_docs);
 void	test_get_envp(t_hashmap env_variables);
+
+static int	add_last_exit_code(t_hashmap env_variables);
 
 int	main(int argc, char **argv, char **envp)
 {
@@ -50,7 +52,7 @@ int	main(int argc, char **argv, char **envp)
 	env_variables = get_env_variables(envp);
 	if (add_last_exit_code(env_variables))
 	{
-		ft_hm_clear(env_variables, &free);
+		ft_hm_clear(&env_variables, &free);
 		return (-1);
 	}
 	// test_get_envp(env_variables);
@@ -84,7 +86,7 @@ int	main(int argc, char **argv, char **envp)
 			ft_printf("get_here_docs() failed\n");
 		// print_here_docs(here_docs);
 
-		// execute_commands(tokens, env_variables, -1, &here_docs);
+		execute_commands(&tokens, env_variables, &here_docs);
 		command = readline(PROMPT);
 	}
 	free(command);
@@ -148,5 +150,6 @@ static int	add_last_exit_code(t_hashmap env_variables)
 		free(exit_code);
 		return (-1);
 	}
+	*exit_code = 0;
 	return (0);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdameros <tdameros@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: vfries <vfries@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 17:41:00 by tdameros          #+#    #+#             */
-/*   Updated: 2023/01/27 17:41:00 by tdameros         ###   ########lyon.fr   */
+/*   Updated: 2023/01/28 17:26:39 by vfries           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,25 +14,27 @@
 #include "libft.h"
 #include "env_variables.h"
 #include "error.h"
+#include "built_in.h"
 
 static int		print_sorted_env_variables(t_hashmap env_variables);
 static int		add_variable(char *variable, t_hashmap env_variables);
 static bool		is_valid_key(char *key);
 
-int	export(char **args, t_hashmap env_variables)
+void	export(char **args, t_hashmap env_variables)
 {
 	size_t	index;
 
 	index = 1;
 	if (args[index] == NULL)
-		return (print_sorted_env_variables(env_variables));
+		return (update_last_exit_code(env_variables,
+				print_sorted_env_variables(env_variables)));
 	while (args[index] != NULL)
 	{
 		if (add_variable(args[index], env_variables) < 0)
 			print_error("export", args[index], "not a valid identifier");
 		index++;
 	}
-	return (0);
+	return (update_last_exit_code(env_variables, 0));
 }
 
 static	int	print_sorted_env_variables(t_hashmap env_variables)

@@ -1,21 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env.c                                              :+:      :+:    :+:   */
+/*   update_last_exit_code.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vfries <vfries@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/28 00:18:00 by tomy              #+#    #+#             */
-/*   Updated: 2023/01/28 17:26:35 by vfries           ###   ########lyon.fr   */
+/*   Created: 2023/01/28 17:18:00 by vfries            #+#    #+#             */
+/*   Updated: 2023/01/28 17:19:47 by vfries           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "env_variables.h"
-#include "built_in.h"
 
-void	env(char **args, t_hashmap env_variables)
+void	update_last_exit_code(t_hashmap env_variables, int exit_code)
 {
-	(void ) args;
-	print_env_variables(env_variables);
-	return (update_last_exit_code(env_variables, 0));
+	*(int *)ft_hm_get_content(env_variables, LAST_EXIT_CODE) = exit_code;
 }

@@ -6,7 +6,7 @@
 /*   By: vfries <vfries@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/15 15:01:00 by tdameros          #+#    #+#             */
-/*   Updated: 2023/01/27 19:14:13 by vfries           ###   ########lyon.fr   */
+/*   Updated: 2023/01/28 14:43:29 by vfries           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ t_token	*create_token(enum e_type type, enum e_operators operator, char *name)
 	return (token);
 }
 
-void	print_tabs(int tabs)
+void	__print_tabs__(int tabs)
 {
 	while (tabs-- > 0)
 		ft_printf("\t");
@@ -93,16 +93,16 @@ int	__print_tokens__(t_list *tokens, int tabs)
 		return (-1);
 	while (tokens != NULL)
 	{
-		print_tabs(tabs);
+		__print_tabs__(tabs);
 		ft_printf("Type: %d\n", ((t_token *)tokens->content)->type);
 
-		print_tabs(tabs);
+		__print_tabs__(tabs);
 		ft_printf("Operator: %d\n", ((t_token *)tokens->content)->operator);
 
-		print_tabs(tabs);
+		__print_tabs__(tabs);
 		ft_printf("Name: %s\n", ((t_token *)tokens->content)->name);
 
-		print_tabs(tabs);
+		__print_tabs__(tabs);
 		ft_printf("Args: ");
 		i = 0;
 		if (((t_token *)tokens->content)->args != NULL)
@@ -117,7 +117,7 @@ int	__print_tokens__(t_list *tokens, int tabs)
 		else
 			ft_printf("\n");
 
-		print_tabs(tabs);
+		__print_tabs__(tabs);
 		ft_printf("Files: ");
 		cursor = ((t_token *)tokens->content)->files;
 		while (cursor != NULL)
@@ -129,16 +129,16 @@ int	__print_tokens__(t_list *tokens, int tabs)
 		}
 		ft_printf("(null)\n");
 
-		print_tabs(tabs);
+		__print_tabs__(tabs);
 		ft_printf("Subshell:\n");
 		if (__print_tokens__(((t_token *)tokens->content)->subshell, tabs + 1)
 			== -1)
 		{
-			print_tabs(tabs);
+			__print_tabs__(tabs);
 			ft_printf("(null)\n");
 		}
 
-		print_tabs(tabs);
+		__print_tabs__(tabs);
 		ft_printf("--------------\n");
 		tokens = tokens->next;
 	}
