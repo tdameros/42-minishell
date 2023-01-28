@@ -6,7 +6,7 @@
 /*   By: vfries <vfries@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 10:44:03 by vfries            #+#    #+#             */
-/*   Updated: 2023/01/28 18:07:05 by vfries           ###   ########lyon.fr   */
+/*   Updated: 2023/01/28 18:24:35 by vfries           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,4 +123,5 @@ static void	execute_forked_pipe(t_token *command, t_hashmap env_variables,
 		exit(-1);
 	}
 	execute_command(command, env_variables, here_docs);
+	exit(*(int *)ft_hm_get_content(env_variables, LAST_EXIT_CODE));
 }
