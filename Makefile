@@ -4,6 +4,15 @@ NAME			=	minishell
 SRC_PATH		=	src/
 
 SRC				=\
+	built-in/cd.c		\
+	built-in/echo.c		\
+	built-in/env.c		\
+	built-in/exit.c		\
+	built-in/export.c	\
+	built-in/pwd.c		\
+	built-in/unset.c	\
+\
+\
 	env_variables/get_env_variables.c	\
 	env_variables/get_envp.c			\
 	env_variables/print_env_variables.c	\
@@ -14,15 +23,24 @@ SRC				=\
 	execution/execution.c		\
 \
 \
+	error/error.c	\
+\
+\
+\
+\
+	execution/execute_command.c		\
+	execution/execute_pipes.c		\
+\
+\
 	lexer/identifier.c \
 	lexer/operator.c	\
 	lexer/token.c		\
 \
 \
+	parser/operator/valid.c \
+\
 	parser/quote/remove.c	\
 	parser/quote/valid.c	\
-\
-	parser/operator/valid.c \
 \
 	parser/simplify_tokens/add_command/add_path/absolute_path.c		\
 	parser/simplify_tokens/add_command/add_path/add_path.c			\

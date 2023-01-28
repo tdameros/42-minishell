@@ -22,5 +22,6 @@
 # include "ft_mem.h"
 # include "ft_numbers.h"
 # include "ft_string.h"
+# include "ft_sort.h"
 
 #endif

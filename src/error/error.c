@@ -1,19 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   execution.h                                        :+:      :+:    :+:   */
+/*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vfries <vfries@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: tdameros <tdameros@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/28 01:02:00 by tomy              #+#    #+#             */
-/*   Updated: 2023/01/28 07:06:16 by vfries           ###   ########lyon.fr   */
+/*   Created: 2023/01/27 17:01:00 by tdameros          #+#    #+#             */
+/*   Updated: 2023/01/27 17:01:00 by tdameros         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef EXECUTION_H
-# define EXECUTION_H
-# include "libft.h"
+#include "libft.h"
 
-void	execute_command(t_list *command, t_hashmap env_variables,
-			t_list *here_docs, int env_modifs);
-#endif
+void	print_error(char *command, char *context, char *error)
+{
+	if (context != NULL)
+		ft_printf("minishell: %s: %s: %s\n", command, context, error);
+	else
+		ft_printf("minishell: %s: %s\n", command, error);
+}

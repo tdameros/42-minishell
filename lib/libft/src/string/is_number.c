@@ -1,19 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   execution.h                                        :+:      :+:    :+:   */
+/*   is_number.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vfries <vfries@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: tomy <tomy@student.42lyon.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/28 01:02:00 by tomy              #+#    #+#             */
-/*   Updated: 2023/01/28 07:06:16 by vfries           ###   ########lyon.fr   */
+/*   Created: 2023/01/28 00:30:00 by tomy              #+#    #+#             */
+/*   Updated: 2023/01/28 00:30:00 by tomy             ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef EXECUTION_H
-# define EXECUTION_H
-# include "libft.h"
+#include "ft_char.h"
 
-void	execute_command(t_list *command, t_hashmap env_variables,
-			t_list *here_docs, int env_modifs);
-#endif
+int	ft_is_number(char *s)
+{
+	int	is_number;
+
+	is_number = 0;
+	if (*s == '-' || *s == '+')
+		s++;
+	while (*s != '\0')
+	{
+		if (!ft_isdigit(*s))
+			return (0);
+		is_number = 1;
+		s++;
+	}
+	return (is_number);
+}

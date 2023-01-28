@@ -1,19 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   execution.h                                        :+:      :+:    :+:   */
+/*   ft_sort.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vfries <vfries@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: tdameros <tdameros@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/28 01:02:00 by tomy              #+#    #+#             */
-/*   Updated: 2023/01/28 07:06:16 by vfries           ###   ########lyon.fr   */
+/*   Created: 2023/01/27 18:13:00 by tdameros          #+#    #+#             */
+/*   Updated: 2023/01/27 18:13:00 by tdameros         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef EXECUTION_H
-# define EXECUTION_H
-# include "libft.h"
+#ifndef FT_SORT_H
+# define FT_SORT_H
 
-void	execute_command(t_list *command, t_hashmap env_variables,
-			t_list *here_docs, int env_modifs);
+int	ft_msort_int(int *tab, int index_left, int index_right);
+int	ft_msort_str(char **tab, int index_left, int index_right);
+
 #endif

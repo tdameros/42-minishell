@@ -8,6 +8,8 @@ better_norminette.log
 # IDE
 .idea/
 .VSCode/
+CMakeLists.txt
+cmake-build-debug/
 
 # Executables
 minishell

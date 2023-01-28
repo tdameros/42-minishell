@@ -24,8 +24,8 @@ void	print_env_variables(t_hashmap env_variables)
 		while (cursor != NULL)
 		{
 			ft_printf("%s=%s\n",
-				((t_hashmap_content *)cursor->content)->target,
-				((t_hashmap_content *)cursor->content)->content);
+					  ((t_hashmap_content *)cursor->content)->target,
+					  ((t_hashmap_content *)cursor->content)->content);
 			cursor = cursor->next;
 		}
 	}

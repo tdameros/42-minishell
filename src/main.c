@@ -6,7 +6,7 @@
 /*   By: vfries <vfries@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/14 18:07:30 by vfries            #+#    #+#             */
-/*   Updated: 2023/01/27 17:45:19 by vfries           ###   ########lyon.fr   */
+/*   Updated: 2023/01/28 07:02:40 by vfries           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 #include "libft.h"
 #include "lexer.h"
 #include "quote.h"
+#include "built-in.h"
 #include "execution.h"
 
 #define PROMPT "➜ minishell-1.0$ "
@@ -48,7 +49,6 @@ int	main(int argc, char **argv, char **envp)
 
 	env_variables = get_env_variables(envp);
 	// test_get_envp(env_variables);
-	// print_env_variables(env_variables);
 
 	command = readline(PROMPT);
 	while (command != NULL && ft_strcmp(command, "exit")) // TODO should be able to do "echo test && exit"
@@ -68,11 +68,11 @@ int	main(int argc, char **argv, char **envp)
 
 		// print_tokens(tokens);
 
-		ft_printf("\n\n------------------------------------------------\n\n\n");
+//		ft_printf("\n\n------------------------------------------------\n\n\n");
 
 		if (simplify_tokens(&tokens, env_variables))
 			ft_printf("simplified_tokens failed!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n");
-		print_tokens(tokens);
+//		print_tokens(tokens);
 
 
 		if (get_here_docs(&here_docs, tokens))
