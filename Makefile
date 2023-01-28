@@ -26,8 +26,6 @@ SRC				=\
 	error/error.c	\
 \
 \
-\
-\
 	execution/execute_command.c		\
 	execution/execute_pipes.c		\
 \

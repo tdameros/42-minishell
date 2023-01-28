@@ -6,7 +6,7 @@
 /*   By: vfries <vfries@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/14 18:07:30 by vfries            #+#    #+#             */
-/*   Updated: 2023/01/28 07:02:40 by vfries           ###   ########lyon.fr   */
+/*   Updated: 2023/01/28 10:18:31 by vfries           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,11 @@ int	main(int argc, char **argv, char **envp)
 	(void)argv;
 
 	env_variables = get_env_variables(envp);
+	if (add_last_exit_code(env_variables))
+	{
+		ft_hm_clear(env_variables, &free);
+		return (-1);
+	}
 	// test_get_envp(env_variables);
 
 	command = readline(PROMPT);
@@ -129,4 +134,19 @@ void	test_get_envp(t_hashmap env_variables)
 	}
 	ft_printf("(null)\n");
 	ft_free_split(envp);
+}
+
+static int	add_last_exit_code(t_hashmap env_variables)
+{
+	int	*exit_code;
+
+	exit_code = malloc(sizeof(int));
+	if (exit_code == NULL)
+		return (-1);
+	if (ft_hm_add_elem(env_variables, LAST_EXIT_CODE, exit_code, &free))
+	{
+		free(exit_code);
+		return (-1);
+	}
+	return (0);
 }
