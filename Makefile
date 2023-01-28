@@ -16,10 +16,13 @@ SRC				=\
 	built-in/cd.c		\
 	built-in/pwd.c		\
 	built-in/export.c	\
+	built-in/env.c		\
+	built-in/exit.c		\
+	built-in/unset.c	\
 \
 \
-	execution/execute_commands.c	\
-	execution/get_next_command.c	\
+	execution/execute_command.c		\
+	execution/execute_pipes.c		\
 \
 \
 	lexer/identifier.c \

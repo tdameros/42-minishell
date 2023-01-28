@@ -21,6 +21,12 @@ int	cd(char **args, t_hashmap env_variables)
 	char	*path;
 	char	*old_path;
 
+	// TODO: tilde
+	if (args[1] != NULL && args[2] != NULL)
+	{
+		print_error("cd", NULL, "too many arguments");
+		return (1);
+	}
 	if (args[1] == NULL)
 		path = ft_hm_get_content(env_variables, "HOME");
 	else
@@ -37,7 +43,8 @@ int	cd(char **args, t_hashmap env_variables)
 		free(old_path);
 		return (1);
 	}
+	path = getcwd(NULL, 0);
 	ft_hm_add_elem(env_variables, "OLDPWD", old_path, free);
-	ft_hm_add_elem(env_variables, "PWD", ft_strdup(path), free);
+	ft_hm_add_elem(env_variables, "PWD", path, free);
 	return (0);
 }

@@ -1,20 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env.c                                              :+:      :+:    :+:   */
+/*   minishell_fork.h                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tomy <tomy@student.42lyon.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/28 00:18:00 by tomy              #+#    #+#             */
-/*   Updated: 2023/01/28 00:18:00 by tomy             ###   ########lyon.fr   */
+/*   Created: 2023/01/28 01:02:00 by tomy              #+#    #+#             */
+/*   Updated: 2023/01/28 01:02:00 by tomy             ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "env_variables.h"
+#ifndef MINISHELL_FORK_H
+# define MINISHELL_FORK_H
 
-int	env(char **args, t_hashmap env_variables)
-{
-	(void ) args;
-	print_env_variables(env_variables);
-	return (0);
-}
+# include "libft.h"
+
+extern t_list	*g_forks;
+
+pid_t	minishell_fork(void);
+
+#endif

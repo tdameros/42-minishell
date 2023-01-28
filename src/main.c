@@ -24,6 +24,7 @@
 #include "lexer.h"
 #include "quote.h"
 #include "built-in.h"
+#include "execution.h"
 
 #define PROMPT "➜ minishell-1.0$ "
 
@@ -64,13 +65,13 @@ int	main(int argc, char **argv, char **envp)
 			ft_printf("Malloc failed\n");
 		remove_quotes(tokens);
 
-		print_tokens(tokens);
+//		print_tokens(tokens);
 
-		ft_printf("\n\n------------------------------------------------\n\n\n");
+//		ft_printf("\n\n------------------------------------------------\n\n\n");
 
 		if (simplify_tokens(&tokens, env_variables))
 			ft_printf("simplified_tokens failed!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n");
-		print_tokens(tokens);
+//		print_tokens(tokens);
 
 
 		here_docs = get_here_docs(tokens);
@@ -87,8 +88,7 @@ int	main(int argc, char **argv, char **envp)
 			close(here_docs->content);
 			ft_lsti_get_next_free_current(&here_docs);
 		}
-		export(((t_token *)tokens->content)->args, env_variables);
-//		execute_commands(tokens, here_docs);
+		execute_command(tokens, env_variables, NULL, 0);
 		command = readline(PROMPT);
 	}
 	free(command);
