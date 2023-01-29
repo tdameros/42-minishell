@@ -6,11 +6,12 @@
 /*   By: vfries <vfries@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 09:24:00 by vfries            #+#    #+#             */
-/*   Updated: 2023/01/28 17:31:14 by vfries           ###   ########lyon.fr   */
+/*   Updated: 2023/01/29 00:29:27 by vfries           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lexer.h"
+#include "error.h"
 #include "minishell_fork.h"
 #include "env_variables.h"
 #include "execution.h"
@@ -24,8 +25,8 @@ static void				execute_commands_loop(t_list **tokens,
 							int *exit_code);
 static int				execute_command_no_pipe(t_list **tokens,
 							t_hashmap env_variables, t_list **here_docs);
-static int	fork_and_execute_command(t_token *command, t_hashmap env_variables,
-				t_list *here_docs);
+static int				fork_and_execute_command(t_token *command,
+							t_hashmap env_variables, t_list *here_docs);
 
 void	execute_commands(t_list **tokens, t_hashmap env_variables,
 			t_list **here_docs)
@@ -34,7 +35,6 @@ void	execute_commands(t_list **tokens, t_hashmap env_variables,
 
 	exit_code = ft_hm_get_content(env_variables, LAST_EXIT_CODE);
 	execute_commands_loop(tokens, env_variables, here_docs, exit_code);
-	// TODO free(exit_code) if subshell ?
 	ft_lstclear(tokens, &free_token);
 	ft_lst_of_lst_clear(here_docs, &free);
 }
@@ -44,10 +44,6 @@ static void	execute_commands_loop(t_list **tokens, t_hashmap env_variables,
 {
 	while (*tokens != NULL)
 	{
-		// print_tokens(*tokens);
-		// ft_printf("\n\n");
-		// ft_printf("EXIT == %d\n\n", *(int *)ft_hm_get_content(env_variables,
-		// 		LAST_EXIT_CODE));
 		if (get_next_operator(*tokens) == PIPE)
 			*exit_code = execute_pipes(tokens, env_variables, here_docs);
 		else
@@ -91,11 +87,13 @@ static int	fork_and_execute_command(t_token *command, t_hashmap env_variables,
 	pid_t	pid;
 
 	pid = minishell_fork();
-	// TODO ERROR MSG
 	if (pid == -1)
+	{
+		print_error(command->args[0], FORK_FAILED, get_error());
 		return (-1);
+	}
 	if (pid != 0)
 		return (0);
 	execute_command(command, env_variables, here_docs);
-	return (0);
+	exit(*(int *)ft_hm_get_content(env_variables, LAST_EXIT_CODE));
 }

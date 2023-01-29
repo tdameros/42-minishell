@@ -19,10 +19,12 @@ SRC				=\
 	env_variables/print_env_variables.c	\
 \
 \
-	execution/execute_command.c	\
-	execution/execute_pipes.c	\
-	execution/execution.c		\
-	execution/get_next.c		\
+	execution/execute_command.c		\
+	execution/execute_pipes.c		\
+	execution/execution.c			\
+	execution/get_next.c			\
+	execution/open_and_dup_files.c	\
+	execution/run_builtin.c			\
 \
 \
 	error/error.c	\

@@ -6,7 +6,7 @@
 /*   By: vfries <vfries@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/14 18:07:30 by vfries            #+#    #+#             */
-/*   Updated: 2023/01/28 17:29:52 by vfries           ###   ########lyon.fr   */
+/*   Updated: 2023/01/28 22:43:45 by vfries           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ int	main(int argc, char **argv, char **envp)
 
 		if (simplify_tokens(&tokens, env_variables))
 			ft_printf("simplified_tokens failed!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n");
-//		print_tokens(tokens);
+		// print_tokens(tokens);
 
 
 		if (get_here_docs(&here_docs, tokens))
