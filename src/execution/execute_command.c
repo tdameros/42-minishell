@@ -6,7 +6,7 @@
 /*   By: vfries <vfries@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 13:31:41 by vfries            #+#    #+#             */
-/*   Updated: 2023/01/29 02:13:37 by vfries           ###   ########lyon.fr   */
+/*   Updated: 2023/01/29 23:26:08 by vfries           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,9 +47,15 @@ static void	run_subshell(t_token *command, t_hashmap env_variables,
 
 static void	run_command(t_token *command, char **envp)
 {
-	//TODO files with no command
 	execve(command->name, command->args, envp);
-	print_error(command->args[0], NULL, get_error());
 	ft_free_split(envp);
-	exit(-1);
+	if (command->name == NULL)
+		exit(0);
+	if (command->type == COMMAND)
+	{
+		print_error(command->args[0], NULL, "command not found");
+		exit(127);
+	}
+	print_error(command->name, NULL, get_error());
+	exit(127);
 }

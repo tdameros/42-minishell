@@ -6,7 +6,7 @@
 /*   By: vfries <vfries@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 10:44:03 by vfries            #+#    #+#             */
-/*   Updated: 2023/01/29 20:02:06 by vfries           ###   ########lyon.fr   */
+/*   Updated: 2023/01/29 20:36:49 by vfries           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,7 @@ static int	execute_pipes_sub_tokens(t_list *sub_tokens,
 	pid = execute_piped_command(sub_tokens, env_variables, here_docs);
 	ret = execute_pipes_sub_tokens(sub_tokens->next, env_variables, here_docs);
 	ft_lstdelone(sub_tokens, &free_token);
+	close(STDIN_FILENO);
 	if (pid != -1)
 		waitpid(pid, NULL, 0);
 	return (ret);
