@@ -6,7 +6,7 @@
 /*   By: vfries <vfries@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/28 18:51:38 by vfries            #+#    #+#             */
-/*   Updated: 2023/01/29 01:00:07 by vfries           ###   ########lyon.fr   */
+/*   Updated: 2023/01/29 15:20:20 by vfries           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ static int	open_and_dup(t_token *file)
 		ret = dup2(fd, STDIN_FILENO) == -1;
 	else
 		ret = dup2(fd, STDOUT_FILENO) == -1;
-	if (ret == -1)
+	if (ret)
 		print_error(file->name, FILE_DUP2_FAILED, get_error());
 	if (close(fd) == -1)
 	{

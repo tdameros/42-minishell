@@ -6,7 +6,7 @@
 /*   By: vfries <vfries@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/29 01:01:57 by vfries            #+#    #+#             */
-/*   Updated: 2023/01/29 01:30:19 by vfries           ###   ########lyon.fr   */
+/*   Updated: 2023/01/29 15:19:48 by vfries           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,10 +29,8 @@ void	run_builtin(t_token *command, t_hashmap env_variables,
 	if (save_io(command->args[0], io_save, env_variables))
 		return ;
 	if (open_and_dup_files(command->files, env_variables, here_docs))
-	{
-		close_io_save(command->args[0], io_save);
-		return ;
-	}
+		return (restore_io_and_close_io_save(io_save, command->args[0],
+				env_variables));
 	if (command->builtin == ECHO)
 		echo(command->args, env_variables);
 	else if (command->builtin == CD)
