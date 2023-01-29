@@ -6,7 +6,7 @@
 /*   By: vfries <vfries@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 09:24:00 by vfries            #+#    #+#             */
-/*   Updated: 2023/01/29 00:29:27 by vfries           ###   ########lyon.fr   */
+/*   Updated: 2023/01/29 19:45:55 by vfries           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,7 @@
 static void				execute_commands_loop(t_list **tokens,
 							t_hashmap env_variables, t_list **here_docs,
 							int *exit_code);
-static int				execute_command_no_pipe(t_list **tokens,
-							t_hashmap env_variables, t_list **here_docs);
-static int				fork_and_execute_command(t_token *command,
+static pid_t			fork_and_execute_command(t_token *command,
 							t_hashmap env_variables, t_list *here_docs);
 
 void	execute_commands(t_list **tokens, t_hashmap env_variables,
@@ -54,12 +52,13 @@ static void	execute_commands_loop(t_list **tokens, t_hashmap env_variables,
 	}
 }
 
-static int	execute_command_no_pipe(t_list **tokens, t_hashmap env_variables,
-				t_list **here_docs)
+int	execute_command_no_pipe(t_list **tokens, t_hashmap env_variables,
+		t_list **here_docs)
 {
 	int		exit_code;
 	t_list	*command;
 	t_token	*command_token;
+	pid_t	pid;
 
 	command = NULL;
 	ft_lst_push(&command, tokens);
@@ -71,18 +70,18 @@ static int	execute_command_no_pipe(t_list **tokens, t_hashmap env_variables,
 		ft_lstclear(&command, &free_token);
 		return (*(int *)ft_hm_get_content(env_variables, LAST_EXIT_CODE));
 	}
-	exit_code = fork_and_execute_command(command->content, env_variables,
+	pid = fork_and_execute_command(command->content, env_variables,
 			*here_docs);
 	// TODO skip here_docs
 	ft_lstclear(&command, &free_token);
-	if (exit_code)
-		return (exit_code);
-	wait(&exit_code);
+	if (pid == -1)
+		return (-1);
+	waitpid(pid, &exit_code, 0);
 	return (WEXITSTATUS(exit_code));
 }
 
-static int	fork_and_execute_command(t_token *command, t_hashmap env_variables,
-				t_list *here_docs)
+static pid_t	fork_and_execute_command(t_token *command,
+					t_hashmap env_variables, t_list *here_docs)
 {
 	pid_t	pid;
 
@@ -93,7 +92,7 @@ static int	fork_and_execute_command(t_token *command, t_hashmap env_variables,
 		return (-1);
 	}
 	if (pid != 0)
-		return (0);
+		return (pid);
 	execute_command(command, env_variables, here_docs);
 	exit(*(int *)ft_hm_get_content(env_variables, LAST_EXIT_CODE));
 }

@@ -6,7 +6,7 @@
 /*   By: vfries <vfries@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/14 18:07:30 by vfries            #+#    #+#             */
-/*   Updated: 2023/01/28 22:43:45 by vfries           ###   ########lyon.fr   */
+/*   Updated: 2023/01/29 19:45:35 by vfries           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,8 +69,8 @@ int	main(int argc, char **argv, char **envp)
 		add_history(save);
 
 		tokens = get_tokens(save);
-		if (tokens == NULL)
-			ft_printf("Malloc failed\n");
+		// if (tokens == NULL)
+		// 	ft_printf("Malloc failed\n");
 		remove_quotes(tokens);
 
 		// print_tokens(tokens);

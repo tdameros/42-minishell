@@ -6,7 +6,7 @@
 /*   By: vfries <vfries@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/28 01:02:00 by tomy              #+#    #+#             */
-/*   Updated: 2023/01/29 01:30:42 by vfries           ###   ########lyon.fr   */
+/*   Updated: 2023/01/29 17:18:02 by vfries           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@
 
 void				execute_command(t_token *command, t_hashmap env_variables,
 						t_list *here_docs);
+int					execute_command_no_pipe(t_list **tokens,
+						t_hashmap env_variables, t_list **here_docs);
 
 int					execute_pipes(t_list **tokens, t_hashmap env_variables,
 						t_list **here_docs);
