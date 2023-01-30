@@ -6,7 +6,7 @@
 /*   By: vfries <vfries@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/28 01:02:00 by tomy              #+#    #+#             */
-/*   Updated: 2023/01/29 17:18:02 by vfries           ###   ########lyon.fr   */
+/*   Updated: 2023/01/30 07:06:47 by vfries           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,10 @@
 # define EXECUTION_H
 
 # include "lexer.h"
+
+void				skip_tokens_here_docs(t_list *tokens, t_list **here_docs);
+void				skip_token_here_docs(t_list *tokens, t_list **here_docs);
+int					read_here_doc(t_list **here_docs);
 
 void				execute_command(t_token *command, t_hashmap env_variables,
 						t_list *here_docs);

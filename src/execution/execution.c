@@ -6,7 +6,7 @@
 /*   By: vfries <vfries@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 09:24:00 by vfries            #+#    #+#             */
-/*   Updated: 2023/01/29 19:45:55 by vfries           ###   ########lyon.fr   */
+/*   Updated: 2023/01/30 02:26:49 by vfries           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,13 +66,13 @@ int	execute_command_no_pipe(t_list **tokens, t_hashmap env_variables,
 	if (command_token->type == BUILTIN)
 	{
 		execute_command(command->content, env_variables, *here_docs);
-		// TODO skip here_docs
+		skip_token_here_docs(command, here_docs);
 		ft_lstclear(&command, &free_token);
 		return (*(int *)ft_hm_get_content(env_variables, LAST_EXIT_CODE));
 	}
 	pid = fork_and_execute_command(command->content, env_variables,
 			*here_docs);
-	// TODO skip here_docs
+	skip_token_here_docs(command, here_docs);
 	ft_lstclear(&command, &free_token);
 	if (pid == -1)
 		return (-1);

@@ -6,7 +6,7 @@
 /*   By: vfries <vfries@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 13:31:41 by vfries            #+#    #+#             */
-/*   Updated: 2023/01/30 00:30:39 by vfries           ###   ########lyon.fr   */
+/*   Updated: 2023/01/30 06:27:36 by vfries           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ static void	run_command_error(t_token *command);
 void	execute_command(t_token *command, t_hashmap env_variables,
 			t_list *here_docs)
 {
+	// print_tokens(command->files);
 	// TODO fix_token_variables()
 	if (command->type == BUILTIN)
 		return (run_builtin(command, env_variables, here_docs));

@@ -6,7 +6,7 @@
 /*   By: vfries <vfries@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/14 18:07:30 by vfries            #+#    #+#             */
-/*   Updated: 2023/01/29 19:45:35 by vfries           ###   ########lyon.fr   */
+/*   Updated: 2023/01/30 06:39:09 by vfries           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,11 @@ void	test_get_envp(t_hashmap env_variables);
 
 static int	add_last_exit_code(t_hashmap env_variables);
 
+void	dummy(void)
+{
+	return ;
+}
+
 int	main(int argc, char **argv, char **envp)
 {
 	char		*command;
@@ -58,7 +63,7 @@ int	main(int argc, char **argv, char **envp)
 	// test_get_envp(env_variables);
 
 	command = readline(PROMPT);
-	while (command != NULL && ft_strcmp(command, "exit")) // TODO should be able to do "echo test && exit"
+	while (command != NULL && ft_strcmp(command, "exit"))
 	{
 		save = command;
 		while (!is_valid_quote(save))
@@ -84,8 +89,10 @@ int	main(int argc, char **argv, char **envp)
 
 		if (get_here_docs(&here_docs, tokens))
 			ft_printf("get_here_docs() failed\n");
+		// ft_printf("%p\n", here_docs->content);
 		// print_here_docs(here_docs);
 
+		dummy();
 		execute_commands(&tokens, env_variables, &here_docs);
 		command = readline(PROMPT);
 	}
@@ -107,6 +114,7 @@ void	print_here_docs(t_list *here_docs)
 		ft_printf("========= HERE DOC %d ==========\n", i);
 		ft_printf("         (Reversed)\n");
 		cursor = here_docs->content;
+		// ft_printf("%c", ((char *)cursor->content)[0]);
 		while (cursor != NULL)
 		{
 			ft_printf("%s", cursor->content);

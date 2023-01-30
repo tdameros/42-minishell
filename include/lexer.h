@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   lexer.h                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: vfries <vfries@student.42lyon.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/01/30 02:41:29 by vfries            #+#    #+#             */
+/*   Updated: 2023/01/30 02:41:58 by vfries           ###   ########lyon.fr   */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef LEXER_H
 # define LEXER_H
 
@@ -53,15 +65,16 @@ typedef struct s_token
 	t_list				*subshell;
 }	t_token;
 
-t_list	*get_tokens(char *command);
-void	free_token(void *token);
-t_token	*create_token(enum e_type type, enum e_operators operator, char *name);
-void	print_tokens(t_list *tokens);
+t_list		*get_tokens(char *command);
+void		free_token(void *token);
+t_token		*create_token(enum e_type type, enum e_operators operator,
+				char *name);
+void		print_tokens(t_list *tokens);
 
-int		get_operator(char *string);
-int		add_operator_token(t_list **tokens, enum e_operators operator);
-bool	is_file_operator_token(t_token *token);
-bool	is_operator(char *command);
+int			get_operator(char *string);
+int			add_operator_token(t_list **tokens, enum e_operators operator);
+bool		is_file_operator_token(t_token *token);
+bool		is_operator(char *command);
 
 enum e_type	identify_token(t_list *previous_tokens, char *command);
 int			get_index_end_token(char *command);

@@ -6,17 +6,19 @@
 /*   By: vfries <vfries@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/28 18:51:38 by vfries            #+#    #+#             */
-/*   Updated: 2023/01/29 15:20:20 by vfries           ###   ########lyon.fr   */
+/*   Updated: 2023/01/30 06:48:30 by vfries           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
+#include "execution.h"
 #include "error.h"
 #include "env_variables.h"
 #include <fcntl.h>
 
 static int	open_and_dup(t_token *file);
 static int	open_file(t_token *file);
+static int	handle_here_doc(t_token *file, t_list **here_docs);
 
 int	open_and_dup_files(t_list *files, t_hashmap env_variables,
 		t_list *here_docs)
@@ -26,15 +28,13 @@ int	open_and_dup_files(t_list *files, t_hashmap env_variables,
 	while (files != NULL)
 	{
 		token = files->content;
-		//if (token->operator == HERE_DOC && handle_here_docs())
-		//	{
-		//\		*(int *)ft_hm_get_content(env_variables, LAST_EXIT_CODE) = 1;
-		//		return (-1);
-		//	}
 		if (token->operator == HERE_DOC)
 		{
-			(void)here_docs; // TODO
-			//TODO if return -1 set $? to 1
+			if (handle_here_doc(token, &here_docs))
+			{
+				*(int *)ft_hm_get_content(env_variables, LAST_EXIT_CODE) = 1;
+				return (-1);
+			}
 		}
 		else if (open_and_dup(token))
 		{
@@ -81,4 +81,21 @@ static int	open_file(t_token *file)
 	if (fd == -1)
 		print_error(file->name, NULL, get_error());
 	return (fd);
+}
+
+static int	handle_here_doc(t_token *file, t_list **here_docs)
+{
+	const int	fd = read_here_doc(here_docs);
+
+	if (fd == -1)
+	{
+		print_error(file->name, "here_doc: pipe() failed", get_error());
+		return (-1);
+	}
+	if (dup2(fd, STDIN_FILENO) == -1)
+	{
+		print_error(file->name, "here_doc: dup2() failed", get_error());
+		return (-1);
+	}
+	return (0);
 }

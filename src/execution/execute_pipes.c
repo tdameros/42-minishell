@@ -6,7 +6,7 @@
 /*   By: vfries <vfries@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 10:44:03 by vfries            #+#    #+#             */
-/*   Updated: 2023/01/29 20:36:49 by vfries           ###   ########lyon.fr   */
+/*   Updated: 2023/01/30 02:27:11 by vfries           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static int		execute_pipes_sub_tokens(t_list *sub_tokens,
 					t_hashmap env_variables, t_list **here_docs);
 static pid_t	execute_piped_command(t_list *sub_tokens,
 					t_hashmap env_variables, t_list **here_docs);
-static void		execute_forked_pipe(t_token *command, t_hashmap env_variables,
+static int		execute_forked_pipe(t_token *command, t_hashmap env_variables,
 					t_list *here_docs, int pipe_fd[2]);
 
 int	execute_pipes(t_list **tokens, t_hashmap env_variables, t_list **here_docs)
@@ -42,7 +42,7 @@ int	execute_pipes(t_list **tokens, t_hashmap env_variables, t_list **here_docs)
 	}
 	if (pid == 0)
 		exit(execute_pipes_sub_tokens(sub_tokens, env_variables, here_docs));
-	// TODO skip here_docs
+	skip_tokens_here_docs(sub_tokens, here_docs);
 	ft_lstclear(&sub_tokens, &free_token);
 	waitpid(pid, &exit_code, 0);
 	return (WEXITSTATUS(exit_code));
@@ -76,6 +76,7 @@ static int	execute_pipes_sub_tokens(t_list *sub_tokens,
 	if (sub_tokens->next == NULL)
 		return (execute_command_no_pipe(&sub_tokens, env_variables, here_docs));
 	pid = execute_piped_command(sub_tokens, env_variables, here_docs);
+	skip_token_here_docs(sub_tokens, here_docs);
 	ret = execute_pipes_sub_tokens(sub_tokens->next, env_variables, here_docs);
 	ft_lstdelone(sub_tokens, &free_token);
 	close(STDIN_FILENO);
@@ -99,8 +100,8 @@ static pid_t	execute_piped_command(t_list *sub_tokens,
 	if (pid == -1)
 		print_error(get_name(sub_tokens), FORK_FAILED, get_error());
 	else if (pid == 0)
-		execute_forked_pipe(sub_tokens->content, env_variables, *here_docs,
-			pipe_fd);
+		exit(execute_forked_pipe(sub_tokens->content, env_variables, *here_docs,
+				pipe_fd));
 	else if (dup2(pipe_fd[0], STDIN_FILENO) == -1)
 		print_error(get_name(sub_tokens), PIPE_DUP2_FAILED, get_error());
 	if (close(pipe_fd[0]) == -1)
@@ -110,29 +111,29 @@ static pid_t	execute_piped_command(t_list *sub_tokens,
 	return (pid);
 }
 
-static void	execute_forked_pipe(t_token *command, t_hashmap env_variables,
+static int	execute_forked_pipe(t_token *command, t_hashmap env_variables,
 				t_list *here_docs, int pipe_fd[2])
 {
-	int	need_to_exit;
+	bool	dont_execute_command;
 
-	need_to_exit = 0;
+	dont_execute_command = false;
 	if (dup2(pipe_fd[1], STDOUT_FILENO) == -1)
 	{
 		print_error(command->args[0], PIPE_DUP2_FAILED, get_error());
-		need_to_exit = 1;
+		dont_execute_command = true;
 	}
 	if (close(pipe_fd[0]) == -1)
 	{
 		print_error(command->args[0], PIPE_CLOSE_FAILED, get_error());
-		need_to_exit = 1;
+		dont_execute_command = true;
 	}
 	if (close(pipe_fd[1]) == -1)
 	{
 		print_error(command->args[0], PIPE_CLOSE_FAILED, get_error());
-		need_to_exit = 1;
+		dont_execute_command = true;
 	}
-	if (need_to_exit)
-		exit(-1);
+	if (dont_execute_command)
+		return (-1);
 	execute_command(command, env_variables, here_docs);
-	exit(*(int *)ft_hm_get_content(env_variables, LAST_EXIT_CODE));
+	return (*(int *)ft_hm_get_content(env_variables, LAST_EXIT_CODE));
 }
