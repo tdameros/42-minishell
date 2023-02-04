@@ -6,13 +6,16 @@
 /*   By: vfries <vfries@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 16:02:22 by vfries            #+#    #+#             */
-/*   Updated: 2023/01/27 19:17:26 by vfries           ###   ########lyon.fr   */
+/*   Updated: 2023/02/04 23:20:28 by vfries           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lexer.h"
 
 static t_list	*get_subshell(t_list **tokens);
+static t_list	*fix_subshells_files(t_list *tokens);
+static bool		next_is_subshell(t_list *tokens);
+static void		fix_token_files(t_list *cursor);
 
 t_list	*get_subshells(t_list *tokens)
 {
@@ -28,7 +31,7 @@ t_list	*get_subshells(t_list *tokens)
 		else
 			ft_lst_push(&tokens_with_subshells, &tokens);
 	}
-	return (ft_lst_reverse(&tokens_with_subshells));
+	return (fix_subshells_files(tokens_with_subshells));
 }
 
 static t_list	*get_subshell(t_list **tokens)
@@ -58,4 +61,48 @@ static t_list	*get_subshell(t_list **tokens)
 	ft_lst_reverse(&subshell_token->subshell);
 	subshell_token->subshell = get_subshells(subshell_token->subshell);
 	return (subshell);
+}
+
+static t_list	*fix_subshells_files(t_list *tokens)
+{
+	t_list	*cursor;
+	t_token	*token;
+
+	cursor = tokens;
+	while (cursor != NULL)
+	{
+		token = cursor->content;
+		if (token->type == COMMAND && next_is_subshell(cursor))
+			fix_token_files(cursor);
+		cursor = cursor->next;
+	}
+	return (ft_lst_reverse(&tokens));
+}
+
+static bool	next_is_subshell(t_list *tokens)
+{
+	t_token	*token;
+
+	if (tokens == NULL || tokens->next == NULL)
+		return (false);
+	token = tokens->next->content;
+	return (token->type == SUBSHELL);
+}
+
+static void	fix_token_files(t_list *cursor)
+{
+	t_token	*token;
+	t_token	*next_token;
+	t_list	*next_next;
+
+	token = cursor->content;
+	next_token = cursor->next->content;
+	token->type = SUBSHELL;
+	ft_free_split(token->args);
+	token->args = NULL;
+	token->subshell = next_token->subshell;
+	next_token->subshell = NULL;
+	next_next = cursor->next->next;
+	ft_lstdelone(cursor->next, &free_token);
+	cursor->next = next_next;
 }
