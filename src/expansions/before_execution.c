@@ -63,7 +63,8 @@ static int	file_expansion(t_token *file, t_hashmap env_variables)
 		return (-1);
 	free(file->name);
 	file->name = new_name;
-	if (ft_count_args_after_split_unless_quotes(file->name) > 1)
+	if (ft_count_args_after_split_unless_quotes(file->name) > 1
+		|| ft_strlen(file->name) == 0)
 	{
 		free(file->name);
 		file->name = NULL;

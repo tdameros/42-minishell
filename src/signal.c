@@ -25,7 +25,6 @@ void	init_main_signal_handling(void)
 	struct sigaction	action;
 
 	action.sa_handler = &main_signal_handler;
-	action.sa_mask = 0;
 	action.sa_flags = 0;
 	sigaction(SIGINT, &action, NULL);
 	sigaction(SIGQUIT, &action, NULL);
@@ -47,7 +46,6 @@ void	init_execution_signal_handling(void)
 	struct sigaction	action;
 
 	action.sa_handler = &execution_signal_handler;
-	action.sa_mask = 0;
 	action.sa_flags = 0;
 	sigaction(SIGINT, &action, NULL);
 	sigaction(SIGQUIT, &action, NULL);
