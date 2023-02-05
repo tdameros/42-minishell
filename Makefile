@@ -11,7 +11,6 @@ SRC				=\
 	built-in/export.c					\
 	built-in/pwd.c						\
 	built-in/unset.c					\
-	built-in/update_last_exit_code.c	\
 \
 \
 	env_variables/get_env_variables.c	\
@@ -55,6 +54,7 @@ SRC				=\
 \
 	parser/wildcard/match.c	\
 \
+	exit_code.c			\
 	get_here_docs.c		\
 	main.c				\
 	signal.c

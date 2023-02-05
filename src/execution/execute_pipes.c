@@ -6,7 +6,7 @@
 /*   By: vfries <vfries@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 10:44:03 by vfries            #+#    #+#             */
-/*   Updated: 2023/02/04 23:49:26 by vfries           ###   ########lyon.fr   */
+/*   Updated: 2023/02/05 17:34:41 by vfries           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include "error.h"
 #include "env_variables.h"
 #include "execution.h"
+#include "exit_code.h"
 #include <sys/wait.h>
 #include <stdlib.h>
 
@@ -25,10 +26,11 @@ static pid_t	execute_piped_command(t_list *sub_tokens,
 static int		execute_forked_pipe(t_token *command, t_hashmap env_variables,
 					t_list *here_docs, int pipe_fd[2]);
 
-int	execute_pipes(t_list **tokens, t_hashmap env_variables, t_list **here_docs)
+void	execute_pipes(t_list **tokens, t_hashmap env_variables,
+			t_list **here_docs)
 {
 	t_list	*sub_tokens;
-	int		exit_code;
+	int		tmp_exit_code;
 	pid_t	pid;
 
 	sub_tokens = create_sub_tokens(tokens);
@@ -37,14 +39,15 @@ int	execute_pipes(t_list **tokens, t_hashmap env_variables, t_list **here_docs)
 	{
 		ft_lstclear(&sub_tokens, &free_token);
 		print_error(get_name(*tokens), FORK_FAILED, get_error());
-		return (-1);
+		exit_code(-1);
+		return ;
 	}
 	if (pid == 0)
 		exit(execute_pipes_sub_tokens(sub_tokens, env_variables, here_docs));
 	skip_tokens_here_docs(sub_tokens, here_docs);
 	ft_lstclear(&sub_tokens, &free_token);
-	waitpid(pid, &exit_code, 0);
-	return (WEXITSTATUS(exit_code));
+	waitpid(pid, &tmp_exit_code, 0);
+	get_pid_exit_code(tmp_exit_code);
 }
 
 static t_list	*create_sub_tokens(t_list **tokens)
@@ -134,5 +137,5 @@ static int	execute_forked_pipe(t_token *command, t_hashmap env_variables,
 	if (dont_execute_command)
 		return (-1);
 	execute_command(command, env_variables, here_docs);
-	return (*(int *)ft_hm_get_content(env_variables, LAST_EXIT_CODE));
+	return (exit_code(GET));
 }

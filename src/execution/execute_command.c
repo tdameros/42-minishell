@@ -6,7 +6,7 @@
 /*   By: vfries <vfries@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 13:31:41 by vfries            #+#    #+#             */
-/*   Updated: 2023/02/04 23:49:16 by vfries           ###   ########lyon.fr   */
+/*   Updated: 2023/02/05 17:37:40 by vfries           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include <stdlib.h>
 #include "lexer.h"
 #include "error.h"
+#include "exit_code.h"
 #include "env_variables.h"
 #include "execution.h"
 
@@ -25,11 +26,10 @@ static void	run_command_error(t_token *command);
 void	execute_command(t_token *command, t_hashmap env_variables,
 			t_list *here_docs)
 {
-	// print_tokens(command->files);
 	// TODO fix_token_variables()
 	if (command->type == BUILTIN)
 		return (run_builtin(command, env_variables, here_docs));
-	if (open_and_dup_files(command->files, env_variables, here_docs))
+	if (open_and_dup_files(command->files, here_docs))
 		return ;
 	if (command->type == SUBSHELL)
 		return (run_subshell(command, env_variables, here_docs));
@@ -39,12 +39,12 @@ void	execute_command(t_token *command, t_hashmap env_variables,
 static void	run_subshell(t_token *command, t_hashmap env_variables,
 				t_list *here_docs)
 {
-	int	exit_code;
+	int	tmp_exit_code;
 
 	execute_commands(&command->subshell, env_variables, &here_docs);
-	exit_code = *(int *)ft_hm_get_content(env_variables, LAST_EXIT_CODE);
+	tmp_exit_code = exit_code(GET);
 	ft_hm_clear(&env_variables, &free);
-	exit(exit_code);
+	exit(tmp_exit_code);
 }
 
 static void	run_command(t_token *command, char **envp)

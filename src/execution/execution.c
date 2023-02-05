@@ -6,7 +6,7 @@
 /*   By: vfries <vfries@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 09:24:00 by vfries            #+#    #+#             */
-/*   Updated: 2023/02/05 00:00:30 by vfries           ###   ########lyon.fr   */
+/*   Updated: 2023/02/05 17:33:09 by vfries           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,50 +15,45 @@
 #include "env_variables.h"
 #include "execution.h"
 #include "minishell_signal.h"
+#include "exit_code.h"
 #include <sys/wait.h>
 #include <stdlib.h>
 
-#define CTRL_C_EXIT_CODE 130
-
-static void				execute_commands_loop(t_list **tokens,
-							t_hashmap env_variables, t_list **here_docs,
-							int *exit_code);
-static pid_t			fork_and_execute_command(t_token *command,
-							t_hashmap env_variables, t_list *here_docs);
+static void		execute_commands_loop(t_list **tokens, t_hashmap env_variables,
+					t_list **here_docs);
+static int		execute_command_no_pipe_builtin(t_list *command,
+					t_hashmap env_variables, t_list **here_docs);
+static pid_t	fork_and_execute_command(t_token *command,
+					t_hashmap env_variables, t_list *here_docs);
 
 void	execute_commands(t_list **tokens, t_hashmap env_variables,
 			t_list **here_docs)
 {
-	int	*exit_code;
-
 	init_execution_signal_handling();
-	exit_code = ft_hm_get_content(env_variables, LAST_EXIT_CODE);
-	execute_commands_loop(tokens, env_variables, here_docs, exit_code);
+	execute_commands_loop(tokens, env_variables, here_docs);
 	init_main_signal_handling();
 	ft_lstclear(tokens, &free_token);
 	ft_lst_of_lst_clear(here_docs, &free);
 }
 
 static void	execute_commands_loop(t_list **tokens, t_hashmap env_variables,
-				t_list **here_docs, int *exit_code)
+				t_list **here_docs)
 {
 	while (*tokens != NULL)
 	{
 		if (get_next_operator(*tokens) == PIPE)
-			*exit_code = execute_pipes(tokens, env_variables, here_docs);
+			execute_pipes(tokens, env_variables, here_docs);
 		else
-			*exit_code = execute_command_no_pipe(tokens, env_variables,
-					here_docs);
-		update_last_exit_sigint(env_variables);
+			execute_command_no_pipe(tokens, env_variables, here_docs);
 		if (*tokens != NULL)
-			get_next_command(tokens, *exit_code);
+			get_next_command(tokens, exit_code(GET));
 	}
 }
 
 int	execute_command_no_pipe(t_list **tokens, t_hashmap env_variables,
 		t_list **here_docs)
 {
-	int		exit_code;
+	int		tmp_exit_code;
 	t_list	*command;
 	t_token	*command_token;
 	pid_t	pid;
@@ -67,20 +62,25 @@ int	execute_command_no_pipe(t_list **tokens, t_hashmap env_variables,
 	ft_lst_push(&command, tokens);
 	command_token = command->content;
 	if (command_token->type == BUILTIN)
-	{
-		execute_command(command->content, env_variables, *here_docs);
-		skip_token_here_docs(command, here_docs);
-		ft_lstclear(&command, &free_token);
-		return (*(int *)ft_hm_get_content(env_variables, LAST_EXIT_CODE));
-	}
+		return (execute_command_no_pipe_builtin(command, env_variables,
+				here_docs));
 	pid = fork_and_execute_command(command->content, env_variables,
 			*here_docs);
 	skip_token_here_docs(command, here_docs);
 	ft_lstclear(&command, &free_token);
 	if (pid == -1)
-		return (-1);
-	waitpid(pid, &exit_code, 0);
-	return (WEXITSTATUS(exit_code));
+		return (exit_code(-1));
+	waitpid(pid, &tmp_exit_code, 0);
+	return (get_pid_exit_code(tmp_exit_code));
+}
+
+static int	execute_command_no_pipe_builtin(t_list *command,
+				t_hashmap env_variables, t_list **here_docs)
+{
+	execute_command(command->content, env_variables, *here_docs);
+	skip_token_here_docs(command, here_docs);
+	ft_lstclear(&command, &free_token);
+	return (exit_code(GET));
 }
 
 static pid_t	fork_and_execute_command(t_token *command,
@@ -97,5 +97,5 @@ static pid_t	fork_and_execute_command(t_token *command,
 	if (pid != 0)
 		return (pid);
 	execute_command(command, env_variables, here_docs);
-	exit(*(int *)ft_hm_get_content(env_variables, LAST_EXIT_CODE));
+	exit(exit_code(GET));
 }

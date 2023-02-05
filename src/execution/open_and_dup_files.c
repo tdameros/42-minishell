@@ -6,13 +6,14 @@
 /*   By: vfries <vfries@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/28 18:51:38 by vfries            #+#    #+#             */
-/*   Updated: 2023/01/30 06:48:30 by vfries           ###   ########lyon.fr   */
+/*   Updated: 2023/02/05 16:25:36 by vfries           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
 #include "execution.h"
 #include "error.h"
+#include "exit_code.h"
 #include "env_variables.h"
 #include <fcntl.h>
 
@@ -20,8 +21,7 @@ static int	open_and_dup(t_token *file);
 static int	open_file(t_token *file);
 static int	handle_here_doc(t_token *file, t_list **here_docs);
 
-int	open_and_dup_files(t_list *files, t_hashmap env_variables,
-		t_list *here_docs)
+int	open_and_dup_files(t_list *files, t_list *here_docs)
 {
 	t_token	*token;
 
@@ -32,13 +32,13 @@ int	open_and_dup_files(t_list *files, t_hashmap env_variables,
 		{
 			if (handle_here_doc(token, &here_docs))
 			{
-				*(int *)ft_hm_get_content(env_variables, LAST_EXIT_CODE) = 1;
+				exit_code(1);
 				return (-1);
 			}
 		}
 		else if (open_and_dup(token))
 		{
-			*(int *)ft_hm_get_content(env_variables, LAST_EXIT_CODE) = 1;
+			exit_code(1);
 			return (-1);
 		}
 		files = files->next;

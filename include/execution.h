@@ -6,7 +6,7 @@
 /*   By: vfries <vfries@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/28 01:02:00 by tomy              #+#    #+#             */
-/*   Updated: 2023/01/30 07:06:47 by vfries           ###   ########lyon.fr   */
+/*   Updated: 2023/02/05 16:42:15 by vfries           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,17 +24,16 @@ void				execute_command(t_token *command, t_hashmap env_variables,
 int					execute_command_no_pipe(t_list **tokens,
 						t_hashmap env_variables, t_list **here_docs);
 
-int					execute_pipes(t_list **tokens, t_hashmap env_variables,
+void				execute_pipes(t_list **tokens, t_hashmap env_variables,
 						t_list **here_docs);
 
 void				execute_commands(t_list **tokens, t_hashmap env_variables,
 						t_list **here_docs);
 
 enum e_operators	get_next_operator(t_list *tokens);
-void				get_next_command(t_list **tokens, int exit_code);
+void				get_next_command(t_list **tokens, int tmp_exit_code);
 
-int					open_and_dup_files(t_list *files, t_hashmap env_variables,
-						t_list *here_docs);
+int					open_and_dup_files(t_list *files, t_list *here_docs);
 
 void				run_builtin(t_token *command, t_hashmap env_variables,
 						t_list *here_docs);

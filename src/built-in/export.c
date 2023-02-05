@@ -6,7 +6,7 @@
 /*   By: vfries <vfries@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 17:41:00 by tdameros          #+#    #+#             */
-/*   Updated: 2023/01/28 17:26:39 by vfries           ###   ########lyon.fr   */
+/*   Updated: 2023/02/05 16:19:45 by vfries           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,26 +15,26 @@
 #include "env_variables.h"
 #include "error.h"
 #include "built_in.h"
+#include "exit_code.h"
 
 static int		print_sorted_env_variables(t_hashmap env_variables);
 static int		add_variable(char *variable, t_hashmap env_variables);
 static bool		is_valid_key(char *key);
 
-void	export(char **args, t_hashmap env_variables)
+int	export(char **args, t_hashmap env_variables)
 {
 	size_t	index;
 
 	index = 1;
 	if (args[index] == NULL)
-		return (update_last_exit_code(env_variables,
-				print_sorted_env_variables(env_variables)));
+		return (exit_code(print_sorted_env_variables(env_variables)));
 	while (args[index] != NULL)
 	{
 		if (add_variable(args[index], env_variables) < 0)
 			print_error("export", args[index], "not a valid identifier");
 		index++;
 	}
-	return (update_last_exit_code(env_variables, 0));
+	return (exit_code(0));
 }
 
 static	int	print_sorted_env_variables(t_hashmap env_variables)

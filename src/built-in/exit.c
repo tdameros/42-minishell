@@ -6,7 +6,7 @@
 /*   By: vfries <vfries@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/28 00:18:00 by tomy              #+#    #+#             */
-/*   Updated: 2023/01/28 17:26:37 by vfries           ###   ########lyon.fr   */
+/*   Updated: 2023/02/05 16:19:09 by vfries           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,10 @@
 #include <stdlib.h>
 #include "libft.h"
 #include "error.h"
+#include "exit_code.h"
 #include "built_in.h"
 
-void	exit_builtin(char **args, t_hashmap env_variables)
+int	exit_builtin(char **args)
 {
 	unsigned char	status;
 
@@ -31,7 +32,7 @@ void	exit_builtin(char **args, t_hashmap env_variables)
 	if (args[2] != NULL)
 	{
 		print_error("exit", NULL, "too many arguments");
-		return (update_last_exit_code(env_variables, 1));
+		return (exit_code(1));
 	}
 	status = ft_atoi(args[1]);
 	exit(status);
