@@ -14,6 +14,7 @@
 #include "execution.h"
 #include "error.h"
 #include "env_variables.h"
+#include "built_in.h"
 #include <fcntl.h>
 
 static int	open_and_dup(t_token *file);
@@ -32,13 +33,13 @@ int	open_and_dup_files(t_list *files, t_hashmap env_variables,
 		{
 			if (handle_here_doc(token, &here_docs))
 			{
-				*(int *)ft_hm_get_content(env_variables, LAST_EXIT_CODE) = 1;
+				update_last_exit_code(env_variables, 1);
 				return (-1);
 			}
 		}
 		else if (open_and_dup(token))
 		{
-			*(int *)ft_hm_get_content(env_variables, LAST_EXIT_CODE) = 1;
+			update_last_exit_code(env_variables, 1);
 			return (-1);
 		}
 		files = files->next;
@@ -74,7 +75,7 @@ static int	open_file(t_token *file)
 
 	if (file->name == NULL)
 	{
-		print_error(file->name, NULL, "ambiguous redirect");
+		print_error("command", NULL, "ambiguous redirect");
 		return (-1);
 	}
 	if (file->operator == INPUT_REDIRECT)
