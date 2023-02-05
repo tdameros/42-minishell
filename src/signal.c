@@ -6,7 +6,7 @@
 /*   By: vfries <vfries@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/04 17:38:45 by vfries            #+#    #+#             */
-/*   Updated: 2023/02/05 17:35:33 by vfries           ###   ########lyon.fr   */
+/*   Updated: 2023/02/05 19:03:24 by vfries           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ static void	execution_signal_handler(int sig)
 {
 	(void)sig;
 	// TODO decide if newline or not
+	exit_code(130);
 	ft_putstr("\n");
 }
 

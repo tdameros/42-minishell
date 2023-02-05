@@ -6,7 +6,7 @@
 /*   By: vfries <vfries@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 13:31:41 by vfries            #+#    #+#             */
-/*   Updated: 2023/02/05 17:37:40 by vfries           ###   ########lyon.fr   */
+/*   Updated: 2023/02/05 18:47:22 by vfries           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,9 +42,8 @@ static void	run_subshell(t_token *command, t_hashmap env_variables,
 	int	tmp_exit_code;
 
 	execute_commands(&command->subshell, env_variables, &here_docs);
-	tmp_exit_code = exit_code(GET);
 	ft_hm_clear(&env_variables, &free);
-	exit(tmp_exit_code);
+	exit(exit_code(GET));
 }
 
 static void	run_command(t_token *command, char **envp)
