@@ -6,7 +6,7 @@
 /*   By: vfries <vfries@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 13:31:41 by vfries            #+#    #+#             */
-/*   Updated: 2023/01/30 06:27:36 by vfries           ###   ########lyon.fr   */
+/*   Updated: 2023/02/04 23:49:16 by vfries           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@
 #include "error.h"
 #include "env_variables.h"
 #include "execution.h"
-#include "minishell_fork.h"
 
 static void	run_subshell(t_token *command, t_hashmap env_variables,
 				t_list *here_docs);

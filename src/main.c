@@ -6,7 +6,7 @@
 /*   By: vfries <vfries@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/14 18:07:30 by vfries            #+#    #+#             */
-/*   Updated: 2023/01/30 06:39:09 by vfries           ###   ########lyon.fr   */
+/*   Updated: 2023/02/05 11:53:25 by vfries           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@
 #include "lexer.h"
 #include "quote.h"
 #include "execution.h"
+#include "minishell_signal.h"
 
 #define PROMPT "➜ minishell-1.0$ "
 
@@ -54,6 +55,8 @@ int	main(int argc, char **argv, char **envp)
 	(void)argc;
 	(void)argv;
 
+	init_main_signal_handling();
+
 	env_variables = get_env_variables(envp);
 	if (add_last_exit_code(env_variables))
 	{
@@ -65,6 +68,7 @@ int	main(int argc, char **argv, char **envp)
 	command = readline(PROMPT);
 	while (command != NULL && ft_strcmp(command, "exit"))
 	{
+		update_last_exit_sigint(env_variables);
 		save = command;
 		while (!is_valid_quote(save))
 		{

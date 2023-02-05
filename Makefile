@@ -55,14 +55,15 @@ SRC				=\
 \
 	parser/wildcard/match.c	\
 \
-	get_here_docs.c	\
-	main.c			\
-	minishell_fork.c
+	get_here_docs.c		\
+	main.c				\
+	signal.c
 
 
 DIR_INCS		=\
-	include/	\
-	$(LIBFT_INCLUDES)
+	include/			\
+	$(LIBFT_INCLUDES)	\
+	/opt/homebrew/opt/readline/include
 
 INCLUDES		=	$(addprefix -I , $(DIR_INCS))
 
@@ -91,7 +92,7 @@ all:
 			$(MAKE) $(NAME)
 
 $(NAME):	$(OBJS)
-			$(CC) $(CFLAGS) $(INCLUDES) $(OBJS) $(LIBFT_L) -o $(NAME) -lreadline
+			$(CC) $(CFLAGS) $(INCLUDES) $(OBJS) $(LIBFT_L) -o $(NAME) -L/opt/homebrew/opt/readline/lib -lreadline
 
 
 .PHONY:	clean

@@ -6,15 +6,15 @@
 /*   By: vfries <vfries@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 09:24:00 by vfries            #+#    #+#             */
-/*   Updated: 2023/01/30 02:26:49 by vfries           ###   ########lyon.fr   */
+/*   Updated: 2023/02/05 00:00:30 by vfries           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lexer.h"
 #include "error.h"
-#include "minishell_fork.h"
 #include "env_variables.h"
 #include "execution.h"
+#include "minishell_signal.h"
 #include <sys/wait.h>
 #include <stdlib.h>
 
@@ -31,8 +31,10 @@ void	execute_commands(t_list **tokens, t_hashmap env_variables,
 {
 	int	*exit_code;
 
+	init_execution_signal_handling();
 	exit_code = ft_hm_get_content(env_variables, LAST_EXIT_CODE);
 	execute_commands_loop(tokens, env_variables, here_docs, exit_code);
+	init_main_signal_handling();
 	ft_lstclear(tokens, &free_token);
 	ft_lst_of_lst_clear(here_docs, &free);
 }
@@ -47,6 +49,7 @@ static void	execute_commands_loop(t_list **tokens, t_hashmap env_variables,
 		else
 			*exit_code = execute_command_no_pipe(tokens, env_variables,
 					here_docs);
+		update_last_exit_sigint(env_variables);
 		if (*tokens != NULL)
 			get_next_command(tokens, *exit_code);
 	}
@@ -85,7 +88,7 @@ static pid_t	fork_and_execute_command(t_token *command,
 {
 	pid_t	pid;
 
-	pid = minishell_fork();
+	pid = fork();
 	if (pid == -1)
 	{
 		print_error(command->args[0], FORK_FAILED, get_error());

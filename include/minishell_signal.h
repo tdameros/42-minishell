@@ -1,22 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell_fork.h                                   :+:      :+:    :+:   */
+/*   minishell_signal.h                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vfries <vfries@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/28 01:02:00 by tomy              #+#    #+#             */
-/*   Updated: 2023/01/28 07:06:33 by vfries           ###   ########lyon.fr   */
+/*   Created: 2023/02/04 17:49:49 by vfries            #+#    #+#             */
+/*   Updated: 2023/02/04 23:56:45 by vfries           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_FORK_H
-# define MINISHELL_FORK_H
+#ifndef MINISHELL_SIGNAL_H
+# define MINISHELL_SIGNAL_H
 
-# include "libft.h"
+extern int	g_sigint_status;
 
-extern t_list	*g_forks;
-
-pid_t	minishell_fork(void);
+void	init_main_signal_handling(void);
+void	init_execution_signal_handling(void);
+void	update_last_exit_sigint(t_hashmap env_variables);
 
 #endif

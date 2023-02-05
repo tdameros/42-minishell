@@ -6,12 +6,11 @@
 /*   By: vfries <vfries@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 10:44:03 by vfries            #+#    #+#             */
-/*   Updated: 2023/01/30 02:27:11 by vfries           ###   ########lyon.fr   */
+/*   Updated: 2023/02/04 23:49:26 by vfries           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lexer.h"
-#include "minishell_fork.h"
 #include "error.h"
 #include "env_variables.h"
 #include "execution.h"
@@ -33,7 +32,7 @@ int	execute_pipes(t_list **tokens, t_hashmap env_variables, t_list **here_docs)
 	pid_t	pid;
 
 	sub_tokens = create_sub_tokens(tokens);
-	pid = minishell_fork();
+	pid = fork();
 	if (pid == -1)
 	{
 		ft_lstclear(&sub_tokens, &free_token);
@@ -96,7 +95,7 @@ static pid_t	execute_piped_command(t_list *sub_tokens,
 		print_error(get_name(sub_tokens), PIPE_FAILED, get_error());
 		return (-1);
 	}
-	pid = minishell_fork();
+	pid = fork();
 	if (pid == -1)
 		print_error(get_name(sub_tokens), FORK_FAILED, get_error());
 	else if (pid == 0)

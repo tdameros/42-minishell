@@ -6,12 +6,11 @@
 /*   By: vfries <vfries@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 09:17:54 by vfries            #+#    #+#             */
-/*   Updated: 2023/01/30 06:17:20 by vfries           ###   ########lyon.fr   */
+/*   Updated: 2023/02/04 23:49:13 by vfries           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lexer.h"
-#include "minishell_fork.h"
 #include <stdlib.h>
 
 #define HERE_DOC_PROMPT "> "
@@ -89,7 +88,7 @@ static int	get_input(t_list **input_lst, char *limiter)
 
 	if (pipe(pipe_fd) == -1)
 		return (-1);
-	pid = minishell_fork();
+	pid = fork();
 	if (pid == -1)
 		return (-1);
 	if (pid != 0)

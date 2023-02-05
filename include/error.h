@@ -6,7 +6,7 @@
 /*   By: vfries <vfries@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 17:06:00 by tdameros          #+#    #+#             */
-/*   Updated: 2023/01/28 22:07:05 by vfries           ###   ########lyon.fr   */
+/*   Updated: 2023/02/04 23:49:06 by vfries           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 # include "lexer.h"
 
 # define PIPE_FAILED "pipe() failed"
-# define FORK_FAILED "minishell_fork() failed"
+# define FORK_FAILED "fork() failed"
 # define PIPE_CLOSE_FAILED "close() failed on pipe"
 # define FILE_CLOSE_FAILED "close() failed on file"
 # define PIPE_DUP2_FAILED "dup2() failed on pipe"
