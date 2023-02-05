@@ -6,7 +6,7 @@
 /*   By: vfries <vfries@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/25 16:19:00 by vfries            #+#    #+#             */
-/*   Updated: 2023/02/05 16:30:22 by vfries           ###   ########lyon.fr   */
+/*   Updated: 2023/02/06 00:46:33 by vfries           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ char	**get_envp(t_hashmap env_variables)
 	int		i;
 	int		envp_i;
 
-	envp = malloc(sizeof(char *) * (ft_hm_size(env_variables) + 1));
+	envp = malloc(sizeof(char *) * (ft_hm_size(env_variables) + 1 - 1));
 	if (envp == NULL)
 		return (NULL);
 	envp_i = 0;
@@ -49,12 +49,15 @@ static int	add_variables(char **envp, t_list *variables, int *envp_i)
 	while (variables != NULL)
 	{
 		hashmap_content = variables->content;
-		join[0] = hashmap_content->target;
-		join[1] = hashmap_content->content;
-		envp[*envp_i] = ft_join_strs(join, "=");
-		if (envp[*envp_i] == NULL)
-			return (-1);
-		(*envp_i)++;
+		if (ft_strcmp(hashmap_content->target, LAST_EXIT_CODE))
+		{
+			join[0] = hashmap_content->target;
+			join[1] = hashmap_content->content;
+			envp[*envp_i] = ft_join_strs(join, "=");
+			if (envp[*envp_i] == NULL)
+				return (-1);
+			(*envp_i)++;
+		}
 		variables = variables->next;
 	}
 	return (0);

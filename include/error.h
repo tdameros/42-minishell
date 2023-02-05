@@ -6,7 +6,7 @@
 /*   By: vfries <vfries@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 17:06:00 by tdameros          #+#    #+#             */
-/*   Updated: 2023/02/04 23:49:06 by vfries           ###   ########lyon.fr   */
+/*   Updated: 2023/02/05 23:51:39 by vfries           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 # include <string.h>
 # include <errno.h>
-# include "lexer.h"
+# include "libft.h"
 
 # define PIPE_FAILED "pipe() failed"
 # define FORK_FAILED "fork() failed"

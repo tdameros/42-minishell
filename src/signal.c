@@ -6,13 +6,14 @@
 /*   By: vfries <vfries@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/04 17:38:45 by vfries            #+#    #+#             */
-/*   Updated: 2023/02/05 23:11:37 by vfries           ###   ########lyon.fr   */
+/*   Updated: 2023/02/06 00:26:54 by vfries           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "built_in.h"
 #include "exit_code.h"
+#include "get_cursor_x_pos.h"
 #include <signal.h>
 #include <stdio.h>
 #include <readline/readline.h>
@@ -53,9 +54,13 @@ void	init_execution_signal_handling(void)
 
 static void	execution_signal_handler(int sig)
 {
-	(void)sig;
-	// TODO decide if newline or not
+	int	get_cursor_x_pos_ret;
+
+	if (sig != SIGINT)
+		return ;
 	exit_code(130);
-	ft_putstr("\n");
+	get_cursor_x_pos_ret = get_cursor_x_pos();
+	if (get_cursor_x_pos_ret != 1 && get_cursor_x_pos_ret > 0)
+		ft_putstr("\n");
 }
 

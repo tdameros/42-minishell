@@ -62,6 +62,7 @@ SRC				=\
 	parser/wildcard/match.c	\
 \
 	exit_code.c			\
+	get_cursor_x_pos.c	\
 	get_here_docs.c		\
 	main.c				\
 	signal.c
