@@ -51,7 +51,12 @@ int	get_index_end_token(char *command)
 	{
 		while (!is_operator(command + index)
 			&& command[index] != ' ' && command[index] != '\0')
-			index++;
+		{
+			if (command[index] == '"' || command[index] == '\'')
+				index += skip_quote_in_token(command + index);
+			else
+				index++;
+		}
 	}
 	return (index);
 }

@@ -105,10 +105,11 @@ SRC =\
 				numbers/itoa.c	\
 \
 \
-				string/split/free_split.c	\
-				string/split/split_set.c	\
-				string/split/split_size.c	\
-				string/split/split.c		\
+				string/split/free_split.c				\
+				string/split/split_set.c				\
+				string/split/split_size.c				\
+				string/split/split.c					\
+				string/split/split_unless_in_quotes.c	\
 \
 				string/join/join_strs.c	\
 				string/join/strjoin.c	\
@@ -189,7 +190,7 @@ OBJS_TEST =		${addprefix ${TEST_OBJS_DIR},${SRCS_TEST:.c=.o}}
 OBJS_TEST_DEBUG =	${addprefix ${TEST_OBJS_DIR},${SRCS_TEST:.c=_debug.o}}
 
 
-FLAGS_NO_O3 =	-Wall -Wextra -Werror
+FLAGS_NO_O3 =	-Wall -Wextra -Werror -g3
 
 FLAGS =			${FLAGS_NO_O3}
 

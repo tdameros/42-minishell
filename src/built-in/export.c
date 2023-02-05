@@ -15,8 +15,10 @@
 #include "env_variables.h"
 #include "error.h"
 #include "built_in.h"
+#include "expansions.h"
 
 static int		print_sorted_env_variables(t_hashmap env_variables);
+static	int		export_variables(char **args, t_hashmap env_variables);
 static int		add_variable(char *variable, t_hashmap env_variables);
 static bool		is_valid_key(char *key);
 
@@ -26,14 +28,15 @@ void	export(char **args, t_hashmap env_variables)
 
 	index = 1;
 	if (args[index] == NULL)
-		return (update_last_exit_code(env_variables,
-				print_sorted_env_variables(env_variables)));
-	while (args[index] != NULL)
 	{
-		if (add_variable(args[index], env_variables) < 0)
-			print_error("export", args[index], "not a valid identifier");
-		index++;
+		if (print_sorted_env_variables(env_variables) < 0)
+		{
+			print_error("export", args[index], strerror(errno));
+			return (update_last_exit_code(env_variables, 1));
+		}
 	}
+	else
+		return (update_last_exit_code(env_variables, export_variables(args + index, env_variables)));
 	return (update_last_exit_code(env_variables, 0));
 }
 
@@ -43,19 +46,22 @@ static	int	print_sorted_env_variables(t_hashmap env_variables)
 	char	*equal;
 	size_t	index;
 
+	if (ft_hm_size(env_variables) == 1)
+		return (0);
 	envp = get_envp(env_variables);
-	if (ft_msort_str(envp, 0, ft_hm_size(env_variables) - 1) < 0)
+	if (envp == NULL)
+		return (-1);
+	if (ft_msort_str(envp, 0, ft_split_size(envp) - 1) < 0)
 	{
 		ft_free_split(envp);
-		return (1);
+		return (-1);
 	}
 	index = 0;
 	while (envp[index] != NULL)
 	{
 		equal = ft_strchr(envp[index], '=');
 		*equal = '\0';
-		ft_printf("declare -x %s", envp[index]);
-		ft_printf("=\"%s\"\n", equal + 1);
+		ft_printf("declare -x %s=\"%s\"\n", envp[index], equal + 1);
 		free(envp[index]);
 		index++;
 	}
@@ -63,25 +69,59 @@ static	int	print_sorted_env_variables(t_hashmap env_variables)
 	return (0);
 }
 
+static	int	export_variables(char **args, t_hashmap env_variables)
+{
+	size_t	index;
+	int		return_code;
+	int		result;
+
+	index = 0;
+	return_code = 0;
+	while (args[index] != NULL)
+	{
+		result = add_variable(args[index], env_variables);
+		if (result == 0)
+		{
+			print_error("export", args[index], "not a valid identifier");
+			return_code = 1;
+		}
+		else if (result < 0)
+		{
+			print_error("export", args[index], strerror(errno));
+			return (1);
+		}
+		index++;
+	}
+	return (return_code);
+}
+
 static int	add_variable(char *variable, t_hashmap env_variables)
 {
 	char	*key;
 	char	*value;
 	char	*equal;
+	char	tmp;
 
 	equal = ft_strchr(variable, '=');
-	if (equal == variable)
-		return (-1);
-	key = ft_substr(variable, 0, equal - variable);
+	if (equal == variable || equal == NULL)
+		return (is_valid_key(variable));
+	tmp = *equal;
+	*equal = '\0';
+	key = variable;
 	if (!is_valid_key(key))
 	{
-		free(key);
+		*equal = tmp;
+		return (0);
+	}
+	value = strdup_without_quote(equal + 1);
+	if (value == NULL)
+		return (-1);
+	if (ft_hm_add_elem(env_variables, key, value, free) < 0)
+	{
+		free(value);
 		return (-1);
 	}
-	value = ft_strdup(equal + 1);
-	ft_hm_add_elem(env_variables, key, value, free);
-	free(key);
-	return (0);
+	return (1);
 }
 
 static	bool	is_valid_key(char *key)

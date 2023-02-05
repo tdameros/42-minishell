@@ -15,7 +15,7 @@
 
 # include "ft_hashmap.h"
 
-# define LAST_EXIT_CODE "$?"
+# define LAST_EXIT_CODE "?"
 
 t_hashmap	get_env_variables(char **envp);
 char		**get_envp(t_hashmap env_variables);

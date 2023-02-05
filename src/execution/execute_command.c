@@ -17,6 +17,7 @@
 #include "env_variables.h"
 #include "execution.h"
 #include "minishell_fork.h"
+#include "expansions.h"
 
 static void	run_subshell(t_token *command, t_hashmap env_variables,
 				t_list *here_docs);
@@ -28,6 +29,8 @@ void	execute_command(t_token *command, t_hashmap env_variables,
 {
 	// print_tokens(command->files);
 	// TODO fix_token_variables()
+	if (apply_expansions_before_exec(command, env_variables) < 0)
+		return (print_error(command->name, NULL, get_error()));
 	if (command->type == BUILTIN)
 		return (run_builtin(command, env_variables, here_docs));
 	if (open_and_dup_files(command->files, env_variables, here_docs))

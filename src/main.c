@@ -16,6 +16,7 @@
 #include "parser.h"
 #include "libft.h"
 #include "execution.h"
+#include "built_in.h"
 #include <stdlib.h>
 #include <stdio.h>
 #include <readline/readline.h>
@@ -36,7 +37,7 @@
 void	print_here_docs(t_list *here_docs);
 void	test_get_envp(t_hashmap env_variables);
 
-static int	add_last_exit_code(t_hashmap env_variables);
+//static int	add_last_exit_code(t_hashmap env_variables);
 
 void	dummy(void)
 {
@@ -55,13 +56,13 @@ int	main(int argc, char **argv, char **envp)
 	(void)argv;
 
 	env_variables = get_env_variables(envp);
-	if (add_last_exit_code(env_variables))
-	{
-		ft_hm_clear(&env_variables, &free);
-		return (-1);
-	}
+	update_last_exit_code(env_variables, 0);
+//	if (add_last_exit_code(env_variables))
+//	{
+//		ft_hm_clear(&env_variables, &free);
+//		return (-1);
+//	}
 	// test_get_envp(env_variables);
-
 	command = readline(PROMPT);
 	while (command != NULL && ft_strcmp(command, "exit"))
 	{
@@ -76,7 +77,6 @@ int	main(int argc, char **argv, char **envp)
 		tokens = get_tokens(save);
 		// if (tokens == NULL)
 		// 	ft_printf("Malloc failed\n");
-		remove_quotes(tokens);
 
 		// print_tokens(tokens);
 
@@ -94,6 +94,7 @@ int	main(int argc, char **argv, char **envp)
 
 		dummy();
 		execute_commands(&tokens, env_variables, &here_docs);
+		free(save);
 		command = readline(PROMPT);
 	}
 	free(command);
@@ -145,19 +146,19 @@ void	test_get_envp(t_hashmap env_variables)
 	ft_printf("(null)\n");
 	ft_free_split(envp);
 }
-
-static int	add_last_exit_code(t_hashmap env_variables)
-{
-	int	*exit_code;
-
-	exit_code = malloc(sizeof(int));
-	if (exit_code == NULL)
-		return (-1);
-	if (ft_hm_add_elem(env_variables, LAST_EXIT_CODE, exit_code, &free))
-	{
-		free(exit_code);
-		return (-1);
-	}
-	*exit_code = 0;
-	return (0);
-}
+//
+//static int	add_last_exit_code(t_hashmap env_variables)
+//{
+//	int	*exit_code;
+//
+//	exit_code = malloc(sizeof(int));
+//	if (exit_code == NULL)
+//		return (-1);
+//	if (ft_hm_add_elem(env_variables, LAST_EXIT_CODE, exit_code, &free))
+//	{
+//		free(exit_code);
+//		return (-1);
+//	}
+//	*exit_code = 0;
+//	return (0);
+//}

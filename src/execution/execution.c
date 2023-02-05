@@ -13,6 +13,7 @@
 #include "lexer.h"
 #include "error.h"
 #include "minishell_fork.h"
+#include "built_in.h"
 #include "env_variables.h"
 #include "execution.h"
 #include <sys/wait.h>
@@ -21,34 +22,33 @@
 #define CTRL_C_EXIT_CODE 130
 
 static void				execute_commands_loop(t_list **tokens,
-							t_hashmap env_variables, t_list **here_docs,
-							int *exit_code);
+							t_hashmap env_variables, t_list **here_docs);
 static pid_t			fork_and_execute_command(t_token *command,
 							t_hashmap env_variables, t_list *here_docs);
 
 void	execute_commands(t_list **tokens, t_hashmap env_variables,
 			t_list **here_docs)
 {
-	int	*exit_code;
-
-	exit_code = ft_hm_get_content(env_variables, LAST_EXIT_CODE);
-	execute_commands_loop(tokens, env_variables, here_docs, exit_code);
+	execute_commands_loop(tokens, env_variables, here_docs);
 	ft_lstclear(tokens, &free_token);
 	ft_lst_of_lst_clear(here_docs, &free);
 }
 
 static void	execute_commands_loop(t_list **tokens, t_hashmap env_variables,
-				t_list **here_docs, int *exit_code)
+				t_list **here_docs)
 {
+	int	exit_code;
+
 	while (*tokens != NULL)
 	{
 		if (get_next_operator(*tokens) == PIPE)
-			*exit_code = execute_pipes(tokens, env_variables, here_docs);
+			exit_code = execute_pipes(tokens, env_variables, here_docs);
 		else
-			*exit_code = execute_command_no_pipe(tokens, env_variables,
+			exit_code = execute_command_no_pipe(tokens, env_variables,
 					here_docs);
+		update_last_exit_code(env_variables, exit_code);
 		if (*tokens != NULL)
-			get_next_command(tokens, *exit_code);
+			get_next_command(tokens, exit_code);
 	}
 }
 
@@ -68,7 +68,7 @@ int	execute_command_no_pipe(t_list **tokens, t_hashmap env_variables,
 		execute_command(command->content, env_variables, *here_docs);
 		skip_token_here_docs(command, here_docs);
 		ft_lstclear(&command, &free_token);
-		return (*(int *)ft_hm_get_content(env_variables, LAST_EXIT_CODE));
+		return (ft_atoi(ft_hm_get_content(env_variables, LAST_EXIT_CODE)));
 	}
 	pid = fork_and_execute_command(command->content, env_variables,
 			*here_docs);
@@ -94,5 +94,5 @@ static pid_t	fork_and_execute_command(t_token *command,
 	if (pid != 0)
 		return (pid);
 	execute_command(command, env_variables, here_docs);
-	exit(*(int *)ft_hm_get_content(env_variables, LAST_EXIT_CODE));
+	exit(ft_atoi(ft_hm_get_content(env_variables, LAST_EXIT_CODE)));
 }

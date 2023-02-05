@@ -1,38 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   remove_quote.c                                     :+:      :+:    :+:   */
+/*   quote_removal.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tomy <tomy@student.42lyon.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/16 22:33:00 by tomy              #+#    #+#             */
-/*   Updated: 2023/01/16 22:33:00 by tomy             ###   ########lyon.fr   */
+/*   Created: 2023/01/31 18:24:00 by tomy              #+#    #+#             */
+/*   Updated: 2023/01/31 18:24:00 by tomy             ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "lexer.h"
 #include <stdlib.h>
+#include "expansions.h"
 
-char			*strdup_without_quote(char *command);
 static size_t	strlen_without_quote(char *command);
 
-int	remove_quotes(t_list *tokens)
+int	remove_quotes_in_args(char **args)
 {
-	t_token	*token;
-	char	*parse_command;
+	char	*new_arg;
+	size_t	index;
 
-	if (tokens == NULL)
-		return (0);
-	while (tokens != NULL)
+	index = 0;
+	while (args[index] != NULL)
 	{
-		token = tokens->content;
-		if (token->type != OPERATOR)
-		{
-			parse_command = strdup_without_quote(token->name);
-			free(token->name);
-			token->name = parse_command;
-		}
-		tokens = tokens->next;
+		new_arg = strdup_without_quote(args[index]);
+		if (new_arg == NULL)
+			return (-1);
+		free(args[index]);
+		args[index] = new_arg;
+		index++;
 	}
 	return (0);
 }

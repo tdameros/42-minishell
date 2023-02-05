@@ -72,6 +72,11 @@ static int	open_file(t_token *file)
 {
 	int	fd;
 
+	if (file->name == NULL)
+	{
+		print_error(file->name, NULL, "ambiguous redirect");
+		return (-1);
+	}
 	if (file->operator == INPUT_REDIRECT)
 		fd = open(file->name, O_RDONLY);
 	else if (file->operator == OUTPUT_REDIRECT)

@@ -28,6 +28,14 @@ SRC				=\
 	execution/run_builtin.c				\
 \
 \
+	expansions/alias.c				\
+	expansions/parameters.c			\
+	expansions/parameters_utils.c	\
+	expansions/quotes.c				\
+	expansions/words.c				\
+	expansions/before_execution.c	\
+\
+\
 	error/error.c	\
 \
 \
@@ -38,7 +46,6 @@ SRC				=\
 \
 	parser/operator/valid.c \
 \
-	parser/quote/remove.c	\
 	parser/quote/valid.c	\
 \
 	parser/simplify_tokens/add_command/add_path/absolute_path.c		\
