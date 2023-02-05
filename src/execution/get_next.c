@@ -6,7 +6,7 @@
 /*   By: vfries <vfries@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/28 15:24:04 by vfries            #+#    #+#             */
-/*   Updated: 2023/01/28 16:54:45 by vfries           ###   ########lyon.fr   */
+/*   Updated: 2023/02/05 16:25:08 by vfries           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,14 +28,14 @@ enum e_operators	get_next_operator(t_list *tokens)
 	return (-1);
 }
 
-void	get_next_command(t_list **tokens, int exit_code)
+void	get_next_command(t_list **tokens, int last_exit_code)
 {
 	t_token	*token;
 
 	if (*tokens == NULL)
 		return ;
 	token = (*tokens)->content;
-	if (token->operator == OR && exit_code != 0)
+	if (token->operator == OR && last_exit_code != 0)
 		ft_lst_get_next_free_current(tokens, &free_token);
 	else if (token->operator == OR)
 	{
@@ -43,7 +43,7 @@ void	get_next_command(t_list **tokens, int exit_code)
 		ft_lst_get_next_free_current(tokens, &free_token);
 		skip_to_next_command(tokens, AND);
 	}
-	else if (token->operator == AND && exit_code == 0)
+	else if (token->operator == AND && last_exit_code == 0)
 		ft_lst_get_next_free_current(tokens, &free_token);
 	else
 	{

@@ -6,7 +6,7 @@
 /*   By: vfries <vfries@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/14 18:07:30 by vfries            #+#    #+#             */
-/*   Updated: 2023/01/30 06:39:09 by vfries           ###   ########lyon.fr   */
+/*   Updated: 2023/02/05 23:08:15 by vfries           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,27 +17,19 @@
 #include "libft.h"
 #include "execution.h"
 #include "built_in.h"
+#include "exit_code.h"
 #include <stdlib.h>
 #include <stdio.h>
 #include <readline/readline.h>
 #include <readline/history.h>
 
-#include "libft.h"
-#include "lexer.h"
 #include "quote.h"
-#include "execution.h"
-
-#define PROMPT "➜ minishell-1.0$ "
-
-#include <readline/readline.h>
-#include <readline/history.h>
+#include "minishell_signal.h"
 
 #define PROMPT "➜ minishell-1.0$ "
 
 void	print_here_docs(t_list *here_docs);
 void	test_get_envp(t_hashmap env_variables);
-
-//static int	add_last_exit_code(t_hashmap env_variables);
 
 void	dummy(void)
 {
@@ -55,14 +47,12 @@ int	main(int argc, char **argv, char **envp)
 	(void)argc;
 	(void)argv;
 
+	init_main_signal_handling();
+
 	env_variables = get_env_variables(envp);
-	update_last_exit_code(env_variables, 0);
-//	if (add_last_exit_code(env_variables))
-//	{
-//		ft_hm_clear(&env_variables, &free);
-//		return (-1);
-//	}
 	// test_get_envp(env_variables);
+	if (init_exit_code(env_variables))
+		ft_printf("Error handling\n"); // TODO
 	command = readline(PROMPT);
 	while (command != NULL && ft_strcmp(command, "exit"))
 	{
@@ -146,19 +136,3 @@ void	test_get_envp(t_hashmap env_variables)
 	ft_printf("(null)\n");
 	ft_free_split(envp);
 }
-//
-//static int	add_last_exit_code(t_hashmap env_variables)
-//{
-//	int	*exit_code;
-//
-//	exit_code = malloc(sizeof(int));
-//	if (exit_code == NULL)
-//		return (-1);
-//	if (ft_hm_add_elem(env_variables, LAST_EXIT_CODE, exit_code, &free))
-//	{
-//		free(exit_code);
-//		return (-1);
-//	}
-//	*exit_code = 0;
-//	return (0);
-//}

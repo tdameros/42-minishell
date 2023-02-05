@@ -6,7 +6,7 @@
 /*   By: vfries <vfries@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 17:41:00 by tdameros          #+#    #+#             */
-/*   Updated: 2023/01/28 17:26:39 by vfries           ###   ########lyon.fr   */
+/*   Updated: 2023/02/05 23:09:33 by vfries           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,14 @@
 #include "error.h"
 #include "built_in.h"
 #include "expansions.h"
+#include "exit_code.h"
 
 static int		print_sorted_env_variables(t_hashmap env_variables);
 static	int		export_variables(char **args, t_hashmap env_variables);
 static int		add_variable(char *variable, t_hashmap env_variables);
 static bool		is_valid_key(char *key);
 
-void	export(char **args, t_hashmap env_variables)
+int	export(char **args, t_hashmap env_variables)
 {
 	size_t	index;
 
@@ -32,12 +33,12 @@ void	export(char **args, t_hashmap env_variables)
 		if (print_sorted_env_variables(env_variables) < 0)
 		{
 			print_error("export", args[index], strerror(errno));
-			return (update_last_exit_code(env_variables, 1));
+			return (exit_code(1));
 		}
 	}
 	else
-		return (update_last_exit_code(env_variables, export_variables(args + index, env_variables)));
-	return (update_last_exit_code(env_variables, 0));
+		return (exit_code(export_variables(args + index, env_variables)));
+	return (exit_code(0));
 }
 
 static	int	print_sorted_env_variables(t_hashmap env_variables)

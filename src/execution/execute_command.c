@@ -6,7 +6,7 @@
 /*   By: vfries <vfries@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 13:31:41 by vfries            #+#    #+#             */
-/*   Updated: 2023/01/30 06:27:36 by vfries           ###   ########lyon.fr   */
+/*   Updated: 2023/02/05 23:10:35 by vfries           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 #include <stdlib.h>
 #include "lexer.h"
 #include "error.h"
+#include "exit_code.h"
 #include "env_variables.h"
 #include "execution.h"
-#include "minishell_fork.h"
 #include "expansions.h"
 
 static void	run_subshell(t_token *command, t_hashmap env_variables,
@@ -27,28 +27,24 @@ static void	run_command_error(t_token *command);
 void	execute_command(t_token *command, t_hashmap env_variables,
 			t_list *here_docs)
 {
-	// print_tokens(command->files);
-	// TODO fix_token_variables()
+	// TODO apply_expansions_before_exec before the fork
 	if (apply_expansions_before_exec(command, env_variables) < 0)
 		return (print_error(command->name, NULL, get_error()));
 	if (command->type == BUILTIN)
 		return (run_builtin(command, env_variables, here_docs));
-	if (open_and_dup_files(command->files, env_variables, here_docs))
+	if (open_and_dup_files(command->files, here_docs))
 		return ;
 	if (command->type == SUBSHELL)
 		return (run_subshell(command, env_variables, here_docs));
-	return (run_command(command, get_envp(env_variables)));
+	return (run_command(command, get_envp(env_variables))); // TODO get_envp() before the fork
 }
 
 static void	run_subshell(t_token *command, t_hashmap env_variables,
 				t_list *here_docs)
 {
-	int	exit_code;
-
 	execute_commands(&command->subshell, env_variables, &here_docs);
-	exit_code = *(int *)ft_hm_get_content(env_variables, LAST_EXIT_CODE);
 	ft_hm_clear(&env_variables, &free);
-	exit(exit_code);
+	exit(exit_code(GET));
 }
 
 static void	run_command(t_token *command, char **envp)

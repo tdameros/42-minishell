@@ -6,7 +6,7 @@
 /*   By: vfries <vfries@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 17:33:00 by tdameros          #+#    #+#             */
-/*   Updated: 2023/01/28 17:26:41 by vfries           ###   ########lyon.fr   */
+/*   Updated: 2023/02/05 23:09:34 by vfries           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,10 @@
 #include <unistd.h>
 #include "libft.h"
 #include "error.h"
+#include "exit_code.h"
 #include "built_in.h"
 
-void	pwd(t_hashmap env_variables)
+int	pwd(void)
 {
 	char	*current_path;
 
@@ -24,9 +25,9 @@ void	pwd(t_hashmap env_variables)
 	if (current_path == NULL)
 	{
 		print_error("pwd", NULL, strerror(errno));
-		return (update_last_exit_code(env_variables, 1));
+		return (exit_code(1));
 	}
 	ft_printf("%s\n", current_path);
 	free(current_path);
-	return (update_last_exit_code(env_variables, 0));
+	return (exit_code(0));
 }

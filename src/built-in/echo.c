@@ -6,17 +6,18 @@
 /*   By: vfries <vfries@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/25 15:09:00 by tdameros          #+#    #+#             */
-/*   Updated: 2023/01/28 17:26:29 by vfries           ###   ########lyon.fr   */
+/*   Updated: 2023/02/05 23:09:31 by vfries           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdbool.h>
 #include "libft.h"
 #include "built_in.h"
+#include "exit_code.h"
 
 static bool	is_n_flag(char *arg);
 
-void	echo(char **args, t_hashmap env_variables)
+int	echo(char **args)
 {
 	int		index;
 	int		return_code;
@@ -35,14 +36,14 @@ void	echo(char **args, t_hashmap env_variables)
 		else
 			return_code = ft_printf("%s", args[index]);
 		if (return_code < 0)
-			return (update_last_exit_code(env_variables, -1));
+			return (exit_code(-1));
 		index++;
 	}
 	if (!n_flag)
 		return_code = ft_printf("\n");
 	if (return_code < 0)
-		return (update_last_exit_code(env_variables, -1));
-	return (update_last_exit_code(env_variables, 0));
+		return (exit_code(-1));
+	return (exit_code(0));
 }
 
 static bool	is_n_flag(char *arg)

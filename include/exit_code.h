@@ -1,25 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   update_last_exit_code.c                            :+:      :+:    :+:   */
+/*   exit_code.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vfries <vfries@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/28 17:18:00 by vfries            #+#    #+#             */
-/*   Updated: 2023/01/28 17:19:47 by vfries           ###   ########lyon.fr   */
+/*   Created: 2023/02/05 16:10:27 by vfries            #+#    #+#             */
+/*   Updated: 2023/02/05 23:06:32 by vfries           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
-#include "libft.h"
-#include "env_variables.h"
+#ifndef EXIT_CODE_H
+# define EXIT_CODE_H
 
-void	update_last_exit_code(t_hashmap env_variables, int exit_code)
-{
-	char	*str_exit_code;
+# include <limits.h>
+# include "libft.h"
 
-	str_exit_code = ft_itoa(exit_code);
-	if (str_exit_code == NULL)
-		return;
-	ft_hm_add_elem(env_variables, LAST_EXIT_CODE, str_exit_code, free);
-}
+# define GET INT_MIN
+
+int	exit_code(int new_exit_code);
+int	init_exit_code(t_hashmap env_variables);
+int	get_pid_exit_code(int pid_exit_code);
+
+#endif

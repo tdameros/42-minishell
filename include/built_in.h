@@ -6,7 +6,7 @@
 /*   By: vfries <vfries@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/25 15:28:00 by tdameros          #+#    #+#             */
-/*   Updated: 2023/01/28 17:27:10 by vfries           ###   ########lyon.fr   */
+/*   Updated: 2023/02/05 16:21:37 by vfries           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,12 @@
 
 # include "env_variables.h"
 
-void	echo(char **args, t_hashmap env_variables);
-void	cd(char **args, t_hashmap env_variables);
-void	pwd(t_hashmap env_variables);
-void	export(char **args, t_hashmap env_variables);
-void	env(char **args, t_hashmap env_variables);
-void	unset(char **args, t_hashmap env_variables);
-void	exit_builtin(char **args, t_hashmap env_variables);
-
-void	update_last_exit_code(t_hashmap env_variables, int exit_code);
+int	cd(char **args, t_hashmap env_variables);
+int	echo(char **args);
+int	env(char **args, t_hashmap env_variables);
+int	exit_builtin(char **args);
+int	export(char **args, t_hashmap env_variables);
+int	pwd(void);
+int	unset(char **args, t_hashmap env_variables);
 
 #endif
