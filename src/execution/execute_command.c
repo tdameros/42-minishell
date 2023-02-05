@@ -6,7 +6,7 @@
 /*   By: vfries <vfries@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 13:31:41 by vfries            #+#    #+#             */
-/*   Updated: 2023/02/05 23:10:35 by vfries           ###   ########lyon.fr   */
+/*   Updated: 2023/02/06 00:39:14 by vfries           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ static void	run_command_error(t_token *command)
 	}
 	if (stat_ptr.st_mode & S_IFDIR)
 	{
-		print_error(command->name, NULL, "is a directory");
+		print_error(command->name, NULL, "Is a directory");
 		exit(126);
 	}
 	if (access(command->name, X_OK))
