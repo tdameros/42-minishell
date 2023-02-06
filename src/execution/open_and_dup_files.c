@@ -6,7 +6,7 @@
 /*   By: vfries <vfries@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/28 18:51:38 by vfries            #+#    #+#             */
-/*   Updated: 2023/02/05 23:10:45 by vfries           ###   ########lyon.fr   */
+/*   Updated: 2023/02/06 09:00:40 by vfries           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,9 +81,9 @@ static int	open_file(t_token *file)
 	if (file->operator == INPUT_REDIRECT)
 		fd = open(file->name, O_RDONLY);
 	else if (file->operator == OUTPUT_REDIRECT)
-		fd = open(file->name, O_CREAT | O_WRONLY | O_TRUNC, S_IRWXU);
+		fd = open(file->name, O_CREAT | O_WRONLY | O_TRUNC, 0644);
 	else
-		fd = open(file->name, O_CREAT | O_WRONLY | O_APPEND, S_IRWXU);
+		fd = open(file->name, O_CREAT | O_WRONLY | O_APPEND, 0644);
 	if (fd == -1)
 		print_error(file->name, NULL, get_error());
 	return (fd);
