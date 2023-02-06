@@ -6,7 +6,7 @@
 /*   By: vfries <vfries@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/05 23:42:04 by vfries            #+#    #+#             */
-/*   Updated: 2023/02/06 00:21:46 by vfries           ###   ########lyon.fr   */
+/*   Updated: 2023/02/06 13:22:01 by vfries           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,10 @@ static int	get_cursor_pos(char *buf);
 static void	prep_termios_structs(struct termios *term_tmp,
 				struct termios *term_backup);
 
+/// @brief 		Returns cursor position on terminal colons, starts at 1
+/// @return 	if ret > 0 -> ret == cursor position,
+/// 			if ret == 0 -> stdin / out / err is not a terminal,
+/// 			if ret < 0 -> error
 int	get_cursor_x_pos(void)
 {
 	char	buf[BUFFER_SIZE];
@@ -30,7 +34,7 @@ int	get_cursor_x_pos(void)
 
 	if (isatty(STDERR_FILENO) == 0 || isatty(STDOUT_FILENO) == 0
 		|| isatty(STDIN_FILENO) == 0)
-		return (-1);
+		return (0);
 	i = get_cursor_pos(buf) - 1;
 	if (i < 2)
 		return (-1);
