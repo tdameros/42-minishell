@@ -6,7 +6,7 @@
 /*   By: vfries <vfries@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/25 16:19:00 by vfries            #+#    #+#             */
-/*   Updated: 2023/02/06 15:57:57 by vfries           ###   ########lyon.fr   */
+/*   Updated: 2023/02/06 16:45:27 by vfries           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 #include <stdlib.h>
 
 static int	add_variables_non_empty(char **envp, t_list *variables, int *envp_i,
+				char *executable_path);
+static char	**get_fixed_non_empty_envp(char **envp, int i,
 				char *executable_path);
 static int	add_variables_all(char **envp, t_list *variables,
 				int *envp_i);
@@ -25,12 +27,15 @@ char	**get_non_empty_envp(t_hashmap env_variables, char *executable_path)
 	int		i;
 	int		envp_i;
 
-	envp = malloc(sizeof(char *) * (ft_hm_size(env_variables) + 1 - 1));
+	if (ft_hm_get_content(env_variables, "_") == NULL)
+		envp = malloc(sizeof(char *) * (ft_hm_size(env_variables) + 1 - 1 + 1));
+	else
+		envp = malloc(sizeof(char *) * (ft_hm_size(env_variables) + 1 - 1));
 	if (envp == NULL)
 		return (NULL);
 	envp_i = 0;
-	i = 0;
-	while (i < HASHMAP_ARR_SIZE)
+	i = -1;
+	while (++i < HASHMAP_ARR_SIZE)
 	{
 		if (add_variables_non_empty(envp, env_variables[i], &envp_i,
 				executable_path))
@@ -38,8 +43,9 @@ char	**get_non_empty_envp(t_hashmap env_variables, char *executable_path)
 			ft_free_split(envp);
 			return (NULL);
 		}
-		i++;
 	}
+	if (ft_hm_get_content(env_variables, "_") == NULL)
+		return (get_fixed_non_empty_envp(envp, envp_i, executable_path));
 	envp[envp_i] = NULL;
 	return (envp);
 }
@@ -72,6 +78,14 @@ static int	add_variables_non_empty(char **envp, t_list *variables, int *envp_i,
 		variables = variables->next;
 	}
 	return (0);
+}
+
+static char	**get_fixed_non_empty_envp(char **envp, int i,
+				char *executable_path)
+{
+	envp[i] = ft_strjoin("_=", executable_path);
+	envp[i + 1] = NULL;
+	return (envp);
 }
 
 char	**get_all_envp(t_hashmap env_variables)
