@@ -6,7 +6,7 @@
 /*   By: vfries <vfries@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/04 17:38:45 by vfries            #+#    #+#             */
-/*   Updated: 2023/02/06 11:14:07 by vfries           ###   ########lyon.fr   */
+/*   Updated: 2023/02/06 23:35:49 by vfries           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,8 @@ void	init_main_signal_handling(void)
 	struct sigaction	action;
 
 	action.sa_handler = &main_signal_handler;
-	action.sa_flags = 0;
+	sigemptyset(&action.sa_mask);
+	action.sa_flags = SA_RESTART;
 	sigaction(SIGINT, &action, NULL);
 	sigaction(SIGQUIT, &action, NULL);
 }
@@ -47,19 +48,21 @@ void	init_execution_signal_handling(void)
 	struct sigaction	action;
 
 	action.sa_handler = &execution_signal_handler;
-	action.sa_flags = 0;
+	sigemptyset(&action.sa_mask);
+	action.sa_flags = SA_RESTART;
 	sigaction(SIGINT, &action, NULL);
 	sigaction(SIGQUIT, &action, NULL);
 }
 
 static void	execution_signal_handler(int sig)
 {
-	int	get_cursor_x_pos_ret;
+	// int	get_cursor_x_pos_ret;
 
 	if (sig != SIGINT)
 		return ;
 	exit_code(130);
-	get_cursor_x_pos_ret = get_cursor_x_pos();
-	if (get_cursor_x_pos_ret != 1 && get_cursor_x_pos_ret > 0)
-		ft_putstr("\n");
+	// TODO experiment with code below, if we end up not using it: delete get_cursor_x_pos.c
+	// get_cursor_x_pos_ret = get_cursor_x_pos();
+	// if (get_cursor_x_pos_ret > 1)
+	// 	ft_putchar_fd('\n', STDOUT_FILENO);
 }

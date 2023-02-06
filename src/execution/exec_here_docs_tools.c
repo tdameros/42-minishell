@@ -6,7 +6,7 @@
 /*   By: vfries <vfries@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/30 00:50:09 by vfries            #+#    #+#             */
-/*   Updated: 2023/02/05 23:11:49 by vfries           ###   ########lyon.fr   */
+/*   Updated: 2023/02/06 17:25:05 by vfries           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ static void	free_one_here_doc(t_list **here_docs)
 
 	here_doc = (*here_docs)->content;
 	ft_lstclear(&here_doc, &free);
-	ft_lst_get_next_free_current(here_docs, NULL); // TODO check if this really should be NULL
+	*here_docs = (*here_docs)->next;
 }
 
 int	read_here_doc(t_list **here_docs)
