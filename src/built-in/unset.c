@@ -6,7 +6,7 @@
 /*   By: vfries <vfries@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/28 00:07:00 by tomy              #+#    #+#             */
-/*   Updated: 2023/02/05 23:09:35 by vfries           ###   ########lyon.fr   */
+/*   Updated: 2023/02/06 15:07:04 by vfries           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,8 @@ int	unset(char **args, t_hashmap env_variables)
 	index = 1;
 	while (args[index] != NULL)
 	{
-		if (ft_hm_delete_elem(env_variables, args[index], free) < 0)
+		if (ft_strcmp("_", args[index]) != 0
+			&& ft_hm_delete_elem(env_variables, args[index], free) < 0)
 			return (exit_code(1));
 		index++;
 	}

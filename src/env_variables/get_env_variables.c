@@ -6,18 +6,19 @@
 /*   By: vfries <vfries@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 00:44:07 by vfries            #+#    #+#             */
-/*   Updated: 2023/01/20 04:12:47 by vfries           ###   ########lyon.fr   */
+/*   Updated: 2023/02/06 16:11:51 by vfries           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+#include <sys/stat.h>
 #include <stdlib.h>
 #include <stdbool.h>
 
 static bool	fill_env_variables(t_hashmap env_variables, char **envp);
 static char	*get_var_name(char *envp_var);
 static char	*get_var_content(char *envp_var, char *var_name);
-static char	*add_one_shlvl(char *var_content);
+static void	fix_env_variables(t_hashmap env_variables);
 
 t_hashmap	get_env_variables(char **envp)
 {
@@ -33,6 +34,7 @@ t_hashmap	get_env_variables(char **envp)
 		return (NULL);
 	if (fill_env_variables(env_variables, envp))
 		ft_hm_clear(&env_variables, &free);
+	fix_env_variables(env_variables);
 	return (env_variables);
 }
 
@@ -85,12 +87,33 @@ static char	*get_var_content(char *envp_var, char *var_name)
 		envp_var++;
 	if (*envp_var == '=')
 		envp_var++;
-	if (ft_strcmp(var_name, "SHLVL"))
-		return (ft_strdup(envp_var));
-	return (add_one_shlvl(envp_var));
+	return (ft_strdup(envp_var));
 }
 
-static char	*add_one_shlvl(char *var_content)
+static void	fix_env_variables(t_hashmap env_variables)
 {
-	return (ft_itoa(ft_atoi(var_content) + 1));
+	t_hashmap_content	*tmp;
+	char				*tmp_str;
+	struct stat			stat_ptr;
+
+	tmp = ft_hm_get_elem(env_variables, "SHLVL");
+	if (tmp == NULL)
+		ft_hm_add_elem(env_variables, "SHLVL", ft_strdup("1"), &free);
+	else
+	{
+		tmp_str = ft_itoa(ft_atoi(tmp->content) + 1);
+		if (tmp_str != NULL)
+		{
+			free(tmp->content);
+			tmp->content = tmp_str;
+		}
+	}
+	tmp_str = getcwd(NULL, 0);
+	if (ft_hm_add_elem(env_variables, "PWD", tmp_str, &free))
+		free(tmp_str);
+	tmp = ft_hm_get_elem(env_variables, "OLDPWD");
+	if (tmp == NULL
+		|| (stat(tmp->content, &stat_ptr) != 0
+			&& (stat_ptr.st_mode & S_IFDIR) == 0))
+		ft_hm_add_elem(env_variables, "OLDPWD", NULL, &free);
 }

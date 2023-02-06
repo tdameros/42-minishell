@@ -6,7 +6,7 @@
 /*   By: vfries <vfries@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 17:41:00 by tdameros          #+#    #+#             */
-/*   Updated: 2023/02/05 23:09:33 by vfries           ###   ########lyon.fr   */
+/*   Updated: 2023/02/06 16:02:11 by vfries           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ static	int	print_sorted_env_variables(t_hashmap env_variables)
 
 	if (ft_hm_size(env_variables) == 1)
 		return (0);
-	envp = get_envp(env_variables);
+	envp = get_all_envp(env_variables);
 	if (envp == NULL)
 		return (-1);
 	if (ft_msort_str(envp, 0, ft_split_size(envp) - 1) < 0)
@@ -61,8 +61,13 @@ static	int	print_sorted_env_variables(t_hashmap env_variables)
 	while (envp[index] != NULL)
 	{
 		equal = ft_strchr(envp[index], '=');
-		*equal = '\0';
-		ft_printf("declare -x %s=\"%s\"\n", envp[index], equal + 1);
+		if (equal == NULL)
+			ft_printf("declare -x %s\n", envp[index]);
+		else
+		{
+			*equal = '\0';
+			ft_printf("declare -x %s=\"%s\"\n", envp[index], equal + 1);
+		}
 		free(envp[index]);
 		index++;
 	}

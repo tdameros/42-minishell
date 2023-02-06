@@ -6,7 +6,7 @@
 /*   By: vfries <vfries@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 02:57:50 by vfries            #+#    #+#             */
-/*   Updated: 2023/02/05 23:01:55 by vfries           ###   ########lyon.fr   */
+/*   Updated: 2023/02/06 15:54:44 by vfries           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,9 @@
 # define LAST_EXIT_CODE "?"
 
 t_hashmap	get_env_variables(char **envp);
-char		**get_envp(t_hashmap env_variables);
+char		**get_non_empty_envp(t_hashmap env_variables,
+				char *executable_path);
+char		**get_all_envp(t_hashmap env_variables);
 void		print_env_variables(t_hashmap env_variables);
 
 #endif

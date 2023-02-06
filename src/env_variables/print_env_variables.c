@@ -6,7 +6,7 @@
 /*   By: vfries <vfries@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 03:14:57 by vfries            #+#    #+#             */
-/*   Updated: 2023/02/06 00:46:43 by vfries           ###   ########lyon.fr   */
+/*   Updated: 2023/02/06 15:43:51 by vfries           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,8 @@ void	print_env_variables(t_hashmap env_variables)
 		while (cursor != NULL)
 		{
 			hm_content = cursor->content;
-			if (ft_strcmp(hm_content->target, LAST_EXIT_CODE))
+			if (hm_content->content != NULL
+				&& ft_strcmp(hm_content->target, LAST_EXIT_CODE))
 				ft_printf("%s=%s\n", hm_content->target, hm_content->content);
 			cursor = cursor->next;
 		}

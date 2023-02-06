@@ -6,7 +6,7 @@
 /*   By: vfries <vfries@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/14 18:07:30 by vfries            #+#    #+#             */
-/*   Updated: 2023/02/05 23:08:15 by vfries           ###   ########lyon.fr   */
+/*   Updated: 2023/02/06 15:50:03 by vfries           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,7 +121,7 @@ void	test_get_envp(t_hashmap env_variables)
 	char	**envp;
 	int		i;
 
-	envp = get_envp(env_variables);
+	envp = get_all_envp(env_variables);
 	if (envp == NULL)
 	{
 		ft_printf("ENVP == NULL\n");

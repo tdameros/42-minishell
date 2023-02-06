@@ -6,7 +6,7 @@
 /*   By: vfries <vfries@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 13:31:41 by vfries            #+#    #+#             */
-/*   Updated: 2023/02/06 00:39:14 by vfries           ###   ########lyon.fr   */
+/*   Updated: 2023/02/06 15:50:28 by vfries           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,8 @@ void	execute_command(t_token *command, t_hashmap env_variables,
 		return ;
 	if (command->type == SUBSHELL)
 		return (run_subshell(command, env_variables, here_docs));
-	return (run_command(command, get_envp(env_variables))); // TODO get_envp() before the fork
+	return (run_command(command,
+			get_non_empty_envp(env_variables, command->name))); // TODO get_envp() before the fork
 }
 
 static void	run_subshell(t_token *command, t_hashmap env_variables,
