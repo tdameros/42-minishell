@@ -10,33 +10,20 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
 #include <stdlib.h>
 #include <dirent.h>
+#include "libft.h"
+#include "error.h"
+#include "expansions.h"
 
 int	get_index_end_pattern(char *pattern);
-int	is_match(char *pattern, char *string);
-
-char	**get_wildcards(char *pattern, char *path)
-{
-	DIR				*dir;
-	struct dirent	*file;
-
-	dir = opendir(path);
-	file = readdir(dir);
-	while (file != NULL)
-	{
-		if (is_match(pattern, file->d_name))
-			ft_printf("%s\n", file->d_name);
-		file = readdir(dir);
-	}
-	return (NULL);
-}
 
 int	is_match(char *pattern, char *string)
 {
-	char *sub_pattern;
+	char	*sub_pattern;
 
+	if (pattern[0] != '.' && string[0] == '.')
+		return (false);
 	while (*string != '\0' && *pattern != '\0')
 	{
 		if (*pattern == '?')

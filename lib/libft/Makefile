@@ -111,8 +111,9 @@ SRC =\
 				string/split/split.c					\
 				string/split/split_unless_in_quotes.c	\
 \
-				string/join/join_strs.c	\
-				string/join/strjoin.c	\
+				string/join/join_strs.c		\
+				string/join/strjoin.c		\
+				string/join/strjoin_three.c	\
 \
 				string/skip_char.c	\
 				string/strchr.c		\

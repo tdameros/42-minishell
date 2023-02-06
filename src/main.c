@@ -27,14 +27,16 @@
 #include "minishell_signal.h"
 
 #define PROMPT "➜ minishell-1.0$ "
-
+#include "error.h"
 void	print_here_docs(t_list *here_docs);
 void	test_get_envp(t_hashmap env_variables);
 
-void	dummy(void)
+void	dummy(void *content)
 {
-	return ;
+	ft_printf("%s\n", content);
 }
+
+t_list	*get_wildcards_list(char *path, char *pattern);
 
 int	main(int argc, char **argv, char **envp)
 {
@@ -43,12 +45,29 @@ int	main(int argc, char **argv, char **envp)
 	t_list		*tokens;
 	t_list		*here_docs;
 	t_hashmap	env_variables;
+	t_list		*wildcards;
 
 	(void)argc;
 	(void)argv;
-
+	command = readline(PROMPT);
+	wildcards = NULL;
+	char 	path[] = "/home/tomy/dev/42/minishell";
+	while (command != NULL && ft_strcmp(command, "exit"))
+	{
+		if (command[0] == '/')
+			wildcards = get_wildcards_list("/", command + 1);
+		else
+			wildcards = get_wildcards_list(path, command);
+		if (errno != 0)
+			ft_printf("ERROR WILDCARDS");
+		ft_lstiter(wildcards, dummy);
+		ft_lstclear(&wildcards, free);
+		free(command);
+		command = readline(PROMPT);
+	}
+	free(command);
+	return (0);
 	init_main_signal_handling();
-
 	env_variables = get_env_variables(envp);
 	// test_get_envp(env_variables);
 	if (init_exit_code(env_variables))
@@ -82,7 +101,6 @@ int	main(int argc, char **argv, char **envp)
 		// ft_printf("%p\n", here_docs->content);
 		// print_here_docs(here_docs);
 
-		dummy();
 		execute_commands(&tokens, env_variables, &here_docs);
 		free(save);
 		command = readline(PROMPT);

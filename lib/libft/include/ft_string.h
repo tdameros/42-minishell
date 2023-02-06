@@ -24,6 +24,7 @@ size_t	ft_count_args_after_split_unless_quotes(char *arg);
 
 char	*ft_strjoin(char const *s1, char const *s2);
 char	*ft_join_strs(char **strs, char const *sep);
+char	*ft_strjoin_three(char const *s1, char const *s2, char const *s3);
 
 char	*ft_skip_char(char *str, char c);
 char	*ft_strchr(const char *s, int c);
