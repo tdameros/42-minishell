@@ -6,7 +6,7 @@
 /*   By: vfries <vfries@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/04 17:38:45 by vfries            #+#    #+#             */
-/*   Updated: 2023/02/06 00:26:54 by vfries           ###   ########lyon.fr   */
+/*   Updated: 2023/02/06 11:14:07 by vfries           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,4 +63,3 @@ static void	execution_signal_handler(int sig)
 	if (get_cursor_x_pos_ret != 1 && get_cursor_x_pos_ret > 0)
 		ft_putstr("\n");
 }
-

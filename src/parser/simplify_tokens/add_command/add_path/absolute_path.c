@@ -6,7 +6,7 @@
 /*   By: vfries <vfries@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 01:39:50 by vfries            #+#    #+#             */
-/*   Updated: 2023/01/24 01:46:22 by vfries           ###   ########lyon.fr   */
+/*   Updated: 2023/02/06 11:17:53 by vfries           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,14 +26,9 @@ bool	is_absolute_path(t_token *command, t_hashmap env_variables)
 
 int	command_is_absolute_path(t_token *command)
 {
-	char	*tmp;
-
 	command->type = EXECUTABLE;
-	command->name = ft_strdup(ft_strrchr(command->args[0], '/') + 1);
+	command->name = ft_strdup(command->args[0]);
 	if (command->name == NULL)
 		return (-1);
-	tmp = command->args[0];
-	command->args[0] = command->name;
-	command->name = tmp;
 	return (0);
 }
