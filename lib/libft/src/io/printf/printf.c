@@ -6,7 +6,7 @@
 /*   By: vfries <vfries@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/08 21:32:51 by vfries            #+#    #+#             */
-/*   Updated: 2023/01/09 01:10:55 by vfries           ###   ########lyon.fr   */
+/*   Updated: 2023/02/06 08:46:58 by vfries           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,7 @@ int	ft_printf(const char *str_format, ...)
 		ft_lstclear(&str_list, &free_content);
 		return (-1);
 	}
-	if (write(STDOUT_FD, final_str, char_written) == -1)
+	if (write(STDOUT_FILENO, final_str, char_written) == -1)
 		char_written = -1;
 	free(final_str);
 	ft_lstclear(&str_list, &free_content);

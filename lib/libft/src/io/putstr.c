@@ -6,7 +6,7 @@
 /*   By: vfries <vfries@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/19 12:22:54 by vfries            #+#    #+#             */
-/*   Updated: 2023/01/09 01:11:15 by vfries           ###   ########lyon.fr   */
+/*   Updated: 2023/02/06 08:46:42 by vfries           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,5 +18,5 @@ void	ft_putstr(char *s)
 {
 	if (s == NULL)
 		return ;
-	write(STDOUT_FD, s, ft_strlen(s));
+	write(STDOUT_FILENO, s, ft_strlen(s));
 }
