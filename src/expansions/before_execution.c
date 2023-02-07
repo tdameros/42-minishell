@@ -38,6 +38,11 @@ static int	arguments_expansion(t_token *token, t_hashmap env_variables)
 		return (-1);
 	ft_free_split(token->args);
 	token->args = temp;
+	temp = duplicate_argument_with_wildcards(token->args);
+	if (temp == NULL)
+		return (-1);
+	ft_free_split(token->args);
+	token->args = temp;
 	if (remove_quotes_in_args(token->args) < 0)
 		return (-1);
 	return (0);

@@ -34,6 +34,7 @@ SRC				=\
 	expansions/words.c				\
 	expansions/before_execution.c	\
 	expansions/wildcards/add.c		\
+	expansions/wildcards/insert.c	\
 	expansions/wildcards/list.c		\
 	expansions/wildcards/match.c	\
 	expansions/wildcards/utils.c	\
@@ -82,7 +83,7 @@ DIR_BUILD		=	.build/
 OBJS			=	$(patsubst %.c, $(DIR_BUILD)%.o, $(SRC))
 DEPS			=	$(patsubst %.c, $(DIR_BUILD)%.d, $(SRC))
 DEPS_FLAGS		=	-MMD -MP
-CFLAGS			=	-Wall -Wextra -Werror -g3 -fsanitize=address -g3
+CFLAGS			=	-Wall -Wextra -Werror #-g3 -fsanitize=address -g3
 RM				=	rm -rf
 AR				=	ar rcs
 

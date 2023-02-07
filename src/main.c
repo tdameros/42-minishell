@@ -31,12 +31,12 @@
 void	print_here_docs(t_list *here_docs);
 void	test_get_envp(t_hashmap env_variables);
 
+#include "expansions.h"
 void	dummy(void *content)
 {
 	ft_printf("%s\n", content);
 }
 
-t_list	*get_wildcards_list(char *path, char *pattern);
 
 int	main(int argc, char **argv, char **envp)
 {
@@ -45,28 +45,29 @@ int	main(int argc, char **argv, char **envp)
 	t_list		*tokens;
 	t_list		*here_docs;
 	t_hashmap	env_variables;
-	t_list		*wildcards;
+//	t_list		*wildcards;
 
 	(void)argc;
 	(void)argv;
-	command = readline(PROMPT);
-	wildcards = NULL;
-	char 	path[] = "/home/tomy/dev/42/minishell";
-	while (command != NULL && ft_strcmp(command, "exit"))
-	{
-		if (command[0] == '/')
-			wildcards = get_wildcards_list("/", command + 1);
-		else
-			wildcards = get_wildcards_list(path, command);
-		if (errno != 0)
-			ft_printf("ERROR WILDCARDS");
-		ft_lstiter(wildcards, dummy);
-		ft_lstclear(&wildcards, free);
-		free(command);
-		command = readline(PROMPT);
-	}
-	free(command);
-	return (0);
+//	char *test = strdup_without_quote(strdup(""));
+//	ft_printf(test);
+//	ft_printf("%d\n", is_match("'\"'*", "\""));
+//	return (0);
+//	command = readline(PROMPT);
+//	wildcards = NULL;
+//	while (command != NULL && ft_strcmp(command, "exit"))
+//	{
+//		wildcards = get_wildcards_list(command);
+//		if ((errno != 0 && errno != EACCES) || wildcards == NULL)
+//			perror("minishell :");
+////			ft_printf("ERROR WILDCARDS");
+//		ft_lstiter(wildcards, dummy);
+//		ft_lstclear(&wildcards, free);
+//		free(command);
+//		command = readline(PROMPT);
+//	}
+//	free(command);
+//	return (0);
 	init_main_signal_handling();
 	env_variables = get_env_variables(envp);
 	// test_get_envp(env_variables);

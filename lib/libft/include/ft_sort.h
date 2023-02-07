@@ -15,5 +15,6 @@
 
 int	ft_msort_int(int *tab, int index_left, int index_right);
 int	ft_msort_str(char **tab, int index_left, int index_right);
+int	ft_msort_str_ignore_case(char **tab, int index_left, int index_right);
 
 #endif

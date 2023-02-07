@@ -15,10 +15,12 @@
 #include <error.h>
 #include "expansions.h"
 
-static int	add_simple_match_in_list(t_list **path_list, t_path path, char *pattern);
+static int	add_simple_match_in_list(t_list **path_list, t_path path,
+				char *pattern);
 static int	search_dir_match(t_list **path_list, t_path path, char *pattern);
 static int	add_dir_match_in_list(t_list **path_list, t_path path,
 				char *pattern, struct dirent *file);
+static int	reset_errno_if_permission_denied(void);
 
 int	add_match_in_list(t_list **path_list, t_path path, char *pattern)
 {
@@ -43,7 +45,7 @@ static int	search_dir_match(t_list **path_list, t_path path, char *pattern)
 
 	dir = opendir(path.absolute);
 	if (dir == NULL)
-		return (-1);
+		return (reset_errno_if_permission_denied());
 	file = readdir(dir);
 	if (errno != 0)
 		return (closedir(dir) - 1);
@@ -84,7 +86,7 @@ static int	add_dir_match_in_list(t_list **path_list, t_path path,
 				return (-1);
 	}
 	*slash = '/';
-	return (0);
+	return ((errno == 0) - 1);
 }
 
 int	add_simple_match_in_list(t_list **path_list, t_path path, char *pattern)
@@ -95,7 +97,7 @@ int	add_simple_match_in_list(t_list **path_list, t_path path, char *pattern)
 
 	dir = opendir(path.absolute);
 	if (dir == NULL)
-		return (-1);
+		return (reset_errno_if_permission_denied());
 	file = readdir(dir);
 	if (errno != 0)
 		return (closedir(dir) - 1);
@@ -113,4 +115,14 @@ int	add_simple_match_in_list(t_list **path_list, t_path path, char *pattern)
 			return (closedir(dir) - 1);
 	}
 	return (closedir(dir));
+}
+
+static int	reset_errno_if_permission_denied(void)
+{
+	if (errno == EACCES)
+	{
+		errno = 0;
+		return (0);
+	}
+	return (-1);
 }
