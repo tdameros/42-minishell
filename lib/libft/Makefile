@@ -111,29 +111,33 @@ SRC =\
 				string/split/split.c					\
 				string/split/split_unless_in_quotes.c	\
 \
-				string/join/join_strs.c	\
-				string/join/strjoin.c	\
+				string/join/join_strs.c		\
+				string/join/strjoin.c		\
+				string/join/strjoin_three.c	\
 \
-				string/skip_char.c	\
-				string/strchr.c		\
-				string/strcmp.c		\
-				string/strdup.c		\
-				string/striteri.c	\
-				string/strlcat.c	\
-				string/strlcpy.c	\
-				string/strlen.c		\
-				string/strmapi.c	\
-				string/strncmp.c	\
-				string/strnstr.c	\
-				string/strrchr.c	\
-				string/strtrim.c	\
-				string/substr.c		\
+				string/skip_char.c			\
+				string/strchr.c				\
+				string/strcmp.c				\
+				string/strcmp_ignore_case.c	\
+				string/strdup.c				\
+				string/striteri.c			\
+				string/strlcat.c			\
+				string/strlcpy.c			\
+				string/strlen.c				\
+				string/strmapi.c			\
+				string/strncmp.c			\
+				string/strnstr.c			\
+				string/strrstr.c			\
+				string/strrchr.c			\
+				string/strtrim.c			\
+				string/substr.c				\
 \
 				string/is_number.c	\
 \
 \
-				sort/msort_int.c	\
-				sort/msort_str.c
+				sort/msort_int.c				\
+				sort/msort_str.c				\
+				sort/msort_str_ignore_case.c	\
 
 
 TEST_DIR = test/
