@@ -6,7 +6,7 @@
 /*   By: vfries <vfries@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 09:17:54 by vfries            #+#    #+#             */
-/*   Updated: 2023/02/05 17:33:06 by vfries           ###   ########lyon.fr   */
+/*   Updated: 2023/02/07 00:05:36 by vfries           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,7 @@ static int	get_input(t_list **input_lst, char *limiter)
 	pid_t	pid;
 	char	*input;
 
+	// TODO Make this work with ctrl c handling
 	if (pipe(pipe_fd) == -1)
 		return (-1);
 	pid = fork();
