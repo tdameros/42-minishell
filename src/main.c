@@ -6,7 +6,7 @@
 /*   By: vfries <vfries@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/14 18:07:30 by vfries            #+#    #+#             */
-/*   Updated: 2023/02/08 18:21:03 by vfries           ###   ########lyon.fr   */
+/*   Updated: 2023/02/08 21:58:04 by vfries           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,6 @@ void	dummy(void *content)
 void	pass(void)
 {
 }
-
 int	main(int argc, char **argv, char **envp)
 {
 	char		*command;
@@ -84,10 +83,12 @@ int	main(int argc, char **argv, char **envp)
 		{
 			command = readline("> ");
 			save = ft_strjoin(save, command);
+			free(command);
 		}
 		add_history(save);
 
 		tokens = get_tokens(save);
+		free(save);
 		// if (tokens == NULL)
 		// 	ft_printf("Malloc failed\n");
 
@@ -95,8 +96,11 @@ int	main(int argc, char **argv, char **envp)
 
 //		ft_printf("\n\n------------------------------------------------\n\n\n");
 
-		if (simplify_tokens(&tokens, env_variables))
-			pass();
+		if (parse_tokens(&tokens, env_variables))
+		{
+			command = readline(PROMPT);
+			continue ;
+		}
 		// print_tokens(tokens);
 
 
@@ -106,7 +110,6 @@ int	main(int argc, char **argv, char **envp)
 		// print_here_docs(here_docs);
 
 		execute_commands(&tokens, env_variables, &here_docs);
-		free(save);
 		command = readline(PROMPT);
 	}
 	free(command);

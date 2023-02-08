@@ -48,8 +48,6 @@ SRC				=\
 	lexer/token.c		\
 \
 \
-	parser/operator/valid.c \
-\
 	parser/quote/valid.c	\
 \
 	parser/simplify_tokens/add_command/add_path/absolute_path.c		\
@@ -63,6 +61,11 @@ SRC				=\
 \
 	parser/simplify_tokens/get_subshells.c			\
 	parser/simplify_tokens/simplify_tokens.c		\
+\
+	parser/syntax/is_syntax_ok.c	\
+	parser/syntax/syntax_tools.c	\
+\
+	parser/parse_tokens.c	\
 \
 \
 	exit_code.c			\
