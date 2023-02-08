@@ -6,7 +6,7 @@
 /*   By: vfries <vfries@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 17:06:00 by tdameros          #+#    #+#             */
-/*   Updated: 2023/02/05 23:51:39 by vfries           ###   ########lyon.fr   */
+/*   Updated: 2023/02/08 17:34:42 by vfries           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,9 @@
 # define BUILTIN_CLOSE_FAILED "dup() failed on builtin"
 # define BUILTIN_DUP_FAILED "dup() failed on builtin"
 # define BUILTIN_DUP2_FAILED "dup2() failed on builtin"
+
+# define MALLOC_FAILED -1
+# define FILE_COUNT_IS_BAD 2
 
 void	print_error(char *command, char *context, char *error);
 char	*get_name(t_list *token);

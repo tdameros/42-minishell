@@ -6,36 +6,43 @@
 /*   By: vfries <vfries@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 18:14:00 by vfries            #+#    #+#             */
-/*   Updated: 2023/01/24 06:11:41 by vfries           ###   ########lyon.fr   */
+/*   Updated: 2023/02/08 17:30:25 by vfries           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lexer.h"
 #include "parser.h"
-#include "lexer.h"
+#include "error.h"
 
 static void	seperate_command_elements(t_list **tokens, t_list **args,
 				t_list **files);
 
-t_token	*get_new_command(t_list **tokens, t_hashmap env_variables)
+int	get_new_command(t_list **tokens, t_hashmap env_variables,
+		t_token **new_command)
 {
-	t_token	*new_command;
 	t_list	*args;
 	t_list	*files;
 
-	new_command = ft_calloc(1, sizeof(*new_command));
-	if (new_command == NULL)
-		return (NULL);
+	*new_command = ft_calloc(1, sizeof(**new_command));
+	if (*new_command == NULL)
+		return (MALLOC_FAILED);
 	seperate_command_elements(tokens, &args, &files);
-	new_command->files = get_files(&files);
-	if (add_args(new_command, &args) || add_path(new_command, env_variables))
+	if (get_files(&files, &(*new_command)->files, tokens))
+	{
+		free_token(*new_command);
+		ft_lstclear(&args, &free_token);
+		*new_command = NULL;
+		return (FILE_COUNT_IS_BAD);
+	}
+	if (add_args(*new_command, &args) || add_path(*new_command, env_variables))
 	{
 		ft_lstclear(&args, &free_token);
-		free_token(new_command);
-		return (NULL);
+		free_token(*new_command);
+		*new_command = NULL;
+		return (MALLOC_FAILED);
 	}
-	new_command->operator = -1;
-	return (new_command);
+	(*new_command)->operator = -1;
+	return (0);
 }
 
 static void	seperate_command_elements(t_list **tokens, t_list **args,

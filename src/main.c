@@ -6,7 +6,7 @@
 /*   By: vfries <vfries@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/14 18:07:30 by vfries            #+#    #+#             */
-/*   Updated: 2023/02/06 15:50:03 by vfries           ###   ########lyon.fr   */
+/*   Updated: 2023/02/08 18:01:19 by vfries           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,9 @@ void	dummy(void *content)
 	ft_printf("%s\n", content);
 }
 
+void	pass(void)
+{
+}
 
 int	main(int argc, char **argv, char **envp)
 {
@@ -93,7 +96,7 @@ int	main(int argc, char **argv, char **envp)
 //		ft_printf("\n\n------------------------------------------------\n\n\n");
 
 		if (simplify_tokens(&tokens, env_variables))
-			ft_printf("simplified_tokens failed!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n");
+			pass();
 		// print_tokens(tokens);
 
 

@@ -6,7 +6,7 @@
 /*   By: vfries <vfries@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 04:14:45 by vfries            #+#    #+#             */
-/*   Updated: 2023/01/27 17:44:07 by vfries           ###   ########lyon.fr   */
+/*   Updated: 2023/02/08 16:37:06 by vfries           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,9 +39,11 @@ int				command_is_in_path(t_token *command, t_hashmap env_variables);
 //			add_args.c
 int				add_args(t_token *token, t_list **args);
 //			add_command.c
-t_token			*get_new_command(t_list **tokens, t_hashmap env_variables);
+int				get_new_command(t_list **tokens, t_hashmap env_variables,
+					t_token **new_command);
 //			get_files.c
-t_list			*get_files(t_list **files);
+int				get_files(t_list **files, t_list **simplified_files,
+					t_list **tokens);
 //		}
 //		get_subshells.c
 t_list			*get_subshells(t_list *tokens);
