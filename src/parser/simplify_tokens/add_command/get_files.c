@@ -6,53 +6,72 @@
 /*   By: vfries <vfries@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 23:18:49 by vfries            #+#    #+#             */
-/*   Updated: 2023/02/08 18:13:00 by vfries           ###   ########lyon.fr   */
+/*   Updated: 2023/02/08 18:33:50 by vfries           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lexer.h"
 #include "error.h"
 
-int	file_error(t_list **simplified_files, t_list *tokens);
-void	print_file_error(t_list *tokens);
+static int	handle_file(t_list **files, t_list **simplified_files,
+				t_list **tokens);
+static int	file_error(t_list **simplified_files, t_list *tokens,
+				t_list **files);
+static void	print_file_error(t_list *tokens);
 
 int	get_files(t_list **files, t_list **simplified_files, t_list **tokens)
 {
-	t_token	*file_token;
-	t_token	*simplified_file_token;
+	int	error;
 
 	*simplified_files = NULL;
 	while (*files != NULL)
 	{
-		ft_lst_push(simplified_files, files);
-		if (*files == NULL)
-			return (file_error(simplified_files, *tokens));
-		file_token = (*files)->content;
-		simplified_file_token = (*simplified_files)->content;
-		if ((file_token->name == NULL && simplified_file_token->name == NULL)
-			|| (file_token->name != NULL
-				&& simplified_file_token->name != NULL))
-			return (file_error(simplified_files, *tokens));
-		if (file_token->name == NULL)
-			simplified_file_token->operator = file_token->operator;
-		else
-		{
-			simplified_file_token->name = file_token->name;
-			file_token->name = NULL;
-		}
-		ft_lst_get_next_free_current(files, &free_token);
+		error = handle_file(files, simplified_files, tokens);
+		if (error)
+			return (error);
 	}
+	ft_lst_reverse(simplified_files);
 	return (0);
 }
 
-int	file_error(t_list **simplified_files, t_list *tokens)
+static int	handle_file(t_list **files, t_list **simplified_files,
+				t_list **tokens)
 {
+	t_token	*file_token;
+	t_token	*simplified_file_token;
+
+	ft_lst_push(simplified_files, files);
+	if (*files == NULL)
+		return (file_error(simplified_files, *tokens, files));
+	file_token = (*files)->content;
+	simplified_file_token = (*simplified_files)->content;
+	if ((file_token->name == NULL && simplified_file_token->name == NULL)
+		|| (file_token->name != NULL
+			&& simplified_file_token->name != NULL))
+		return (file_error(simplified_files, *tokens, files));
+	if (file_token->name == NULL)
+		simplified_file_token->operator = file_token->operator;
+	else
+	{
+		simplified_file_token->name = file_token->name;
+		file_token->name = NULL;
+	}
+	ft_lst_get_next_free_current(files, &free_token);
+	return (0);
+}
+
+static int	file_error(t_list **simplified_files, t_list *tokens, t_list **files)
+{
+	if (*files == NULL)
+		print_file_error(tokens);
+	else
+		print_file_error(*files);
+	ft_lstclear(files, &free_token);
 	ft_lstclear(simplified_files, &free_token);
-	print_file_error(tokens);
 	return (FILE_COUNT_IS_BAD);
 }
 
-void	print_file_error(t_list *tokens)
+static void	print_file_error(t_list *tokens)
 {
 	t_token	*token;
 

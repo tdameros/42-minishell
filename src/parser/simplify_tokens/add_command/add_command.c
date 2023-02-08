@@ -6,7 +6,7 @@
 /*   By: vfries <vfries@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 18:14:00 by vfries            #+#    #+#             */
-/*   Updated: 2023/02/08 17:30:25 by vfries           ###   ########lyon.fr   */
+/*   Updated: 2023/02/08 18:34:40 by vfries           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,8 @@ static void	seperate_command_elements(t_list **tokens, t_list **args,
 		else
 			ft_lst_push(files, tokens);
 		if (*tokens == NULL)
-			return ;
+			break ;
 		token = (*tokens)->content;
 	}
+	ft_lst_reverse(files);
 }
