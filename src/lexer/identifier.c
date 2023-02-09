@@ -93,7 +93,7 @@ int	get_index_next_token(char *command)
 	operator = get_operator(command);
 	if (operator >= 0)
 	{
-		if (command[0] != '\0' && command[0] == command[1] && (command[0] != ')' && command[0] != '(' && command[0] != '|'))
+		if (command[0] != '\0' && command[0] == command[1] && (command[0] != ')' && command[0] != '('))
 			index += 2;
 		else
 			index++;
