@@ -22,9 +22,7 @@ int	unset(char **args, t_hashmap env_variables)
 	index = 1;
 	while (args[index] != NULL)
 	{
-		if (ft_strcmp("_", args[index]) != 0
-			&& ft_hm_delete_elem(env_variables, args[index], free) < 0)
-			return (exit_code(1));
+		ft_hm_delete_elem(env_variables, args[index], free);
 		index++;
 	}
 	return (exit_code(0));

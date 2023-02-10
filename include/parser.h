@@ -16,8 +16,11 @@
 # include "lexer.h"
 # include <stdbool.h>
 
-bool				parse_tokens(t_list	**tokens, t_hashmap env_variables);
+int	run_interactive_parsing(char **command, t_list **parsed_tokens);
 
+int parse_syntax(t_list *tokens);
+
+int		check_parentheses(t_list *tokens);
 // quote
 int					remove_quotes(t_list *tokens);
 int					is_valid_quote(char *command);
@@ -62,7 +65,7 @@ bool				is_syntax_ok(t_list *tokens);
 bool				syntax_is_operator(t_list *token_lst);
 bool				syntax_is_empty(t_list *token_lst);
 enum e_operators	syntax_get_operator(t_list *token_lst);
-void				print_syntax_error(t_list *token);
+//void				print_syntax_error(t_list *token);
 //	}
 
 #endif

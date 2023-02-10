@@ -38,6 +38,35 @@ int	add_match_in_list(t_list **path_list, t_path path, char *pattern)
 	return (0);
 }
 
+static int	add_simple_match_in_list(t_list **path_list,
+										t_path path, char *pattern)
+{
+	DIR				*dir;
+	struct dirent	*file;
+	char			*new_relative_path;
+
+	dir = opendir(path.absolute);
+	if (dir == NULL)
+		return (reset_errno_if_permission_denied());
+	file = readdir(dir);
+	if (errno != 0)
+		return (closedir(dir) - 1);
+	while (file != NULL)
+	{
+		if (is_match(pattern, file->d_name))
+		{
+			new_relative_path = ft_strjoin(path.relative, file->d_name);
+			ft_lstadd_front(path_list, ft_lstnew(new_relative_path));
+			if (errno != 0)
+				return (free(new_relative_path), closedir(dir) - 1);
+		}
+		file = readdir(dir);
+		if (errno != 0)
+			return (closedir(dir) - 1);
+	}
+	return (closedir(dir));
+}
+
 static int	search_dir_match(t_list **path_list, t_path path, char *pattern)
 {
 	DIR				*dir;
@@ -87,34 +116,6 @@ static int	add_dir_match_in_list(t_list **path_list, t_path path,
 	}
 	*slash = '/';
 	return ((errno == 0) - 1);
-}
-
-int	add_simple_match_in_list(t_list **path_list, t_path path, char *pattern)
-{
-	DIR				*dir;
-	struct dirent	*file;
-	char			*new_relative_path;
-
-	dir = opendir(path.absolute);
-	if (dir == NULL)
-		return (reset_errno_if_permission_denied());
-	file = readdir(dir);
-	if (errno != 0)
-		return (closedir(dir) - 1);
-	while (file != NULL)
-	{
-		if (is_match(pattern, file->d_name))
-		{
-			new_relative_path = ft_strjoin(path.relative, file->d_name);
-			ft_lstadd_front(path_list, ft_lstnew(new_relative_path));
-			if (errno != 0)
-				return (free(new_relative_path), closedir(dir) - 1);
-		}
-		file = readdir(dir);
-		if (errno != 0)
-			return (closedir(dir) - 1);
-	}
-	return (closedir(dir));
 }
 
 static int	reset_errno_if_permission_denied(void)

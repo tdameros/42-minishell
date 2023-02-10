@@ -43,33 +43,12 @@ void	pass(void)
 int	main(int argc, char **argv, char **envp)
 {
 	char		*command;
-	char		*save;
 	t_list		*tokens;
 	t_list		*here_docs;
 	t_hashmap	env_variables;
-//	t_list		*wildcards;
 
 	(void)argc;
 	(void)argv;
-//	char *test = strdup_without_quote(strdup(""));
-//	ft_printf(test);
-//	ft_printf("%d\n", is_match("'\"'*", "\""));
-//	return (0);
-//	command = readline(PROMPT);
-//	wildcards = NULL;
-//	while (command != NULL && ft_strcmp(command, "exit"))
-//	{
-//		wildcards = get_wildcards_list(command);
-//		if ((errno != 0 && errno != EACCES) || wildcards == NULL)
-//			perror("minishell :");
-////			ft_printf("ERROR WILDCARDS");
-//		ft_lstiter(wildcards, dummy);
-//		ft_lstclear(&wildcards, free);
-//		free(command);
-//		command = readline(PROMPT);
-//	}
-//	free(command);
-//	return (0);
 	init_main_signal_handling();
 	env_variables = get_env_variables(envp);
 	// test_get_envp(env_variables);
@@ -78,38 +57,22 @@ int	main(int argc, char **argv, char **envp)
 	command = readline(PROMPT);
 	while (command != NULL && ft_strcmp(command, "exit"))
 	{
-		save = command;
-		while (!is_valid_quote(save))
+		if (run_interactive_parsing(&command, &tokens) > 0)
 		{
-			command = readline("> ");
-			save = ft_strjoin(save, command);
-			free(command);
+			simplify_tokens(&tokens, env_variables);
+//			print_tokens(tokens);
+			if (get_here_docs(&here_docs, tokens))
+				ft_printf("get_here_docs() failed\n");
+			execute_commands(&tokens, env_variables, &here_docs);
 		}
-		add_history(save);
-
-		tokens = get_tokens(save);
-		free(save);
-		// if (tokens == NULL)
-		// 	ft_printf("Malloc failed\n");
-
-		// print_tokens(tokens);
-
-//		ft_printf("\n\n------------------------------------------------\n\n\n");
-
-		if (parse_tokens(&tokens, env_variables))
+		if (command == NULL)
 		{
-			command = readline(PROMPT);
-			continue ;
+			ft_hm_clear(&env_variables, &free);
+			ft_putstr("exit\n");
+			exit(2);
 		}
-		// print_tokens(tokens);
-
-
-		if (get_here_docs(&here_docs, tokens))
-			ft_printf("get_here_docs() failed\n");
-		// ft_printf("%p\n", here_docs->content);
-		// print_here_docs(here_docs);
-
-		execute_commands(&tokens, env_variables, &here_docs);
+		add_history(command);
+		free(command);
 		command = readline(PROMPT);
 	}
 	free(command);

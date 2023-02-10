@@ -10,29 +10,42 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdlib.h>
+#include "readline/readline.h"
+#include "readline/history.h"
 #include "lexer.h"
 #include "parser.h"
 #include "exit_code.h"
 
-static bool	first_token_is_bad(t_list *token);
 
-bool	parse_tokens(t_list	**tokens, t_hashmap env_variables)
+int	parse_tokens(t_list	**tokens, t_hashmap env_variables)
 {
-	if (first_token_is_bad(*tokens))
+	if (parse_syntax(*tokens) != 1)
 	{
-		print_syntax_error(*tokens);
 		exit_code(2);
-		return (true);
+		return (-1);
 	}
 	if (simplify_tokens(tokens, env_variables))
-		return (true);
-	if (is_syntax_ok(*tokens) == false)
-		return (true);
-	return (false);
+		return (-1);
+	return (0);
 }
 
-static bool	first_token_is_bad(t_list *token)
-{
-	return (syntax_is_operator(token)
-		&& is_file_operator_token(token->content) == false);
-}
+//static int check_syntax(t_list *tokens)
+//{
+//	char *new_command;
+//	char *temp;
+//
+//	while (parse_syntax())
+//	{
+//		temp = readline("> ");
+//		new_command = ft_strjoin_three(command, "\n",temp);
+//		if (new_command == NULL)
+//		{
+//			free(command);
+//			return (NULL);
+//		}
+//		free(command);
+//		command = new_command;
+//	}
+//	return (command);
+//}

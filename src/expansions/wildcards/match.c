@@ -15,10 +15,10 @@
 #include "libft.h"
 #include "expansions.h"
 
-static int	is_start_or_end_quote(char *string, char *quote);
 static int	search_match(char **pattern, char **string, char *quote);
-int			get_index_end_pattern(char *pattern);
+static int	is_start_or_end_quote(char *string, char *quote);
 static int	search_match_after_star(char **pattern, char **string);
+static int	get_index_end_pattern(char *pattern);
 
 int	is_match(char *pattern, char *string)
 {
@@ -77,6 +77,21 @@ static int	search_match(char **pattern, char **string, char *quote)
 	return (-1);
 }
 
+static int	is_start_or_end_quote(char *string, char *quote)
+{
+	if (*string == *quote && *quote != 0)
+	{
+		*quote = 0;
+		return (1);
+	}
+	else if (*quote == 0 && (*string == '\'' || *string == '"'))
+	{
+		*quote = *string;
+		return (1);
+	}
+	return (0);
+}
+
 static int	search_match_after_star(char **pattern, char **string)
 {
 	char	*sub_pattern;
@@ -104,7 +119,7 @@ static int	search_match_after_star(char **pattern, char **string)
 	return (1);
 }
 
-int	get_index_end_pattern(char *pattern)
+static int	get_index_end_pattern(char *pattern)
 {
 	int		index;
 	char	quote;
@@ -113,25 +128,10 @@ int	get_index_end_pattern(char *pattern)
 	quote = 0;
 	is_start_or_end_quote(pattern, &quote);
 	while (pattern[index] != '\0'
-		&& !(quote == 0 && (*pattern == '*' || *pattern == '?')))
+		&& !(quote == 0 && (pattern[index] == '*' || pattern[index] == '?')))
 	{
 		index++;
 		is_start_or_end_quote(pattern, &quote);
 	}
 	return (index);
-}
-
-static int	is_start_or_end_quote(char *string, char *quote)
-{
-	if (*string == *quote && *quote != 0)
-	{
-		*quote = 0;
-		return (1);
-	}
-	else if (*quote == 0 && (*string == '\'' || *string == '"'))
-	{
-		*quote = *string;
-		return (1);
-	}
-	return (0);
 }

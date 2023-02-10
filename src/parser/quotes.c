@@ -10,8 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
-
 static int	is_valid_simple_quote(char *command);
 static int	is_valid_double_quote(char *command);
 

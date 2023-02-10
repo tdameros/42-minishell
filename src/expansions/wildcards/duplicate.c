@@ -15,11 +15,12 @@
 #include "expansions.h"
 #include "libft.h"
 
-static void		fill_tab_with_list(char **tab, t_list *list);
 static ssize_t	fill_tab_with_wildcards(char **tab, char *argument);
 static ssize_t	fill_tab_if_is_wildcard(char **tab, char *argument);
+static char		**get_wildcards_tab(char *pattern);
+static void		fill_tab_with_list(char **tab, t_list *list);
 
-char	**duplicate_argument_with_wildcards(char **argument)
+char	**duplicate_args_with_wildcards(char **argument)
 {
 	ssize_t	count;
 	ssize_t	result;
@@ -87,7 +88,7 @@ static ssize_t	fill_tab_if_is_wildcard(char **tab, char *argument)
 	return (count);
 }
 
-char	**get_wildcards_tab(char *pattern)
+static char	**get_wildcards_tab(char *pattern)
 {
 	char	**new_tab;
 	t_list	*wildcards_list;

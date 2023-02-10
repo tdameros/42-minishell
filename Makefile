@@ -27,17 +27,18 @@ SRC				=\
 	execution/run_builtin.c				\
 \
 \
-	expansions/alias.c				\
-	expansions/parameters.c			\
-	expansions/parameters_utils.c	\
-	expansions/quotes.c				\
-	expansions/words.c				\
-	expansions/before_execution.c	\
-	expansions/wildcards/add.c		\
-	expansions/wildcards/insert.c	\
-	expansions/wildcards/list.c		\
-	expansions/wildcards/match.c	\
-	expansions/wildcards/utils.c	\
+	expansions/wildcards/add.c			\
+	expansions/wildcards/duplicate.c	\
+	expansions/wildcards/list.c			\
+	expansions/wildcards/match.c		\
+	expansions/wildcards/utils.c		\
+	expansions/alias.c					\
+	expansions/files.c					\
+	expansions/parameters.c				\
+	expansions/parameters_utils.c		\
+	expansions/quotes.c					\
+	expansions/token.c					\
+	expansions/words.c					\
 \
 \
 	error/error.c	\
@@ -48,7 +49,8 @@ SRC				=\
 	lexer/token.c		\
 \
 \
-	parser/quote/valid.c	\
+	parser/quotes.c	\
+	parser/interactive.c \
 \
 	parser/simplify_tokens/add_command/add_path/absolute_path.c		\
 	parser/simplify_tokens/add_command/add_path/add_path.c			\
@@ -62,8 +64,7 @@ SRC				=\
 	parser/simplify_tokens/get_subshells.c			\
 	parser/simplify_tokens/simplify_tokens.c		\
 \
-	parser/syntax/is_syntax_ok.c	\
-	parser/syntax/syntax_tools.c	\
+	parser/syntax.c		\
 \
 	parser/parse_tokens.c	\
 \
