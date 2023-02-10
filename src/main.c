@@ -65,6 +65,8 @@ int	main(int argc, char **argv, char **envp)
 				ft_printf("get_here_docs() failed\n");
 			execute_commands(&tokens, env_variables, &here_docs);
 		}
+		else
+			exit_code(2);
 		if (command == NULL)
 		{
 			ft_hm_clear(&env_variables, &free);
