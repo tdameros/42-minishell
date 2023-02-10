@@ -25,9 +25,9 @@ int	ft_msort_str_ignore_case(char **tab, int index_left, int index_right)
 	if (index_left < index_right)
 	{
 		middle = (index_left + index_right) / 2;
-		if (ft_msort_str(tab, index_left, middle) < 0)
+		if (ft_msort_str_ignore_case(tab, index_left, middle) < 0)
 			return (-1);
-		if (ft_msort_str(tab, middle + 1, index_right) < 0)
+		if (ft_msort_str_ignore_case(tab, middle + 1, index_right) < 0)
 			return (-1);
 		if (merge(tab, index_left, middle, index_right) < 0)
 			return (-1);
