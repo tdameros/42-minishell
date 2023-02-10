@@ -6,7 +6,7 @@
 /*   By: vfries <vfries@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 04:14:45 by vfries            #+#    #+#             */
-/*   Updated: 2023/02/08 21:59:12 by vfries           ###   ########lyon.fr   */
+/*   Updated: 2023/02/10 16:56:00 by vfries           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,12 @@
 # include "lexer.h"
 # include <stdbool.h>
 
-int	run_interactive_parsing(char **command, t_list **parsed_tokens);
+int					run_interactive_parsing(char **command,
+						t_list **parsed_tokens);
 
-int parse_syntax(t_list *tokens);
+int					parse_syntax(t_list *tokens);
 
-int		check_parentheses(t_list *tokens);
+int					check_parentheses(t_list *tokens);
 // quote
 int					remove_quotes(t_list *tokens);
 int					is_valid_quote(char *command);
@@ -45,11 +46,9 @@ int					command_is_in_path(t_token *command,
 //			add_args.c
 int					add_args(t_token *token, t_list **args);
 //			add_command.c
-int					get_new_command(t_list **tokens, t_hashmap env_variables,
-						t_token **new_command);
+t_token				*get_new_command(t_list **tokens, t_hashmap env_variables);
 //			get_files.c
-int					get_files(t_list **files, t_list **simplified_files,
-						t_list **tokens);
+t_list				*get_files(t_list **files);
 //		}
 //		get_subshells.c
 t_list				*get_subshells(t_list *tokens);
