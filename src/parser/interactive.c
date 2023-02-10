@@ -3,18 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   interactive.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tomy <tomy@student.42lyon.fr>              +#+  +:+       +#+        */
+/*   By: vfries <vfries@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 01:27:00 by tomy              #+#    #+#             */
-/*   Updated: 2023/02/10 01:27:00 by tomy             ###   ########lyon.fr   */
+/*   Updated: 2023/02/10 16:14:11 by vfries           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
+#include <stdio.h> /*	included to avoid compilation errors on mac OS with
+						readline headers									*/
 #include "readline/readline.h"
 #include "readline/history.h"
 #include "parser.h"
-#include "lexer.h"
 #include "error.h"
 
 static int	run_interactive_quotes_parsing(char **command);

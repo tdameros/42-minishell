@@ -6,14 +6,11 @@
 /*   By: vfries <vfries@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 21:45:10 by vfries            #+#    #+#             */
-/*   Updated: 2023/02/08 22:00:40 by vfries           ###   ########lyon.fr   */
+/*   Updated: 2023/02/10 16:12:58 by vfries           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
-#include "readline/readline.h"
-#include "readline/history.h"
-#include "lexer.h"
 #include "parser.h"
 #include "exit_code.h"
 
