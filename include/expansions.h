@@ -16,6 +16,21 @@
 # include "libft.h"
 # include "lexer.h"
 
+//	add_path/
+
+//	absolute_path.c
+bool	is_absolute_path(t_token *command, t_hashmap env_variables);
+int		command_is_absolute_path(t_token *command);
+
+//	add_path.c
+int		add_path(t_token *command, t_hashmap env_variables);
+
+//	builtin.c
+enum e_builtin	is_builtin(char *command_name);
+
+//	command.c
+int		command_is_in_path(t_token *command, t_hashmap env_variables);
+
 //	wildcards/
 
 typedef struct s_path

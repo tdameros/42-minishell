@@ -17,7 +17,7 @@
 static void	seperate_command_elements(t_list **tokens, t_list **args,
 				t_list **files);
 
-t_token	*get_new_command(t_list **tokens, t_hashmap env_variables)
+t_token	*get_new_command(t_list **tokens)
 {
 	t_token	*new_command;
 	t_list	*args;
@@ -28,7 +28,7 @@ t_token	*get_new_command(t_list **tokens, t_hashmap env_variables)
 		return (NULL);
 	seperate_command_elements(tokens, &args, &files);
 	new_command->files = get_files(&files);
-	if (add_args(new_command, &args) || add_path(new_command, env_variables))
+	if (add_args(new_command, &args))
 	{
 		ft_lstclear(&args, &free_token);
 		free_token(new_command);

@@ -27,6 +27,11 @@ SRC				=\
 	execution/run_builtin.c				\
 \
 \
+\
+	expansions/paths/absolute_path.c	\
+	expansions/paths/add_path.c			\
+	expansions/paths/builtin.c			\
+	expansions/paths/command.c			\
 	expansions/wildcards/add.c			\
 	expansions/wildcards/duplicate.c	\
 	expansions/wildcards/list.c			\
@@ -52,11 +57,6 @@ SRC				=\
 	parser/quotes.c	\
 	parser/interactive.c \
 	parser/interactive_utils.c \
-\
-	parser/simplify_tokens/add_command/add_path/absolute_path.c		\
-	parser/simplify_tokens/add_command/add_path/add_path.c			\
-	parser/simplify_tokens/add_command/add_path/builtin.c			\
-	parser/simplify_tokens/add_command/add_path/command.c			\
 \
 	parser/simplify_tokens/add_command/add_args.c		\
 	parser/simplify_tokens/add_command/add_command.c	\

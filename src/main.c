@@ -67,7 +67,7 @@ int	main(int argc, char **argv, char **envp)
 		return_code = run_interactive_parsing(&command, &tokens);
 		if (return_code == 0)
 		{
-			simplify_tokens(&tokens, env_variables);
+			simplify_tokens(&tokens);
 			if (get_here_docs(&here_docs, tokens))
 				ft_printf("get_here_docs() failed\n");
 			execute_commands(&tokens, env_variables, &here_docs);

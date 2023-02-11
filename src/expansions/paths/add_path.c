@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 #include "lexer.h"
-#include "parser.h"
+#include "expansions.h"
 #include <stdlib.h>
 
 int	add_path(t_token *command, t_hashmap env_variables)
@@ -19,7 +19,7 @@ int	add_path(t_token *command, t_hashmap env_variables)
 	if (command->args == NULL || command->args[0] == NULL)
 		return (0);
 	command->builtin = is_builtin(command->args[0]);
-	if (command->builtin != (enum e_builtin)-1)
+	if (command->builtin != (enum e_builtin) - 1)
 	{
 		command->type = BUILTIN;
 		return (0);

@@ -15,14 +15,14 @@
 #include "exit_code.h"
 
 
-int	parse_tokens(t_list	**tokens, t_hashmap env_variables)
+int	parse_tokens(t_list	**tokens)
 {
 	if (parse_syntax(*tokens) != 1)
 	{
 		exit_code(2);
 		return (-1);
 	}
-	if (simplify_tokens(tokens, env_variables))
+	if (simplify_tokens(tokens))
 		return (-1);
 	return (0);
 }

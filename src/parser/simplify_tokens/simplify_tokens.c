@@ -16,7 +16,7 @@
 
 static void	free_lsts(t_list **simplified_tokens, t_list **tokens);
 
-int	simplify_tokens(t_list **tokens, t_hashmap env_variables)
+int	simplify_tokens(t_list **tokens)
 {
 	t_list	*simplified_tokens;
 	t_token	*new_command;
@@ -32,7 +32,7 @@ int	simplify_tokens(t_list **tokens, t_hashmap env_variables)
 			ft_lst_push(&simplified_tokens, tokens);
 			continue ;
 		}
-		new_command = get_new_command(tokens, env_variables);
+		new_command = get_new_command(tokens);
 		new_node = ft_lstnew(new_command);
 		if (new_command == NULL || new_node == NULL)
 		{
