@@ -62,7 +62,7 @@ static void	execution_signal_handler(int sig)
 		return ;
 	exit_code(130);
 	// TODO experiment with code below, if we end up not using it: delete get_cursor_x_pos.c
-	// get_cursor_x_pos_ret = get_cursor_x_pos();
+//	 get_cursor_x_pos_ret = get_cursor_x_pos();
 	// if (get_cursor_x_pos_ret > 1)
 	// 	ft_putchar_fd('\n', STDOUT_FILENO);
 }

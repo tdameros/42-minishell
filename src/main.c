@@ -46,6 +46,7 @@ int	main(int argc, char **argv, char **envp)
 	t_list		*tokens;
 	t_list		*here_docs;
 	t_hashmap	env_variables;
+	int			return_code;
 
 	(void)argc;
 	(void)argv;
@@ -57,22 +58,21 @@ int	main(int argc, char **argv, char **envp)
 	command = readline(PROMPT);
 	while (command != NULL && ft_strcmp(command, "exit"))
 	{
-		if (run_interactive_parsing(&command, &tokens) > 0)
+		if (ft_strlen(command) == 0)
+		{
+			free(command);
+			command = readline(PROMPT);
+			continue ;
+		}
+		return_code = run_interactive_parsing(&command, &tokens);
+		if (return_code == 0)
 		{
 			simplify_tokens(&tokens, env_variables);
-//			print_tokens(tokens);
 			if (get_here_docs(&here_docs, tokens))
 				ft_printf("get_here_docs() failed\n");
 			execute_commands(&tokens, env_variables, &here_docs);
 		}
-		else
-			exit_code(2);
-		if (command == NULL)
-		{
-			ft_hm_clear(&env_variables, &free);
-			ft_putstr("exit\n");
-			exit(2);
-		}
+//		init_main_signal_handling();
 		add_history(command);
 		free(command);
 		command = readline(PROMPT);

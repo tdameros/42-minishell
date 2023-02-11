@@ -16,6 +16,9 @@
 # include "lexer.h"
 # include <stdbool.h>
 
+void	init_interactive_signal_handling(void);
+char	*get_command_from_fd(int fd);
+int	set_end_of_file(char **command);
 int					run_interactive_parsing(char **command,
 						t_list **parsed_tokens);
 
