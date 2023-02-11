@@ -40,6 +40,7 @@ void	dummy(void *content)
 void	pass(void)
 {
 }
+int run_new_interactive_parsing(char **command, t_list **parsed_tokens, t_list **here_docs);
 int	main(int argc, char **argv, char **envp)
 {
 	char		*command;
@@ -64,14 +65,17 @@ int	main(int argc, char **argv, char **envp)
 			command = readline(PROMPT);
 			continue ;
 		}
-		return_code = run_interactive_parsing(&command, &tokens);
-		if (return_code == 0)
-		{
-			simplify_tokens(&tokens);
-			if (get_here_docs(&here_docs, tokens))
-				ft_printf("get_here_docs() failed\n");
-			execute_commands(&tokens, env_variables, &here_docs);
-		}
+        return_code = run_new_interactive_parsing(&command, &tokens, &here_docs);
+        ft_printf("PARSING CODE : %d\n", return_code);
+        ft_printf("COMMAND : %s\n", command);
+//		return_code = run_interactive_parsing(&command, &tokens);
+//		if (return_code == 0)
+//		{
+//			simplify_tokens(&tokens);
+//			if (get_here_docs(&here_docs, tokens))
+//				ft_printf("get_here_docs() failed\n");
+//			execute_commands(&tokens, env_variables, &here_docs);
+//		}
 //		init_main_signal_handling();
 		add_history(command);
 		free(command);

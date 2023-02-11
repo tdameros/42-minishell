@@ -42,7 +42,6 @@ static void	execute_commands_loop(t_list **tokens, t_hashmap env_variables,
 {
 	while (*tokens != NULL)
 	{
-		apply_token_expansion((*tokens)->content, env_variables);
 		if (get_next_operator(*tokens) == PIPE)
 			execute_pipes(tokens, env_variables, here_docs);
 		else
@@ -63,6 +62,7 @@ int	execute_command_no_pipe(t_list **tokens, t_hashmap env_variables,
 	command = NULL;
 	ft_lst_push(&command, tokens);
 	command_token = command->content;
+    apply_token_expansion(command_token, env_variables);
 	if (command_token->type == BUILTIN)
 		return (execute_command_no_pipe_builtin(command, env_variables,
 				here_docs));

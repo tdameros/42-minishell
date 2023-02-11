@@ -57,6 +57,7 @@ SRC				=\
 	parser/quotes.c	\
 	parser/interactive.c \
 	parser/interactive_utils.c \
+	parser/new_interactive.c \
 \
 	parser/simplify_tokens/add_command/add_args.c		\
 	parser/simplify_tokens/add_command/add_command.c	\
