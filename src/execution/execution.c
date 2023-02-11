@@ -15,6 +15,7 @@
 #include "env_variables.h"
 #include "execution.h"
 #include "minishell_signal.h"
+#include "expansions.h"
 #include "exit_code.h"
 #include <sys/wait.h>
 #include <stdlib.h>
@@ -41,6 +42,7 @@ static void	execute_commands_loop(t_list **tokens, t_hashmap env_variables,
 {
 	while (*tokens != NULL)
 	{
+		apply_token_expansion((*tokens)->content, env_variables);
 		if (get_next_operator(*tokens) == PIPE)
 			execute_pipes(tokens, env_variables, here_docs);
 		else
