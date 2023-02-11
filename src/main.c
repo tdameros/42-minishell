@@ -26,7 +26,7 @@
 #include "quote.h"
 #include "minishell_signal.h"
 
-#define PROMPT "➜ minishell-1.0$ "
+#define PROMPT "\e[32m➜ \e[36mminishell-1.0$ \x1b[0m"
 #include "error.h"
 void	print_here_docs(t_list *here_docs);
 void	test_get_envp(t_hashmap env_variables);
