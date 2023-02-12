@@ -6,7 +6,7 @@
 /*   By: vfries <vfries@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 01:27:00 by tomy              #+#    #+#             */
-/*   Updated: 2023/02/10 16:14:11 by vfries           ###   ########lyon.fr   */
+/*   Updated: 2023/02/11 23:37:59 by vfries           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ static int	run_interactive_syntax_parsing(char **command,
 				t_list **parsed_tokens);
 
 
+#include <stdio.h>
 int	run_interactive_parsing(char **command, t_list **parsed_tokens)
 {
 	// TODO : SECURE THE FONCTION (tomorrow)
@@ -59,6 +60,7 @@ int	run_interactive_parsing(char **command, t_list **parsed_tokens)
 		*command = get_command_from_fd(fd[0]);
 		*parsed_tokens = get_tokens(*command);
 	}
+	close(fd[0]);
 	return (exit_code);
 }
 

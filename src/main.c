@@ -6,7 +6,7 @@
 /*   By: vfries <vfries@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/14 18:07:30 by vfries            #+#    #+#             */
-/*   Updated: 2023/02/08 21:58:04 by vfries           ###   ########lyon.fr   */
+/*   Updated: 2023/02/12 19:26:46 by vfries           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ int	main(int argc, char **argv, char **envp)
 
 	(void)argc;
 	(void)argv;
-	init_main_signal_handling();
+	init_signal_handling();
 	env_variables = get_env_variables(envp);
 	// test_get_envp(env_variables);
 	if (init_exit_code(env_variables))
@@ -72,7 +72,10 @@ int	main(int argc, char **argv, char **envp)
 				ft_printf("get_here_docs() failed\n");
 			execute_commands(&tokens, env_variables, &here_docs);
 		}
-//		init_main_signal_handling();
+		if (exit_code(GET) == 0 && return_code == 3)
+			exit_code(2);
+		else if (exit_code(GET) == 0)
+			exit_code(return_code);
 		add_history(command);
 		free(command);
 		command = readline(PROMPT);

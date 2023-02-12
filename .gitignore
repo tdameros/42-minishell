@@ -4,6 +4,8 @@ tester
 
 # Junk
 .DS_Store
+.nfs*
+.vscode
 
 # Norm
 .normignore

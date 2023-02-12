@@ -6,7 +6,7 @@
 /*   By: vfries <vfries@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 09:24:00 by vfries            #+#    #+#             */
-/*   Updated: 2023/02/05 23:11:09 by vfries           ###   ########lyon.fr   */
+/*   Updated: 2023/02/12 19:24:54 by vfries           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,7 @@ static pid_t	fork_and_execute_command(t_token *command,
 void	execute_commands(t_list **tokens, t_hashmap env_variables,
 			t_list **here_docs)
 {
-	init_execution_signal_handling();
 	execute_commands_loop(tokens, env_variables, here_docs);
-	init_main_signal_handling();
 	ft_lstclear(tokens, &free_token);
 	ft_lst_of_lst_clear(here_docs, &free);
 }
@@ -42,7 +40,6 @@ static void	execute_commands_loop(t_list **tokens, t_hashmap env_variables,
 {
 	while (*tokens != NULL)
 	{
-		apply_token_expansion((*tokens)->content, env_variables);
 		if (get_next_operator(*tokens) == PIPE)
 			execute_pipes(tokens, env_variables, here_docs);
 		else
@@ -63,6 +60,9 @@ int	execute_command_no_pipe(t_list **tokens, t_hashmap env_variables,
 	command = NULL;
 	ft_lst_push(&command, tokens);
 	command_token = command->content;
+	if (command_token->type != SUBSHELL
+		&& apply_token_expansion(command_token, env_variables) < 0)
+		return (print_error(command_token->name, NULL, get_error()), -1);
 	if (command_token->type == BUILTIN)
 		return (execute_command_no_pipe_builtin(command, env_variables,
 				here_docs));

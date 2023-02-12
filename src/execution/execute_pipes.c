@@ -6,7 +6,7 @@
 /*   By: vfries <vfries@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 10:44:03 by vfries            #+#    #+#             */
-/*   Updated: 2023/02/05 23:10:37 by vfries           ###   ########lyon.fr   */
+/*   Updated: 2023/02/11 23:55:13 by vfries           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 #include "env_variables.h"
 #include "execution.h"
 #include "exit_code.h"
+#include "expansions.h"
 #include <sys/wait.h>
 #include <stdlib.h>
 
@@ -92,17 +93,22 @@ static pid_t	execute_piped_command(t_list *sub_tokens,
 {
 	pid_t	pid;
 	int		pipe_fd[2];
+	t_token	*command_token;
 
 	if (pipe(pipe_fd) == -1)
 	{
 		print_error(get_name(sub_tokens), PIPE_FAILED, get_error());
 		return (-1);
 	}
+	command_token = sub_tokens->content;
+	if (command_token->type != SUBSHELL
+		&& apply_token_expansion(command_token, env_variables) < 0)
+		return (print_error(command_token->name, NULL, get_error()), -1);
 	pid = fork();
 	if (pid == -1)
 		print_error(get_name(sub_tokens), FORK_FAILED, get_error());
 	else if (pid == 0)
-		exit(execute_forked_pipe(sub_tokens->content, env_variables, *here_docs,
+		exit(execute_forked_pipe(command_token, env_variables, *here_docs,
 				pipe_fd));
 	else if (dup2(pipe_fd[0], STDIN_FILENO) == -1)
 		print_error(get_name(sub_tokens), PIPE_DUP2_FAILED, get_error());
