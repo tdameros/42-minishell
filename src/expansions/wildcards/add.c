@@ -20,7 +20,6 @@ static int	add_simple_match_in_list(t_list **path_list, t_path path,
 static int	search_dir_match(t_list **path_list, t_path path, char *pattern);
 static int	add_dir_match_in_list(t_list **path_list, t_path path,
 				char *pattern, struct dirent *file);
-static int	reset_errno_if_permission_denied(void);
 
 int	add_match_in_list(t_list **path_list, t_path path, char *pattern)
 {
@@ -46,8 +45,9 @@ static int	add_simple_match_in_list(t_list **path_list,
 	char			*new_relative_path;
 
 	dir = opendir(path.absolute);
+	errno = 0;
 	if (dir == NULL)
-		return (reset_errno_if_permission_denied());
+		return (0);
 	file = readdir(dir);
 	if (errno != 0)
 		return (closedir(dir) - 1);
@@ -73,8 +73,9 @@ static int	search_dir_match(t_list **path_list, t_path path, char *pattern)
 	struct dirent	*file;
 
 	dir = opendir(path.absolute);
+	errno = 0;
 	if (dir == NULL)
-		return (reset_errno_if_permission_denied());
+		return (0);
 	file = readdir(dir);
 	if (errno != 0)
 		return (closedir(dir) - 1);
@@ -97,7 +98,8 @@ static int	add_dir_match_in_list(t_list **path_list, t_path path,
 
 	slash = ft_strchr(pattern, '/');
 	*slash = '\0';
-	if (file->d_type == DT_DIR && is_match(pattern, file->d_name))
+	if (ft_isdir(path.absolute, file->d_name)
+		&& is_match(pattern, file->d_name))
 	{
 		new_path.absolute = ft_strjoin_three(path.absolute, "/", file->d_name);
 		new_path.relative = ft_strjoin_three(path.relative, file->d_name, "/");
@@ -116,14 +118,4 @@ static int	add_dir_match_in_list(t_list **path_list, t_path path,
 	}
 	*slash = '/';
 	return ((errno == 0) - 1);
-}
-
-static int	reset_errno_if_permission_denied(void)
-{
-	if (errno == EACCES)
-	{
-		errno = 0;
-		return (0);
-	}
-	return (-1);
 }

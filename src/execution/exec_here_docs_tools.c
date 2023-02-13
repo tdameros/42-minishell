@@ -6,7 +6,7 @@
 /*   By: vfries <vfries@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/30 00:50:09 by vfries            #+#    #+#             */
-/*   Updated: 2023/02/06 17:25:05 by vfries           ###   ########lyon.fr   */
+/*   Updated: 2023/02/13 18:10:36 by vfries           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,10 +47,13 @@ void	skip_token_here_docs(t_list *tokens, t_list **here_docs)
 static void	free_one_here_doc(t_list **here_docs)
 {
 	t_list	*here_doc;
+	t_list	*tmp;
 
 	here_doc = (*here_docs)->content;
 	ft_lstclear(&here_doc, &free);
+	tmp = *here_docs;
 	*here_docs = (*here_docs)->next;
+	free(tmp);
 }
 
 int	read_here_doc(t_list **here_docs)

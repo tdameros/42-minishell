@@ -12,8 +12,33 @@
 
 #include <dirent.h>
 #include <stdlib.h>
+#include <sys/stat.h>
 #include <error.h>
 #include "expansions.h"
+
+bool	ft_isdir(char *path, char *file_name)
+{
+	struct stat	*stat_buf;
+	bool		result;
+	char		*file;
+
+	stat_buf = malloc(sizeof(*stat_buf));
+	if (stat_buf == NULL)
+		return (false);
+	file = ft_strjoin_three(path, "/", file_name);
+	if (file == NULL)
+		return (free(stat_buf), false);
+	if (stat(file, stat_buf) < 0)
+	{
+		errno = 0;
+		result = false;
+	}
+	else
+		result = S_ISDIR(stat_buf->st_mode);
+	free(stat_buf);
+	free(file);
+	return (result);
+}
 
 void	free_path(t_path *path)
 {

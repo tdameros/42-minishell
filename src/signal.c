@@ -6,7 +6,7 @@
 /*   By: vfries <vfries@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/04 17:38:45 by vfries            #+#    #+#             */
-/*   Updated: 2023/02/12 19:32:30 by vfries           ###   ########lyon.fr   */
+/*   Updated: 2023/02/13 18:04:35 by vfries           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,30 @@
 #include "get_cursor_x_pos.h"
 #include "sys/wait.h"
 #include <signal.h>
-#include <stdio.h>
+#include <stdlib.h>
 #include <readline/readline.h>
+#include <sys/wait.h>
 
 static void	signal_handler(int sig);
+static void	interactive_signal_handler(int sig);
+
+void	init_interactive_signal_handling(void)
+{
+	struct sigaction	action;
+
+	action.sa_handler = &interactive_signal_handler;
+	sigemptyset(&action.sa_mask);
+	action.sa_flags = SA_RESTART;
+	sigaction(SIGINT, &action, NULL);
+	sigaction(SIGQUIT, &action, NULL);
+}
+
+static void	interactive_signal_handler(int sig)
+{
+	if (sig != SIGINT)
+		return ;
+	exit(130);
+}
 
 void	init_signal_handling(void)
 {
