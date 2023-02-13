@@ -102,7 +102,7 @@ static pid_t	execute_piped_command(t_list *sub_tokens,
 	}
 	command_token = sub_tokens->content;
 	if (command_token->type != SUBSHELL
-		&& apply_token_expansion(command_token, env_variables) < 0)
+		&& apply_token_expansion(command_token, *here_docs, env_variables) < 0)
 		return (print_error(command_token->name, NULL, get_error()), -1);
 	pid = fork();
 	if (pid == -1)

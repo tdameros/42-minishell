@@ -39,6 +39,7 @@ SRC				=\
 	expansions/wildcards/utils.c		\
 	expansions/alias.c					\
 	expansions/files.c					\
+	expansions/here_docs.c				\
 	expansions/parameters.c				\
 	expansions/parameters_utils.c		\
 	expansions/quotes.c					\

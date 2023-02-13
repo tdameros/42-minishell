@@ -64,6 +64,9 @@ int		replace_alias(char **args, t_hashmap alias_variables);
 //	files.c
 int		apply_files_expansion(t_list *files, t_hashmap env_variables);
 
+//	here_docs.c
+int		apply_here_docs_expansions(t_token *token, t_list *here_docs, t_hashmap env_variables);
+
 //	parameters.c
 int		insert_parameters_in_args(char **args, t_hashmap env_variables);
 char	*strdup_with_parameters_quote(char *string, t_hashmap env_variables);
@@ -80,7 +83,7 @@ int		remove_quotes_in_args(char **args);
 char	*strdup_without_quote(char *command);
 
 //	token.c
-int		apply_token_expansion(t_token *token, t_hashmap env_variables);
+int		apply_token_expansion(t_token *token, t_list *here_docs, t_hashmap env_variables);
 
 //	words.c
 char	**split_args(char **args);

@@ -69,7 +69,6 @@ static int	add_here_doc(t_list **here_docs, char *limiter)
 		ft_lstclear(&input, &free);
 		return (return_code);
 	}
-//	ft_printf("here1");
 	new_node = ft_lstnew(input);
 	if (new_node == NULL)
 	{
@@ -119,6 +118,8 @@ static int	get_forked_input(int *pipe_fd, char *limiter)
 		free(input);
 		input = readline("> ");
 	}
+	if (input == NULL)
+		print_error(NULL, "warning", "here-document delimited by end-of-file");
 	free(input);
 	close_pipe(pipe_fd);
 	if (errno != 0)
@@ -137,8 +138,8 @@ static int	add_input(t_list **input_lst, int *pipe_fd)
 		return (1);
 	}
 	input = get_next_line(pipe_fd[0]);
-	if (input == NULL)
-		print_error(NULL, "warning", "here-document delimited by end-of-file");
+//	if (input == NULL)
+//		print_error(NULL, "warning", "here-document delimited by end-of-file");
 	while (input != NULL)
 	{
 		new_node = ft_lstnew(input);

@@ -61,7 +61,7 @@ int	execute_command_no_pipe(t_list **tokens, t_hashmap env_variables,
 	ft_lst_push(&command, tokens);
 	command_token = command->content;
 	if (command_token->type != SUBSHELL
-		&& apply_token_expansion(command_token, env_variables) < 0)
+		&& apply_token_expansion(command_token, *here_docs, env_variables) < 0)
 		return (print_error(command_token->name, NULL, get_error()), -1);
 	if (command_token->type == BUILTIN)
 		return (execute_command_no_pipe_builtin(command, env_variables,

@@ -17,13 +17,15 @@
 
 static int	apply_arguments_expansion(t_token *token, t_hashmap env_variables);
 
-int	apply_token_expansion(t_token *token, t_hashmap env_variables)
+int	apply_token_expansion(t_token *token, t_list *here_docs, t_hashmap env_variables)
 {
 	if (apply_arguments_expansion(token, env_variables) < 0)
 		return (-1);
 	if (add_path(token, env_variables) < 0)
 		return (-1);
 	if (apply_files_expansion(token->files, env_variables) < 0)
+		return (-1);
+	if (apply_here_docs_expansions(token, here_docs, env_variables) < 0)
 		return (-1);
 	return (0);
 }
