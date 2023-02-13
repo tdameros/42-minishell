@@ -24,9 +24,10 @@ t_list	*get_wildcards_list(char *pattern)
 	wildcards = NULL;
 	if (pattern[0] == '/')
 	{
-		wildcards_path.relative = ft_strdup("/");
+		wildcards_path.relative = ft_substr(pattern, 0, ft_skip_char(pattern, '/') - pattern);
+//		wildcards_path.relative = ft_strdup("/");
 		wildcards_path.absolute = ft_strdup("/");
-		pattern++;
+		pattern = ft_skip_char(pattern, '/');
 	}
 	else
 	{

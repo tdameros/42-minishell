@@ -23,6 +23,7 @@ static int	add_dir_match_in_list(t_list **path_list, t_path path,
 
 int	add_match_in_list(t_list **path_list, t_path path, char *pattern)
 {
+	errno = 0;
 	if (ft_strchr(pattern, '/') == NULL)
 	{
 		if (add_simple_match_in_list(path_list, path, pattern) < 0)
@@ -45,12 +46,12 @@ static int	add_simple_match_in_list(t_list **path_list,
 	char			*new_relative_path;
 
 	dir = opendir(path.absolute);
-	errno = 0;
 	if (dir == NULL)
+	{
+		errno = 0;
 		return (0);
+	}
 	file = readdir(dir);
-	if (errno != 0)
-		return (closedir(dir) - 1);
 	while (file != NULL)
 	{
 		if (is_match(pattern, file->d_name))
@@ -61,9 +62,8 @@ static int	add_simple_match_in_list(t_list **path_list,
 				return (free(new_relative_path), closedir(dir) - 1);
 		}
 		file = readdir(dir);
-		if (errno != 0)
-			return (closedir(dir) - 1);
 	}
+	errno = 0;
 	return (closedir(dir));
 }
 
@@ -73,20 +73,19 @@ static int	search_dir_match(t_list **path_list, t_path path, char *pattern)
 	struct dirent	*file;
 
 	dir = opendir(path.absolute);
-	errno = 0;
 	if (dir == NULL)
+	{
+		errno = 0;
 		return (0);
+	}
 	file = readdir(dir);
-	if (errno != 0)
-		return (closedir(dir) - 1);
 	while (file != NULL)
 	{
 		if (add_dir_match_in_list(path_list, path, pattern, file) < 0)
 			return (closedir(dir) - 1);
 		file = readdir(dir);
-		if (errno != 0)
-			return (closedir(dir) - 1);
 	}
+	errno = 0;
 	return (closedir(dir));
 }
 
@@ -105,7 +104,7 @@ static int	add_dir_match_in_list(t_list **path_list, t_path path,
 		new_path.relative = ft_strjoin_three(path.relative, file->d_name, "/");
 		if (new_path.relative == NULL || new_path.absolute == NULL)
 			return (free_path(&new_path), -1);
-		if (ft_strlen(slash + 1) == 0)
+		if (ft_strlen(ft_skip_char(slash + 1, '/')) == 0)
 		{
 			ft_lstadd_front(path_list, ft_lstnew(new_path.relative));
 			if (errno != 0)
@@ -113,7 +112,7 @@ static int	add_dir_match_in_list(t_list **path_list, t_path path,
 			free(new_path.absolute);
 		}
 		else
-			if (add_match_in_list(path_list, new_path, slash + 1) < 0)
+			if (add_match_in_list(path_list, new_path, ft_skip_char(slash + 1, '/')) < 0)
 				return (-1);
 	}
 	*slash = '/';
