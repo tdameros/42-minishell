@@ -13,6 +13,7 @@
 #ifndef EXPANSIONS_H
 # define EXPANSIONS_H
 
+# include <dirent.h>
 # include "libft.h"
 # include "lexer.h"
 
@@ -52,6 +53,8 @@ t_list	*get_wildcards_list(char *pattern);
 int		is_match(char *pattern, char *string);
 
 //	wildcards/utils.c
+bool	ft_isdir(char *path, char *file_name);
+DIR		*ft_opendir(char *path);
 void	free_path(t_path *path);
 int		is_wildcard(char *pattern);
 ssize_t	size_with_wildcards_args(char **arguments);
