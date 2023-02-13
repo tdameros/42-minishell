@@ -16,7 +16,6 @@
 #include <error.h>
 #include "expansions.h"
 
-
 bool	ft_isdir(char *path, char *file_name)
 {
 	struct stat	*stat_buf;
@@ -30,22 +29,15 @@ bool	ft_isdir(char *path, char *file_name)
 	if (file == NULL)
 		return (free(stat_buf), false);
 	if (stat(file, stat_buf) < 0)
+	{
+		errno = 0;
 		result = false;
+	}
 	else
 		result = S_ISDIR(stat_buf->st_mode);
 	free(stat_buf);
 	free(file);
 	return (result);
-}
-
-DIR	*ft_opendir(char *path)
-{
-	if (access(path, R_OK) < 0)
-	{
-		errno = 0;
-		return (NULL);
-	}
-	return (opendir(path));
 }
 
 void	free_path(t_path *path)

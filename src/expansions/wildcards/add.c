@@ -44,9 +44,10 @@ static int	add_simple_match_in_list(t_list **path_list,
 	struct dirent	*file;
 	char			*new_relative_path;
 
-	dir = ft_opendir(path.absolute);
+	dir = opendir(path.absolute);
+	errno = 0;
 	if (dir == NULL)
-		return ((errno == 0) - 1);
+		return (0);
 	file = readdir(dir);
 	if (errno != 0)
 		return (closedir(dir) - 1);
@@ -71,9 +72,10 @@ static int	search_dir_match(t_list **path_list, t_path path, char *pattern)
 	DIR				*dir;
 	struct dirent	*file;
 
-	dir = ft_opendir(path.absolute);
+	dir = opendir(path.absolute);
+	errno = 0;
 	if (dir == NULL)
-		return ((errno == 0) - 1);
+		return (0);
 	file = readdir(dir);
 	if (errno != 0)
 		return (closedir(dir) - 1);

@@ -12,23 +12,20 @@
 
 #include "libft.h"
 
-static char	ignore_case(char c);
-
 int	ft_strcmp_ignore_case(const char *s1, const char *s2)
 {
 	while (*s1 != '\0' && *s2 != '\0')
 	{
-		if (ignore_case(*s1) != ignore_case(*s2))
-			return (ignore_case(*s1) - ignore_case(*s2));
-		s1++;
-		s2++;
+		while (!ft_isalnum(*s1) && *s1 != '\0')
+			s1++;
+		while (!ft_isalnum(*s2) && *s2 != '\0')
+			s2++;
+		if (ft_tolower(*s1) != ft_tolower(*s2))
+			return (ft_tolower(*s1) - ft_tolower(*s2));
+		if (*s1 != '\0')
+			s1++;
+		if (*s2 != '\0')
+			s2++;
 	}
-	return (ignore_case(*s1) - ignore_case(*s2));
-}
-
-static char	ignore_case(char c)
-{
-//	if (ft_isalpha(c))
-		return (ft_tolower(c));
-//	return (255);
+	return (ft_tolower(*s1) - ft_tolower(*s2));
 }
