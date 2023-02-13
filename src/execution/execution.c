@@ -30,9 +30,7 @@ static pid_t	fork_and_execute_command(t_token *command,
 void	execute_commands(t_list **tokens, t_hashmap env_variables,
 			t_list **here_docs)
 {
-	init_execution_signal_handling();
 	execute_commands_loop(tokens, env_variables, here_docs);
-	init_main_signal_handling();
 	ft_lstclear(tokens, &free_token);
 	ft_lst_of_lst_clear(here_docs, &free);
 }
@@ -62,7 +60,9 @@ int	execute_command_no_pipe(t_list **tokens, t_hashmap env_variables,
 	command = NULL;
 	ft_lst_push(&command, tokens);
 	command_token = command->content;
-    apply_token_expansion(command_token, env_variables);
+	if (command_token->type != SUBSHELL
+		&& apply_token_expansion(command_token, env_variables) < 0)
+		return (print_error(command_token->name, NULL, get_error()), -1);
 	if (command_token->type == BUILTIN)
 		return (execute_command_no_pipe_builtin(command, env_variables,
 				here_docs));

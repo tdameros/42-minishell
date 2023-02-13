@@ -32,8 +32,8 @@ static void	interactive_signal_handler(int sig)
 {
 	if (sig != SIGINT)
 		return ;
-	rl_on_new_line();
-	rl_replace_line("", 0);
+//	rl_on_new_line();
+//	rl_replace_line("", 0);
 	exit(130);
 }
 

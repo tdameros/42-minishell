@@ -13,8 +13,7 @@
 #ifndef MINISHELL_SIGNAL_H
 # define MINISHELL_SIGNAL_H
 
-void	init_main_signal_handling(void);
-void	init_execution_signal_handling(void);
-// void	update_last_exit_sigint(t_hashmap env_variables);
+void	init_interactive_signal_handling(void);
+void	init_signal_handling(void);
 
 #endif

@@ -55,9 +55,6 @@ SRC				=\
 \
 \
 	parser/quotes.c	\
-	parser/interactive.c \
-	parser/interactive_utils.c \
-	parser/new_interactive.c \
 \
 	parser/simplify_tokens/add_command/add_args.c		\
 	parser/simplify_tokens/add_command/add_command.c	\
@@ -71,9 +68,14 @@ SRC				=\
 	parser/parse_tokens.c	\
 \
 \
+	interactive/here_docs.c			\
+	interactive/parsing.c			\
+	interactive/shell.c				\
+	interactive/utils.c				\
+\
+\
 	exit_code.c			\
 	get_cursor_x_pos.c	\
-	get_here_docs.c		\
 	main.c				\
 	signal.c
 
@@ -89,7 +91,7 @@ DIR_BUILD		=	.build/
 OBJS			=	$(patsubst %.c, $(DIR_BUILD)%.o, $(SRC))
 DEPS			=	$(patsubst %.c, $(DIR_BUILD)%.d, $(SRC))
 DEPS_FLAGS		=	-MMD -MP
-CFLAGS			=	-Wall -Wextra -Werror -g3 -fsanitize=address -g3
+CFLAGS			=	-Wall -Wextra -Werror  -g3 -fsanitize=address -g3
 RM				=	rm -rf
 AR				=	ar rcs
 

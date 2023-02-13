@@ -47,10 +47,13 @@ void	skip_token_here_docs(t_list *tokens, t_list **here_docs)
 static void	free_one_here_doc(t_list **here_docs)
 {
 	t_list	*here_doc;
+	t_list 	*tmp;
 
 	here_doc = (*here_docs)->content;
 	ft_lstclear(&here_doc, &free);
+	tmp = *here_docs;
 	*here_docs = (*here_docs)->next;
+	free(tmp);
 }
 
 int	read_here_doc(t_list **here_docs)

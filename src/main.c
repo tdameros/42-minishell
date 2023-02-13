@@ -32,6 +32,7 @@ void	print_here_docs(t_list *here_docs);
 void	test_get_envp(t_hashmap env_variables);
 
 #include "expansions.h"
+#include "interactive.h"
 void	dummy(void *content)
 {
 	ft_printf("%s\n", content);
@@ -41,50 +42,19 @@ void	pass(void)
 {
 }
 int run_new_interactive_parsing(char **command, t_list **parsed_tokens, t_list **here_docs);
+
 int	main(int argc, char **argv, char **envp)
 {
-	char		*command;
-	t_list		*tokens;
-	t_list		*here_docs;
 	t_hashmap	env_variables;
-	int			return_code;
 
 	(void)argc;
 	(void)argv;
-	init_main_signal_handling();
+	init_signal_handling();
 	env_variables = get_env_variables(envp);
 	// test_get_envp(env_variables);
 	if (init_exit_code(env_variables))
 		ft_printf("Error handling\n"); // TODO
-	command = readline(PROMPT);
-	while (command != NULL && ft_strcmp(command, "exit"))
-	{
-		if (ft_strlen(command) == 0)
-		{
-			free(command);
-			command = readline(PROMPT);
-			continue ;
-		}
-        return_code = run_new_interactive_parsing(&command, &tokens, &here_docs);
-        ft_printf("PARSING CODE : %d\n", return_code);
-        ft_printf("COMMAND : %s\n", command);
-//		return_code = run_interactive_parsing(&command, &tokens);
-//		if (return_code == 0)
-//		{
-//			simplify_tokens(&tokens);
-//			if (get_here_docs(&here_docs, tokens))
-//				ft_printf("get_here_docs() failed\n");
-//			execute_commands(&tokens, env_variables, &here_docs);
-//		}
-//		init_main_signal_handling();
-		add_history(command);
-		free(command);
-		command = readline(PROMPT);
-	}
-	free(command);
-	ft_putstr("exit\n");
-	ft_hm_clear(&env_variables, &free);
-	return (0);
+	return (run_interactive_shell(env_variables));
 }
 
 void	print_here_docs(t_list *here_docs)

@@ -97,7 +97,8 @@ static int	add_dir_match_in_list(t_list **path_list, t_path path,
 
 	slash = ft_strchr(pattern, '/');
 	*slash = '\0';
-	if (file->d_type == DT_DIR && is_match(pattern, file->d_name))
+	if ((file->d_type == DT_DIR || file->d_type == DT_LNK)
+		&& is_match(pattern, file->d_name))
 	{
 		new_path.absolute = ft_strjoin_three(path.absolute, "/", file->d_name);
 		new_path.relative = ft_strjoin_three(path.relative, file->d_name, "/");

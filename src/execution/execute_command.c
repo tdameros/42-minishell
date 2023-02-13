@@ -27,9 +27,6 @@ static void	run_command_error(t_token *command);
 void	execute_command(t_token *command, t_hashmap env_variables,
 			t_list *here_docs)
 {
-	// TODO apply_expansions_before_exec before the fork
-//	if (apply_token_expansion(command, env_variables) < 0)
-//		return (print_error(command->name, NULL, get_error()));
 	if (command->type == BUILTIN)
 		return (run_builtin(command, env_variables, here_docs));
 	if (open_and_dup_files(command->files, here_docs))

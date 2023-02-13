@@ -22,6 +22,7 @@ int	pwd(void)
 	char	*current_path;
 
 	current_path = getcwd(NULL, 0);
+//	current_path[100] = 0;
 	if (current_path == NULL)
 	{
 		print_error("pwd", NULL, strerror(errno));
