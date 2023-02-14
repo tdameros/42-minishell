@@ -3,21 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tomy <tomy@student.42lyon.fr>              +#+  +:+       +#+        */
+/*   By: vfries <vfries@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/12 16:08:00 by tomy              #+#    #+#             */
-/*   Updated: 2023/02/12 16:08:00 by tomy             ###   ########lyon.fr   */
+/*   Updated: 2023/02/14 02:42:02 by vfries           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <errno.h>
 #include <sys/wait.h>
 #include <stdlib.h>
+#include <stdio.h>
+#include <readline/readline.h>
 #include "libft.h"
 #include "lexer.h"
 #include "get_here_docs.h"
 #include "minishell_signal.h"
-#include "readline/readline.h"
 #include "parser.h"
 
 static int	get_input(char **input);

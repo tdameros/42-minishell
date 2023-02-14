@@ -78,7 +78,8 @@ SRC				=\
 	exit_code.c			\
 	get_cursor_x_pos.c	\
 	main.c				\
-	signal.c
+	signal.c			\
+	terminal.c
 
 
 DIR_INCS		=\

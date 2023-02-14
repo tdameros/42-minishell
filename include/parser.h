@@ -6,7 +6,7 @@
 /*   By: vfries <vfries@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 04:14:45 by vfries            #+#    #+#             */
-/*   Updated: 2023/02/10 16:56:00 by vfries           ###   ########lyon.fr   */
+/*   Updated: 2023/02/14 05:34:06 by vfries           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,8 @@
 # include "lexer.h"
 # include <stdbool.h>
 
-void	init_interactive_signal_handling(void);
-char	*get_command_from_fd(int fd);
-int	set_end_of_file(char **command);
+char				*get_command_from_fd(int fd);
+int					set_end_of_file(char **command);
 int					run_interactive_parsing(char **command,
 						t_list **parsed_tokens);
 

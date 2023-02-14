@@ -6,7 +6,7 @@
 /*   By: vfries <vfries@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 01:39:18 by vfries            #+#    #+#             */
-/*   Updated: 2023/01/24 02:10:05 by vfries           ###   ########lyon.fr   */
+/*   Updated: 2023/02/14 22:56:02 by vfries           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 enum e_builtin	is_builtin(char *command_name)
 {
 	if (ft_strcmp(command_name, "echo") == 0)
-		return (ECHO);
+		return (ECHO_CMD);
 	if (ft_strcmp(command_name, "cd") == 0)
 		return (CD);
 	if (ft_strcmp(command_name, "pwd") == 0)

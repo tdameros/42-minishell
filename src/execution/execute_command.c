@@ -6,46 +6,50 @@
 /*   By: vfries <vfries@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 13:31:41 by vfries            #+#    #+#             */
-/*   Updated: 2023/02/11 23:43:06 by vfries           ###   ########.fr       */
+/*   Updated: 2023/02/14 22:44:19 by vfries           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <sys/stat.h>
 #include <stdlib.h>
 #include "lexer.h"
+#include "terminal.h"
 #include "error.h"
+#include "minishell_struct.h"
 #include "exit_code.h"
 #include "env_variables.h"
 #include "execution.h"
 #include "expansions.h"
 
-static void	run_subshell(t_token *command, t_hashmap env_variables,
+static void	run_subshell(t_token *command, t_minishell *minishell,
 				t_list *here_docs);
 static void	run_command(t_token *command, char **envp);
 static void	run_command_error(t_token *command);
 
-void	execute_command(t_token *command, t_hashmap env_variables,
+void	execute_command(t_token *command, t_minishell *minishell,
 			t_list *here_docs)
 {
 	if (command->type == BUILTIN)
-		return (run_builtin(command, env_variables, here_docs));
+		return (run_builtin(command, minishell->env_variables, here_docs));
 	if (open_and_dup_files(command->files, here_docs))
 		return ;
 	if (command->type == SUBSHELL)
-		return (run_subshell(command, env_variables, here_docs));
+		return (run_subshell(command, minishell, here_docs));
 	if (command->type == EXECUTABLE)
 		return (run_command(command,
-				get_non_empty_envp(env_variables, command->name))); // TODO get_envp() before the fork
+				get_non_empty_envp(minishell->env_variables, command->name))); // TODO get_envp() before the fork
 	else
 		return (run_command(command,
-				get_non_empty_envp(env_variables, command->name))); // TODO get_envp() before the fork
+				get_non_empty_envp(minishell->env_variables, command->name))); // TODO get_envp() before the fork
 }
 
-static void	run_subshell(t_token *command, t_hashmap env_variables,
+static void	run_subshell(t_token *command, t_minishell *minishell,
 				t_list *here_docs)
 {
-	execute_commands(&command->subshell, env_variables, &here_docs);
-	ft_hm_clear(&env_variables, &free);
+	execute_commands(&command->subshell, minishell, &here_docs);
+	ft_hm_clear(&minishell->env_variables, &free);
+	if (terminal_restore(minishell->termios_save) < 0)
+		exit_code(-1);
 	exit(exit_code(GET));
 }
 

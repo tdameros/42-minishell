@@ -1,21 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_here_docs.c                                    :+:      :+:    :+:   */
+/*   here_docs.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vfries <vfries@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 09:17:54 by vfries            #+#    #+#             */
-/*   Updated: 2023/02/07 00:05:36 by vfries           ###   ########lyon.fr   */
+/*   Updated: 2023/02/14 05:30:55 by vfries           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "lexer.h"
-#include "parser.h"
 #include <stdlib.h>
-#include "readline/readline.h"
+#include <stdio.h>
+#include <readline/readline.h>
 #include <sys/wait.h>
 #include <errno.h>
+#include "lexer.h"
+#include "minishell_signal.h"
+#include "parser.h"
 #include "error.h"
 
 #define HERE_DOC_PROMPT "> "

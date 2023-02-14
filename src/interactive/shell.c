@@ -6,16 +6,17 @@
 /*   By: vfries <vfries@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/12 16:37:00 by tomy              #+#    #+#             */
-/*   Updated: 2023/02/13 18:08:00 by vfries           ###   ########lyon.fr   */
+/*   Updated: 2023/02/14 22:55:16 by vfries           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #include <stdlib.h>
+#include <stdio.h>
+#include <readline/readline.h>
+#include <readline/history.h>
+#include "minishell_struct.h"
 #include "env_variables.h"
 #include "interactive.h"
-#include "readline/readline.h"
-#include "readline/history.h"
 #include "lexer.h"
 #include "execution.h"
 #include "exit_code.h"
@@ -23,14 +24,13 @@
 
 #define PROMPT "\e[32m➜ \e[36mminishell-1.0$ \x1b[0m"
 
-int	run_interactive_shell(t_hashmap env_variables)
+int	run_interactive_shell(t_minishell *minishell)
 {
 	char	*command;
 	t_list	*here_docs;
 	t_list	*tokens;
 	int		return_code;
 
-	(void ) env_variables;
 	here_docs = NULL;
 	tokens = NULL;
 	command = readline(PROMPT);
@@ -42,7 +42,7 @@ int	run_interactive_shell(t_hashmap env_variables)
 			if (return_code != 0)
 				exit_code(return_code);
 			else
-				execute_commands(&tokens, env_variables, &here_docs);
+				execute_commands(&tokens, minishell, &here_docs);
 //			ft_printf("PARSING CODE : %d\n", return_code);
 //			ft_printf("COMMAND : %s\n", command);
 			add_history(command);
@@ -56,6 +56,6 @@ int	run_interactive_shell(t_hashmap env_variables)
 	}
 	free(command);
 	ft_putstr("exit\n");
-	ft_hm_clear(&env_variables, &free);
+	ft_hm_clear(&minishell->env_variables, &free);
 	return (0);
 }

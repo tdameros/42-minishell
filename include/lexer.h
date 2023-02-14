@@ -6,7 +6,7 @@
 /*   By: vfries <vfries@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/30 02:41:29 by vfries            #+#    #+#             */
-/*   Updated: 2023/01/30 02:41:58 by vfries           ###   ########lyon.fr   */
+/*   Updated: 2023/02/14 22:55:50 by vfries           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ enum e_operators
 
 enum e_builtin
 {
-	ECHO = 0,
+	ECHO_CMD = 0,
 	CD = 1,
 	PWD = 2,
 	EXPORT = 3,

@@ -6,12 +6,11 @@
 /*   By: vfries <vfries@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/05 16:10:16 by vfries            #+#    #+#             */
-/*   Updated: 2023/02/05 23:09:15 by vfries           ###   ########lyon.fr   */
+/*   Updated: 2023/02/14 23:54:39 by vfries           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "exit_code.h"
-#include "libft.h"
 #include "env_variables.h"
 #include <sys/wait.h>
 #include <stdlib.h>
@@ -54,11 +53,4 @@ int	init_exit_code(t_hashmap env_variables)
 		return (-1);
 	static_exit_code(GET, ft_hm_get_elem(env_variables, LAST_EXIT_CODE));
 	return (0);
-}
-
-int	get_pid_exit_code(int pid_exit_code)
-{
-	if (WIFEXITED(pid_exit_code))
-		return (exit_code(WEXITSTATUS(pid_exit_code)));
-	return (exit_code(130));
 }
