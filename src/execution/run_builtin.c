@@ -6,7 +6,7 @@
 /*   By: vfries <vfries@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/29 01:01:57 by vfries            #+#    #+#             */
-/*   Updated: 2023/02/14 22:55:59 by vfries           ###   ########lyon.fr   */
+/*   Updated: 2023/02/15 00:29:51 by vfries           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static int	save_io(char *command_name, int *io_save);
 static int	close_io_save(char *command_name, int *io_save);
 static void	restore_io_and_close_io_save(int *io_save, char *command_name);
 
-void	run_builtin(t_token *command, t_hashmap env_variables,
+void	run_builtin(t_token *command, t_minishell *minishell,
 				t_list *here_docs)
 {
 	int	io_save[2];
@@ -33,18 +33,18 @@ void	run_builtin(t_token *command, t_hashmap env_variables,
 	if (command->builtin == ECHO_CMD)
 		echo(command->args);
 	else if (command->builtin == CD)
-		cd(command->args, env_variables);
+		cd(command->args, minishell->env_variables);
 	else if (command->builtin == PWD)
 		pwd();
 	else if (command->builtin == EXPORT)
-		export(command->args, env_variables);
+		export(command->args, minishell->env_variables);
 	else if (command->builtin == UNSET)
-		unset(command->args, env_variables);
+		unset(command->args, minishell->env_variables);
 	else if (command->builtin == ENV)
-		env(command->args, env_variables);
+		env(command->args, minishell->env_variables);
 	restore_io_and_close_io_save(io_save, command->args[0]);
 	if (command->builtin == EXIT)
-		exit_builtin(command->args);
+		exit_builtin(command->args, minishell);
 }
 
 static int	save_io(char *command_name, int *io_save)

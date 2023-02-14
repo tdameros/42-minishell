@@ -6,7 +6,7 @@
 /*   By: vfries <vfries@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 13:31:41 by vfries            #+#    #+#             */
-/*   Updated: 2023/02/14 22:44:19 by vfries           ###   ########lyon.fr   */
+/*   Updated: 2023/02/15 00:30:32 by vfries           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	execute_command(t_token *command, t_minishell *minishell,
 			t_list *here_docs)
 {
 	if (command->type == BUILTIN)
-		return (run_builtin(command, minishell->env_variables, here_docs));
+		return (run_builtin(command, minishell, here_docs));
 	if (open_and_dup_files(command->files, here_docs))
 		return ;
 	if (command->type == SUBSHELL)

@@ -6,7 +6,7 @@
 /*   By: vfries <vfries@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/28 01:02:00 by tomy              #+#    #+#             */
-/*   Updated: 2023/02/14 23:59:00 by vfries           ###   ########lyon.fr   */
+/*   Updated: 2023/02/15 00:30:14 by vfries           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void				get_next_command(t_list **tokens, int tmp_exit_code);
 
 int					open_and_dup_files(t_list *files, t_list *here_docs);
 
-void				run_builtin(t_token *command, t_hashmap env_variables,
+void				run_builtin(t_token *command, t_minishell *minishell,
 						t_list *here_docs);
 
 #endif
