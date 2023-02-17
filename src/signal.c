@@ -6,7 +6,7 @@
 /*   By: vfries <vfries@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/04 17:38:45 by vfries            #+#    #+#             */
-/*   Updated: 2023/02/17 06:23:58 by vfries           ###   ########lyon.fr   */
+/*   Updated: 2023/02/17 06:25:53 by vfries           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,6 @@ int	signal_init_handling_outside_execution(void)
 
 static void	signal_handler_outside_execution(int sig)
 {
-	// printf("Outside execution signal recieved\n");
 	if (sig != SIGINT)
 		return ;
 	rl_replace_line("", 0);
@@ -100,7 +99,6 @@ static void	signal_handler_inside_execution(int sig)
 {
 	pid_t	pid;
 
-	// printf("bool is %i\n", current_process_is_a_child);
 	errno = 0;
 	pid = waitpid(-1, NULL, 0);
 	if (errno == ECHILD || pid == -1)
