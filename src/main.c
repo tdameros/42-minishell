@@ -6,7 +6,7 @@
 /*   By: vfries <vfries@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/14 18:07:30 by vfries            #+#    #+#             */
-/*   Updated: 2023/02/14 22:54:32 by vfries           ###   ########lyon.fr   */
+/*   Updated: 2023/02/17 02:58:51 by vfries           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,8 @@ static int	minishell_init(t_minishell *minishell, char **envp)
 	if (terminal_save(&minishell->termios_save) < 0)
 		return (FAILED_TO_SAVE_TERMINAL);
 	minishell->env_variables = get_env_variables(envp);
-	if (minishell->env_variables == NULL || signal_init_handling() < 0
+	if (minishell->env_variables == NULL
+		|| signal_init_handling_outside_execution() < 0
 		|| init_exit_code(minishell->env_variables) < 0
 		|| terminal_disable_ctrl_backslash_output() < 0)
 		return (-1);

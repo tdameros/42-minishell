@@ -6,12 +6,13 @@
 /*   By: vfries <vfries@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 13:31:41 by vfries            #+#    #+#             */
-/*   Updated: 2023/02/15 00:30:32 by vfries           ###   ########lyon.fr   */
+/*   Updated: 2023/02/17 02:56:28 by vfries           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <sys/stat.h>
 #include <stdlib.h>
+#include "minishell_signal.h"
 #include "lexer.h"
 #include "terminal.h"
 #include "error.h"
@@ -48,6 +49,7 @@ static void	run_subshell(t_token *command, t_minishell *minishell,
 {
 	execute_commands(&command->subshell, minishell, &here_docs);
 	ft_hm_clear(&minishell->env_variables, &free);
+	signal_init_handling_inside_execution();
 	if (terminal_restore(minishell->termios_save) < 0)
 		exit_code(-1);
 	exit(exit_code(GET));

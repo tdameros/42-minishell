@@ -6,7 +6,7 @@
 /*   By: vfries <vfries@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 09:24:00 by vfries            #+#    #+#             */
-/*   Updated: 2023/02/15 00:00:35 by vfries           ###   ########lyon.fr   */
+/*   Updated: 2023/02/17 02:49:42 by vfries           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,9 +37,11 @@ void	execute_commands(t_list **tokens, t_minishell *minishell,
 		exit_code(-1);
 		return ;
 	}
+	signal_init_handling_inside_execution();
 	execute_commands_loop(tokens, minishell, here_docs);
 	ft_lstclear(tokens, &free_token);
 	ft_lst_of_lst_clear(here_docs, &free);
+	signal_init_handling_outside_execution();
 	if (terminal_disable_ctrl_backslash_output() < 0)
 	{
 		exit_code(-1);
