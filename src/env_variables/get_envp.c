@@ -6,7 +6,7 @@
 /*   By: vfries <vfries@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/25 16:19:00 by vfries            #+#    #+#             */
-/*   Updated: 2023/02/06 16:45:27 by vfries           ###   ########lyon.fr   */
+/*   Updated: 2023/02/18 05:19:24 by vfries           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,10 @@ static int	add_variables_non_empty(char **envp, t_list *variables, int *envp_i,
 static char	**get_fixed_non_empty_envp(char **envp, int i,
 				char *executable_path)
 {
-	envp[i] = ft_strjoin("_=", executable_path);
+	if (executable_path == NULL)
+		envp[i] = NULL;
+	else
+		envp[i] = ft_strjoin("_=", executable_path);
 	envp[i + 1] = NULL;
 	return (envp);
 }
