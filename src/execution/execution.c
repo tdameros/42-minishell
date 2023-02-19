@@ -6,7 +6,7 @@
 /*   By: vfries <vfries@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 09:24:00 by vfries            #+#    #+#             */
-/*   Updated: 2023/02/19 15:22:53 by vfries           ###   ########lyon.fr   */
+/*   Updated: 2023/02/19 16:42:33 by vfries           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,8 +71,8 @@ void	execute_command_no_pipe(t_list **tokens, t_minishell *minishell,
 	command = NULL;
 	ft_lst_push(&command, tokens);
 	command_token = command->content;
-	if (command_token->type != SUBSHELL && apply_token_expansion(command_token,
-			*here_docs, minishell->env_variables) < 0)
+	if (apply_token_expansion(command_token, *here_docs,
+			minishell->env_variables) < 0)
 		return (print_error(command_token->name, NULL, get_error()));
 	if (command_token->type == BUILTIN)
 		return (execute_command_no_pipe_builtin(command, minishell, here_docs));

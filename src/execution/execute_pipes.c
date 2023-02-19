@@ -6,7 +6,7 @@
 /*   By: vfries <vfries@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 10:44:03 by vfries            #+#    #+#             */
-/*   Updated: 2023/02/19 15:24:20 by vfries           ###   ########lyon.fr   */
+/*   Updated: 2023/02/19 16:42:10 by vfries           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,8 +98,8 @@ static pid_t	execute_piped_command(t_list *sub_tokens,
 		return (-1);
 	}
 	command_token = sub_tokens->content;
-	if (command_token->type != SUBSHELL && apply_token_expansion(command_token,
-			*here_docs, minishell->env_variables) < 0)
+	if (apply_token_expansion(command_token, *here_docs,
+			minishell->env_variables) < 0)
 		return (print_error(command_token->name, NULL, get_error()), -1);
 	pid = fork();
 	if (pid == -1)
