@@ -6,7 +6,7 @@
 /*   By: vfries <vfries@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/28 01:02:00 by tomy              #+#    #+#             */
-/*   Updated: 2023/02/15 00:30:14 by vfries           ###   ########lyon.fr   */
+/*   Updated: 2023/02/19 15:23:04 by vfries           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,8 @@ int					read_here_doc(t_list **here_docs);
 void				execute_command(t_token *command, t_minishell *minishell,
 						t_list *here_docs);
 void				execute_command_no_pipe(t_list **tokens,
-						t_minishell *minishell, t_list **here_docs);
+						t_minishell *minishell, t_list **here_docs,
+						bool is_last_piped_command);
 
 void				execute_pipes(t_list **tokens, t_minishell *minishell,
 						t_list **here_docs);

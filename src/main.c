@@ -6,7 +6,7 @@
 /*   By: vfries <vfries@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/14 18:07:30 by vfries            #+#    #+#             */
-/*   Updated: 2023/02/17 02:58:51 by vfries           ###   ########lyon.fr   */
+/*   Updated: 2023/02/18 06:39:10 by vfries           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ int	main(int argc, char **argv, char **envp)
 		return (1);
 	}
 	tmp = run_interactive_shell(&minishell);
+	ft_hm_clear(&minishell.env_variables, &free);
 	if (terminal_restore(minishell.termios_save) < 0)
 		return (2);
 	return (tmp);

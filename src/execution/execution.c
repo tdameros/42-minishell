@@ -6,7 +6,7 @@
 /*   By: vfries <vfries@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 09:24:00 by vfries            #+#    #+#             */
-/*   Updated: 2023/02/17 02:49:42 by vfries           ###   ########lyon.fr   */
+/*   Updated: 2023/02/19 15:22:53 by vfries           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,16 +37,13 @@ void	execute_commands(t_list **tokens, t_minishell *minishell,
 		exit_code(-1);
 		return ;
 	}
-	signal_init_handling_inside_execution();
+	signal_init_handling_inside_execution();// TODO secure me
 	execute_commands_loop(tokens, minishell, here_docs);
 	ft_lstclear(tokens, &free_token);
 	ft_lst_of_lst_clear(here_docs, &free);
-	signal_init_handling_outside_execution();
+	signal_init_handling_outside_execution();// TODO secure me
 	if (terminal_disable_ctrl_backslash_output() < 0)
-	{
 		exit_code(-1);
-		return ;
-	}
 }
 
 static void	execute_commands_loop(t_list **tokens, t_minishell *minishell,
@@ -57,14 +54,14 @@ static void	execute_commands_loop(t_list **tokens, t_minishell *minishell,
 		if (get_next_operator(*tokens) == PIPE)
 			execute_pipes(tokens, minishell, here_docs);
 		else
-			execute_command_no_pipe(tokens, minishell, here_docs);
+			execute_command_no_pipe(tokens, minishell, here_docs, false);
 		if (*tokens != NULL)
 			get_next_command(tokens, exit_code(GET));
 	}
 }
 
 void	execute_command_no_pipe(t_list **tokens, t_minishell *minishell,
-		t_list **here_docs)
+		t_list **here_docs, bool is_last_piped_command)
 {
 	int		exit_status;
 	t_list	*command;
@@ -87,7 +84,9 @@ void	execute_command_no_pipe(t_list **tokens, t_minishell *minishell,
 		exit_code(-1);
 		return ;
 	}
-	if (waitpid(pid, &exit_status, 0) >= 0)
+	if (is_last_piped_command == false && waitpid(pid, &exit_status, 0) >= 0)
+		exit_code(WEXITSTATUS(exit_status));
+	else if (waitpid(pid, &exit_status, 0) >= 0 && WIFSIGNALED(exit_status) == false)
 		exit_code(WEXITSTATUS(exit_status));
 }
 
@@ -97,7 +96,6 @@ static void	execute_command_no_pipe_builtin(t_list *command,
 	execute_command(command->content, minishell, *here_docs);
 	skip_token_here_docs(command, here_docs);
 	ft_lstclear(&command, &free_token);
-	exit_code(GET);
 }
 
 static pid_t	fork_and_execute_command(t_token *command,

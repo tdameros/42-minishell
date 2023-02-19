@@ -6,7 +6,7 @@
 /*   By: vfries <vfries@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 10:44:03 by vfries            #+#    #+#             */
-/*   Updated: 2023/02/14 23:59:33 by vfries           ###   ########lyon.fr   */
+/*   Updated: 2023/02/19 15:24:20 by vfries           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,14 @@
 #include "error.h"
 #include "env_variables.h"
 #include "execution.h"
+#include "minishell_signal.h"
 #include "exit_code.h"
 #include "expansions.h"
 #include <sys/wait.h>
 #include <stdlib.h>
 
 static t_list	*create_sub_tokens(t_list **tokens);
-static int		execute_pipes_sub_tokens(t_list *sub_tokens,
+static int		execute_pipes_sub_tokens(t_list **sub_tokens,
 					t_minishell *minishell, t_list **here_docs);
 static pid_t	execute_piped_command(t_list *sub_tokens,
 					t_minishell *minishell, t_list **here_docs);
@@ -31,24 +32,18 @@ void	execute_pipes(t_list **tokens, t_minishell *minishell,
 			t_list **here_docs)
 {
 	t_list	*sub_tokens;
-	int		exit_status;
-	pid_t	pid;
+	int		io_save[2];
 
 	sub_tokens = create_sub_tokens(tokens);
-	pid = fork();
-	if (pid == -1)
-	{
-		ft_lstclear(&sub_tokens, &free_token);
-		print_error(get_name(*tokens), FORK_FAILED, get_error());
-		exit_code(-1);
-		return ;
-	}
-	if (pid == 0)
-		exit(execute_pipes_sub_tokens(sub_tokens, minishell, here_docs));
-	skip_tokens_here_docs(sub_tokens, here_docs);
+	io_save[0] = dup(STDIN_FILENO);// TODO secure me
+	io_save[1] = dup(STDOUT_FILENO);// TODO secure me
+	signal_init_handling_pipes();// TODO secure me
+	exit_code(execute_pipes_sub_tokens(&sub_tokens, minishell, here_docs));
+	// skip_tokens_here_docs(sub_tokens, here_docs);
+	dup2(io_save[0], STDIN_FILENO);// TODO secure me
+	dup2(io_save[1], STDOUT_FILENO);// TODO secure me
+	signal_init_handling_inside_execution();// TODO secure me
 	ft_lstclear(&sub_tokens, &free_token);
-	if (waitpid(pid, &exit_status, 0) >= 0)
-		exit_code(WEXITSTATUS(exit_status));
 }
 
 static t_list	*create_sub_tokens(t_list **tokens)
@@ -70,21 +65,20 @@ static t_list	*create_sub_tokens(t_list **tokens)
 	return (ft_lst_reverse(&sub_tokens));
 }
 
-static int	execute_pipes_sub_tokens(t_list *sub_tokens,
+static int	execute_pipes_sub_tokens(t_list **sub_tokens,
 				t_minishell *minishell, t_list **here_docs)
 {
 	int		ret;
 	pid_t	pid;
 
-	if (sub_tokens->next == NULL)
+	if ((*sub_tokens)->next == NULL)
 	{
-		execute_command_no_pipe(&sub_tokens, minishell, here_docs);
+		execute_command_no_pipe(sub_tokens, minishell, here_docs, true);
 		return (exit_code(GET));
 	}
-	pid = execute_piped_command(sub_tokens, minishell, here_docs);
-	skip_token_here_docs(sub_tokens, here_docs);
-	ret = execute_pipes_sub_tokens(sub_tokens->next, minishell, here_docs);
-	ft_lstdelone(sub_tokens, &free_token);
+	pid = execute_piped_command(*sub_tokens, minishell, here_docs);
+	skip_token_here_docs(*sub_tokens, here_docs);
+	ret = execute_pipes_sub_tokens(&(*sub_tokens)->next, minishell, here_docs);
 	close(STDIN_FILENO);
 	if (pid != -1)
 		waitpid(pid, NULL, 0);
@@ -92,7 +86,7 @@ static int	execute_pipes_sub_tokens(t_list *sub_tokens,
 }
 
 static pid_t	execute_piped_command(t_list *sub_tokens,
-				t_minishell *minishell, t_list **here_docs)
+					t_minishell *minishell, t_list **here_docs)
 {
 	pid_t	pid;
 	int		pipe_fd[2];
