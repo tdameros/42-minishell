@@ -28,6 +28,8 @@ static int	static_exit_code(int new_exit_code, t_hashmap_content *env_var_ptr)
 	char						*tmp;
 	static int					exit_code = 0;
 
+	if (exit_code == -1)
+		return (exit_code);
 	if (env_var_ptr != NULL)
 		env_var = env_var_ptr;
 	if (new_exit_code == GET)

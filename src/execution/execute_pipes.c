@@ -21,28 +21,31 @@
 #include <stdlib.h>
 
 static t_list	*create_sub_tokens(t_list **tokens);
-static int		execute_pipes_sub_tokens(t_list **sub_tokens,
-					t_minishell *minishell, t_list **here_docs);
-static pid_t	execute_piped_command(t_list *sub_tokens,
-					t_minishell *minishell, t_list **here_docs);
-static int		execute_forked_pipe(t_token *command, t_minishell *minishell,
-					t_list *here_docs, int pipe_fd[2]);
+static int		execute_pipes_sub_tokens(t_minishell *minishell,
+					t_list **sub_tokens);
 
-void	execute_pipes(t_list **tokens, t_minishell *minishell,
-			t_list **here_docs)
+void	execute_pipes(t_minishell *minishell)
 {
 	t_list	*sub_tokens;
 	int		io_save[2];
 
-	sub_tokens = create_sub_tokens(tokens);
-	io_save[0] = dup(STDIN_FILENO);// TODO secure me
-	io_save[1] = dup(STDOUT_FILENO);// TODO secure me
-	signal_init_handling_pipes();// TODO secure me
-	exit_code(execute_pipes_sub_tokens(&sub_tokens, minishell, here_docs));
+	sub_tokens = create_sub_tokens(&minishell->tokens);
+	if (signal_init_handling_pipes() < 0)
+	{
+		exit_code(-1);
+		return ;
+	}
+	if (save_io("Pipes", io_save) < 0)
+	{
+		exit_code(-1);
+		return ;
+	}
+	exit_code(execute_pipes_sub_tokens(minishell, &sub_tokens));
 	// skip_tokens_here_docs(sub_tokens, here_docs);
-	dup2(io_save[0], STDIN_FILENO);// TODO secure me
-	dup2(io_save[1], STDOUT_FILENO);// TODO secure me
-	signal_init_handling_inside_execution();// TODO secure me
+	if (restore_io_and_close_io_save(io_save, "Pipes") < 0)
+		exit_code(-1);
+	if (signal_init_handling_inside_execution() < 0)
+		exit_code(-1);
 	ft_lstclear(&sub_tokens, &free_token);
 }
 
@@ -65,80 +68,26 @@ static t_list	*create_sub_tokens(t_list **tokens)
 	return (ft_lst_reverse(&sub_tokens));
 }
 
-static int	execute_pipes_sub_tokens(t_list **sub_tokens,
-				t_minishell *minishell, t_list **here_docs)
+static int	execute_pipes_sub_tokens(t_minishell *minishell,
+				t_list **sub_tokens)
 {
 	int		ret;
 	pid_t	pid;
 
+	if (sub_tokens == NULL)
+		return (-1);
 	if ((*sub_tokens)->next == NULL)
 	{
-		execute_command_no_pipe(sub_tokens, minishell, here_docs, true);
+		execute_command_no_pipe(minishell, sub_tokens, true);
 		return (exit_code(GET));
 	}
-	pid = execute_piped_command(*sub_tokens, minishell, here_docs);
-	skip_token_here_docs(*sub_tokens, here_docs);
-	ret = execute_pipes_sub_tokens(&(*sub_tokens)->next, minishell, here_docs);
-	close(STDIN_FILENO);
+	pid = execute_piped_command(minishell, sub_tokens);
+	if (pid == -1)
+		return (-1);
+	ret = execute_pipes_sub_tokens(minishell, sub_tokens);
+	if (close(STDIN_FILENO) < 0)
+		return (-1);// TODO maybe
 	if (pid != -1)
 		waitpid(pid, NULL, 0);
 	return (ret);
-}
-
-static pid_t	execute_piped_command(t_list *sub_tokens,
-					t_minishell *minishell, t_list **here_docs)
-{
-	pid_t	pid;
-	int		pipe_fd[2];
-	t_token	*command_token;
-
-	if (pipe(pipe_fd) == -1)
-	{
-		print_error(get_name(sub_tokens), PIPE_FAILED, get_error());
-		return (-1);
-	}
-	command_token = sub_tokens->content;
-	if (apply_token_expansion(command_token, *here_docs,
-			minishell->env_variables) < 0)
-		return (print_error(command_token->name, NULL, get_error()), -1);
-	pid = fork();
-	if (pid == -1)
-		print_error(get_name(sub_tokens), FORK_FAILED, get_error());
-	else if (pid == 0)
-		exit(execute_forked_pipe(command_token, minishell, *here_docs,
-				pipe_fd));
-	else if (dup2(pipe_fd[0], STDIN_FILENO) == -1)
-		print_error(get_name(sub_tokens), PIPE_DUP2_FAILED, get_error());
-	if (close(pipe_fd[0]) == -1)
-		print_error(get_name(sub_tokens), PIPE_CLOSE_FAILED, get_error());
-	if (close(pipe_fd[1]) == -1)
-		print_error(get_name(sub_tokens), PIPE_CLOSE_FAILED, get_error());
-	return (pid);
-}
-
-static int	execute_forked_pipe(t_token *command, t_minishell *minishell,
-				t_list *here_docs, int pipe_fd[2])
-{
-	bool	dont_execute_command;
-
-	dont_execute_command = false;
-	if (dup2(pipe_fd[1], STDOUT_FILENO) == -1)
-	{
-		print_error(command->args[0], PIPE_DUP2_FAILED, get_error());
-		dont_execute_command = true;
-	}
-	if (close(pipe_fd[0]) == -1)
-	{
-		print_error(command->args[0], PIPE_CLOSE_FAILED, get_error());
-		dont_execute_command = true;
-	}
-	if (close(pipe_fd[1]) == -1)
-	{
-		print_error(command->args[0], PIPE_CLOSE_FAILED, get_error());
-		dont_execute_command = true;
-	}
-	if (dont_execute_command)
-		return (-1);
-	execute_command(command, minishell, here_docs);
-	return (exit_code(GET));
 }

@@ -5,112 +5,121 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: vfries <vfries@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/27 09:24:00 by vfries            #+#    #+#             */
-/*   Updated: 2023/02/19 16:42:33 by vfries           ###   ########lyon.fr   */
+/*   Created: 2023/02/19 19:49:20 by vfries            #+#    #+#             */
+/*   Updated: 2023/02/19 19:50:02 by vfries           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "lexer.h"
-#include "error.h"
-#include "env_variables.h"
-#include "execution.h"
-#include "minishell_signal.h"
-#include "minishell_struct.h"
-#include "terminal.h"
-#include "expansions.h"
-#include "exit_code.h"
-#include <sys/wait.h>
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   execution.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: vfries <vfries@student.42lyon.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/02/19 18:03:22 by vfries            #+#    #+#             */
+/*   Updated: 2023/02/19 18:37:53 by vfries           ###   ########lyon.fr   */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <stdlib.h>
+#include "lexer.h"
+#include "terminal.h"
+#include "exit_code.h"
+#include "execution.h"
+#include "minishell_struct.h"
+#include "minishell_signal.h"
 
-static void		execute_commands_loop(t_list **tokens, t_minishell *minishell,
-					t_list **here_docs);
-static void		execute_command_no_pipe_builtin(t_list *command,
-					t_minishell *minishell, t_list **here_docs);
-static pid_t	fork_and_execute_command(t_token *command,
-					t_minishell *minishell, t_list *here_docs);
+static void				execute_commands_loop(t_minishell *minishell);
+static enum e_operators	get_next_operator(t_list *tokens);
+static void				get_next_command(t_list **tokens, int last_exit_code);
+static void				skip_to_next_command(t_list **tokens,
+							enum e_operators target);
 
-void	execute_commands(t_list **tokens, t_minishell *minishell,
-			t_list **here_docs)
+void	execute_commands(t_minishell *minishell)
 {
 	if (terminal_restore(minishell->termios_save) < 0)
 	{
+		ft_lstclear(&minishell->tokens, &free_token);
+		ft_lst_of_lst_clear(&minishell->here_docs, &free);
 		exit_code(-1);
 		return ;
 	}
-	signal_init_handling_inside_execution();// TODO secure me
-	execute_commands_loop(tokens, minishell, here_docs);
-	ft_lstclear(tokens, &free_token);
-	ft_lst_of_lst_clear(here_docs, &free);
-	signal_init_handling_outside_execution();// TODO secure me
+	if (signal_init_handling_inside_execution() < 0)
+	{
+		ft_lstclear(&minishell->tokens, &free_token);
+		ft_lst_of_lst_clear(&minishell->here_docs, &free);
+		terminal_disable_ctrl_backslash_output();
+		exit_code(-1);
+		return ;
+	}
+	execute_commands_loop(minishell);
+	ft_lstclear(&minishell->tokens, &free_token);
+	ft_lst_of_lst_clear(&minishell->here_docs, &free);
+	if (signal_init_handling_outside_execution() < 0)
+		exit_code(-1);
 	if (terminal_disable_ctrl_backslash_output() < 0)
 		exit_code(-1);
 }
 
-static void	execute_commands_loop(t_list **tokens, t_minishell *minishell,
-				t_list **here_docs)
+static void	execute_commands_loop(t_minishell *minishell)
 {
-	while (*tokens != NULL)
-	{
-		if (get_next_operator(*tokens) == PIPE)
-			execute_pipes(tokens, minishell, here_docs);
-		else
-			execute_command_no_pipe(tokens, minishell, here_docs, false);
-		if (*tokens != NULL)
-			get_next_command(tokens, exit_code(GET));
-	}
-}
-
-void	execute_command_no_pipe(t_list **tokens, t_minishell *minishell,
-		t_list **here_docs, bool is_last_piped_command)
-{
-	int		exit_status;
-	t_list	*command;
-	t_token	*command_token;
-	pid_t	pid;
-
-	command = NULL;
-	ft_lst_push(&command, tokens);
-	command_token = command->content;
-	if (apply_token_expansion(command_token, *here_docs,
-			minishell->env_variables) < 0)
-		return (print_error(command_token->name, NULL, get_error()));
-	if (command_token->type == BUILTIN)
-		return (execute_command_no_pipe_builtin(command, minishell, here_docs));
-	pid = fork_and_execute_command(command->content, minishell, *here_docs);
-	skip_token_here_docs(command, here_docs);
-	ft_lstclear(&command, &free_token);
-	if (pid == -1)
-	{
-		exit_code(-1);
+	if (minishell == NULL)
 		return ;
-	}
-	if (is_last_piped_command == false && waitpid(pid, &exit_status, 0) >= 0)
-		exit_code(WEXITSTATUS(exit_status));
-	else if (waitpid(pid, &exit_status, 0) >= 0 && WIFSIGNALED(exit_status) == false)
-		exit_code(WEXITSTATUS(exit_status));
-}
-
-static void	execute_command_no_pipe_builtin(t_list *command,
-				t_minishell *minishell, t_list **here_docs)
-{
-	execute_command(command->content, minishell, *here_docs);
-	skip_token_here_docs(command, here_docs);
-	ft_lstclear(&command, &free_token);
-}
-
-static pid_t	fork_and_execute_command(t_token *command,
-					t_minishell *minishell, t_list *here_docs)
-{
-	pid_t	pid;
-
-	pid = fork();
-	if (pid == -1)
+	while (minishell->tokens != NULL)
 	{
-		print_error(command->args[0], FORK_FAILED, get_error());
-		return (-1);
+		if (get_next_operator(minishell->tokens) == PIPE)
+			execute_pipes(minishell);
+		else
+			execute_command_no_pipe(minishell, &minishell->tokens, false);
+		if (exit_code(GET) == -1)
+			return ;
+		if (minishell->tokens != NULL)
+			get_next_command(&minishell->tokens, exit_code(GET));
 	}
-	if (pid != 0)
-		return (pid);
-	execute_command(command, minishell, here_docs);
-	exit(exit_code(GET));
+}
+
+static enum e_operators	get_next_operator(t_list *tokens)
+{
+	t_token	*token;
+
+	if (tokens == NULL || tokens->next == NULL || tokens->next->content == NULL)
+		return (-1);
+	token = tokens->next->content;
+	return (token->operator);
+}
+
+static void	get_next_command(t_list **tokens, int last_exit_code)
+{
+	t_token	*token;
+
+	if (tokens == NULL || *tokens == NULL || (*tokens)->content == NULL)
+		return ;
+	token = (*tokens)->content;
+	if (token->operator == OR && last_exit_code != 0)
+		ft_lst_get_next_free_current(tokens, &free_token);
+	else if (token->operator == OR)
+		skip_to_next_command(tokens, AND);
+	else if (token->operator == AND && last_exit_code == 0)
+		ft_lst_get_next_free_current(tokens, &free_token);
+	else
+		skip_to_next_command(tokens, OR);
+}
+
+static void	skip_to_next_command(t_list **tokens, enum e_operators target)
+{
+	t_token	*token;
+
+	if (tokens == NULL)
+		return ;
+	while (*tokens)
+	{
+		token = (*tokens)->content;
+		if (token && token->operator == target)
+		{
+			ft_lst_get_next_free_current(tokens, &free_token);
+			return ;
+		}
+		ft_lst_get_next_free_current(tokens, &free_token);
+	}
 }

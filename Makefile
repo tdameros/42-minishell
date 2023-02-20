@@ -20,12 +20,13 @@ SRC				=\
 \
 	execution/exec_here_docs_tools.c	\
 	execution/execute_command.c			\
+	execution/execute_command_no_pipe.c	\
+	execution/execute_piped_command.c	\
 	execution/execute_pipes.c			\
 	execution/execution.c				\
-	execution/get_next.c				\
+	execution/io_save.c					\
 	execution/open_and_dup_files.c		\
 	execution/run_builtin.c				\
-\
 \
 \
 	expansions/paths/absolute_path.c	\
@@ -93,7 +94,7 @@ DIR_BUILD		=	.build/
 OBJS			=	$(patsubst %.c, $(DIR_BUILD)%.o, $(SRC))
 DEPS			=	$(patsubst %.c, $(DIR_BUILD)%.d, $(SRC))
 DEPS_FLAGS		=	-MMD -MP
-CFLAGS			=	-Wall -Wextra -Werror  -g3 -fsanitize=address -g3
+CFLAGS			=	-Wall -Wextra -Werror  -g3 #-fsanitize=address -g3
 RM				=	rm -rf
 AR				=	ar rcs
 

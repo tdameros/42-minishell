@@ -3,11 +3,13 @@ minishell_tester
 tester
 minishell_bonus
 valgrind_ignore_leaks.txt
+cmake-build-debug
 
 # Junk
 .DS_Store
 .nfs*
 .vscode
+CMakeLists.txt
 
 # Norm
 .normignore

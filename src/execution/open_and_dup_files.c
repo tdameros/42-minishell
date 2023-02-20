@@ -10,13 +10,13 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <fcntl.h>
 #include "parser.h"
 #include "execution.h"
 #include "error.h"
 #include "exit_code.h"
 #include "env_variables.h"
 #include "built_in.h"
-#include <fcntl.h>
 
 static int	open_and_dup(t_token *file);
 static int	open_file(t_token *file);
@@ -40,7 +40,7 @@ int	open_and_dup_files(t_list *files, t_list *here_docs)
 		else if (open_and_dup(token))
 		{
 			exit_code(1);
-			return (-1);
+			return (1);
 		}
 		files = files->next;
 	}
@@ -84,7 +84,7 @@ static int	open_file(t_token *file)
 		fd = open(file->name, O_CREAT | O_WRONLY | O_TRUNC, 0644);
 	else
 		fd = open(file->name, O_CREAT | O_WRONLY | O_APPEND, 0644);
-	if (fd == -1)
+	if (fd < 0)
 		print_error(file->name, NULL, get_error());
 	return (fd);
 }
@@ -93,12 +93,12 @@ static int	handle_here_doc(t_token *file, t_list **here_docs)
 {
 	const int	fd = read_here_doc(here_docs);
 
-	if (fd == -1)
+	if (fd < 0)
 	{
 		print_error(file->name, "here_doc: pipe() failed", get_error());
 		return (-1);
 	}
-	if (dup2(fd, STDIN_FILENO) == -1)
+	if (dup2(fd, STDIN_FILENO) < 0)
 	{
 		print_error(file->name, "here_doc: dup2() failed", get_error());
 		return (-1);

@@ -22,73 +22,101 @@
 #include "execution.h"
 #include "expansions.h"
 
-static void	run_subshell(t_token *command, t_minishell *minishell,
-				t_list *here_docs);
-static void	run_command(t_token *command, char **envp);
-static void	run_command_error(t_token *command);
+static void	run_subshell(t_minishell *minishell, t_list **tokens,
+				t_token *command);
+static void	run_command(t_minishell *minishell, t_list **tokens,
+				t_token *command, char **envp);
+static void	run_command_error(t_minishell *minishell, t_list **tokens,
+				t_token *command);
+static int	print_error_get_error_code(t_token *command);
 
-void	execute_command(t_token *command, t_minishell *minishell,
-			t_list *here_docs)
+void	execute_command(t_minishell *minishell, t_list **tokens,
+			t_token *command, char **envp)
 {
+	int io_redirection;
+
 	if (command->type == BUILTIN)
-		return (run_builtin(command, minishell, here_docs));
-	if (open_and_dup_files(command->files, here_docs))
+		return (run_builtin(minishell, command));
+	io_redirection = open_and_dup_files(command->files, minishell->here_docs);
+	if (io_redirection != 0)
+	{
+		if (io_redirection < 0)
+			exit_code(-1);
 		return ;
+	}
 	if (command->type == SUBSHELL)
-		return (run_subshell(command, minishell, here_docs));
-	if (command->type == EXECUTABLE)
-		return (run_command(command,
-				get_non_empty_envp(minishell->env_variables, command->name))); // TODO get_envp() before the fork
-	else
-		return (run_command(command,
-				get_non_empty_envp(minishell->env_variables, command->name))); // TODO get_envp() before the fork
+		return (run_subshell(minishell, tokens, command));
+	return (run_command(minishell, tokens, command, envp));
 }
 
-static void	run_subshell(t_token *command, t_minishell *minishell,
-				t_list *here_docs)
+static void	run_subshell(t_minishell *minishell, t_list **tokens,
+				t_token *command)
 {
-	execute_commands(&command->subshell, minishell, &here_docs);
-	ft_hm_clear(&minishell->env_variables, &free);
-	signal_init_handling_inside_execution();
+	t_list	*tokens_save;
+
+	tokens_save = minishell->tokens;
+	minishell->tokens = command->subshell;
+	execute_commands(minishell);
+	minishell->tokens = tokens_save;
+	// TODO free minishell
+	ft_lstclear(tokens, &free_token);
+	if (signal_init_handling_inside_execution())
+		exit_code(-1);
 	if (terminal_restore(minishell->termios_save) < 0)
 		exit_code(-1);
 	exit(exit_code(GET));
 }
 
-#include <stdio.h>
-static void	run_command(t_token *command, char **envp)
+static void	run_command(t_minishell *minishell, t_list **tokens,
+				t_token *command, char **envp)
 {
 	execve(command->name, command->args, envp);
 	ft_free_split(envp);
 	if (command->name == NULL)
+	{
+		ft_lstclear(tokens, &free_token);
+		//TODO free minishell
 		exit(0);
-	run_command_error(command);
+	}
+	run_command_error(minishell, tokens, command);
 }
 
-static void	run_command_error(t_token *command)
+static void	run_command_error(t_minishell *minishell, t_list **tokens,
+				t_token *command)
+{
+	int	ret;
+
+	ret = print_error_get_error_code(command);
+	// TODO free minishell
+	(void)minishell;
+	ft_lstclear(tokens, &free_token);
+	exit(ret);
+}
+
+static int	print_error_get_error_code(t_token *command)
 {
 	struct stat	stat_ptr;
 
 	if (command->type == COMMAND)
 	{
 		print_error(command->args[0], NULL, "command not found");
-		exit(127);
+		return (127);
 	}
-	if (stat(command->name, &stat_ptr) != 0)
+	else if (stat(command->name, &stat_ptr) != 0)
 	{
 		print_error(command->name, NULL, get_error());
-		exit(127);
+		return (127);
 	}
-	if (stat_ptr.st_mode & S_IFDIR)
+	else if (stat_ptr.st_mode & S_IFDIR)
 	{
 		print_error(command->name, NULL, "Is a directory");
-		exit(126);
+		return (126);
 	}
-	if (access(command->name, X_OK))
+	else if (access(command->name, X_OK))
 	{
 		print_error(command->name, NULL, get_error());
-		exit(126);
+		return (126);
 	}
 	print_error(command->name, NULL, get_error());
-	exit(-1);
+	return (-1);
 }

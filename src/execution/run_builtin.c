@@ -17,19 +17,14 @@
 #include "error.h"
 #include "env_variables.h"
 
-static int	save_io(char *command_name, int *io_save);
-static int	close_io_save(char *command_name, int *io_save);
-static void	restore_io_and_close_io_save(int *io_save, char *command_name);
+static int	prep_io(int *io_save, t_minishell *minishell, t_token *command);
 
-void	run_builtin(t_token *command, t_minishell *minishell,
-				t_list *here_docs)
+void	run_builtin(t_minishell *minishell, t_token *command)
 {
 	int	io_save[2];
 
-	if (save_io(command->args[0], io_save))
+	if (prep_io(io_save, minishell, command) < 0)
 		return ;
-	if (open_and_dup_files(command->files, here_docs))
-		return (restore_io_and_close_io_save(io_save, command->args[0]));
 	if (command->builtin == ECHO_CMD)
 		echo(command->args);
 	else if (command->builtin == CD)
@@ -42,65 +37,28 @@ void	run_builtin(t_token *command, t_minishell *minishell,
 		unset(command->args, minishell->env_variables);
 	else if (command->builtin == ENV)
 		env(command->args, minishell->env_variables);
-	restore_io_and_close_io_save(io_save, command->args[0]);
+	if (restore_io_and_close_io_save(io_save, command->args[0]) < 0)
+		exit_code(-1);
 	if (command->builtin == EXIT)
 		exit_builtin(command->args, minishell);
 }
 
-static int	save_io(char *command_name, int *io_save)
+static int	prep_io(int *io_save, t_minishell *minishell, t_token *command)
 {
-	int	ret;
+	int	io_redirection;
 
-	ret = 0;
-	io_save[0] = dup(STDIN_FILENO);
-	if (io_save[0] == -1)
+	if (save_io(command->args[0], io_save))
 	{
-		print_error(command_name, BUILTIN_DUP_FAILED, get_error());
 		exit_code(-1);
-		ret = -1;
+		return (-1);
 	}
-	io_save[1] = dup(STDOUT_FILENO);
-	if (io_save[1] == -1)
+	io_redirection = open_and_dup_files(command->files, minishell->here_docs);
+	if (io_redirection != 0)
 	{
-		if (close(io_save[0]))
-			print_error(command_name, BUILTIN_DUP2_FAILED, get_error());
-		print_error(command_name, BUILTIN_DUP_FAILED, get_error());
-		exit_code(-1);
-		ret = -1;
+		restore_io_and_close_io_save(io_save, command->args[0]);
+		if (io_redirection < 0)
+			exit_code(-1);
+		return (-1);
 	}
-	return (ret);
-}
-
-static int	close_io_save(char *command_name, int *io_save)
-{
-	int	ret;
-
-	ret = 0;
-	if (close(io_save[0]))
-	{
-		print_error(command_name, BUILTIN_CLOSE_FAILED, get_error());
-		ret = -1;
-	}
-	if (close(io_save[1]))
-	{
-		print_error(command_name, BUILTIN_CLOSE_FAILED, get_error());
-		ret = -1;
-	}
-	return (ret);
-}
-
-static void	restore_io_and_close_io_save(int *io_save, char *command_name)
-{
-	if (dup2(io_save[0], STDIN_FILENO) == -1)
-	{
-		print_error(command_name, BUILTIN_DUP2_FAILED, get_error());
-		exit_code(-1);
-	}
-	if (dup2(io_save[1], STDOUT_FILENO) == -1)
-	{
-		print_error(command_name, BUILTIN_DUP2_FAILED, get_error());
-		exit_code(-1);
-	}
-	if (close_io_save(command_name, io_save))
-		exit_code(-1);
+	return (0);
 }

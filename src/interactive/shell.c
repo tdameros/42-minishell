@@ -39,17 +39,17 @@ int	run_interactive_shell(t_minishell *minishell)
 		if (ft_strlen(command) > 0)
 		{
 			return_code = run_new_interactive_parsing(&command, &tokens, &here_docs);
+			minishell->tokens = tokens;
+			minishell->here_docs = here_docs;
 			if (return_code != 0)
 				exit_code(return_code);
 			else
-				execute_commands(&tokens, minishell, &here_docs);
+				execute_commands(minishell);
 //			ft_printf("PARSING CODE : %d\n", return_code);
 //			ft_printf("COMMAND : %s\n", command);
 			add_history(command);
 		}
 		free(command);
-		ft_lst_of_lst_clear(&here_docs, free);
-		ft_lstclear(&tokens, &free_token);
 		if (command == NULL)
 			break ;
 		command = readline(PROMPT);
