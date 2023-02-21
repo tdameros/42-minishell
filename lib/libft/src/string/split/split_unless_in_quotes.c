@@ -84,8 +84,8 @@ static int	get_word_size(char *arg)
 			ft_reverse_bool(&is_in_double_quote);
 		else if (arg[size] == '\'' && is_in_double_quote == false)
 			ft_reverse_bool(&is_in_simple_quote);
-		else if (arg[size] == ' ' &&
-			is_in_double_quote == false && is_in_simple_quote == false)
+		else if (arg[size] == ' '
+			&& is_in_double_quote == false && is_in_simple_quote == false)
 			break ;
 		size++;
 	}

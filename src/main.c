@@ -50,7 +50,7 @@ int	main(int argc, char **argv, char **envp)
 
 static int	minishell_init(t_minishell *minishell, char **envp)
 {
-	ft_bzero(minishell, (sizeof *minishell));
+	ft_bzero(minishell, (sizeof * minishell));
 	if (terminal_save(&minishell->termios_save) < 0)
 		return (FAILED_TO_SAVE_TERMINAL);
 	minishell->env_variables = get_env_variables(envp);

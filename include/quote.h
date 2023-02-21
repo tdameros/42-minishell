@@ -15,8 +15,8 @@
 
 # include "libft.h"
 
-int	remove_quotes(t_list *tokens);
-int	is_valid_quote(char *command);
+int		remove_quotes(t_list *tokens);
+int		is_valid_quote(char *command);
 
 bool	is_valid_operators(t_list *tokens, enum e_operators *error);
 
