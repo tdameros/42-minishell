@@ -17,7 +17,7 @@
 # include "minishell_struct.h"
 
 int	get_input_command(char **command, char *join, t_list **here_docs);
-int	run_new_interactive_parsing(char **command, t_list **parsed_tokens,
+int	run_interactive_parsing(char **command, t_list **parsed_tokens,
 		t_list **here_docs);
 
 int	run_interactive_shell(t_minishell *minishell);
