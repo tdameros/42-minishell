@@ -23,8 +23,8 @@
 static t_list	*create_sub_tokens(t_list **tokens);
 static int		execute_pipes_sub_tokens(t_minishell *minishell,
 					t_list **sub_tokens);
-static int	fork_and_execute_command_no_pipe(t_minishell *minishell,
-				t_list *sub_tokens);
+static int		fork_and_execute_command_no_pipe(t_minishell *minishell,
+					t_list *sub_tokens);
 
 void	execute_pipes(t_minishell *minishell)
 {
@@ -43,7 +43,6 @@ void	execute_pipes(t_minishell *minishell)
 		return ;
 	}
 	exit_code(execute_pipes_sub_tokens(minishell, &sub_tokens));
-	// skip_tokens_here_docs(sub_tokens, here_docs);
 	if (restore_io_and_close_io_save(io_save, "Pipes") < 0)
 		exit_code(-1);
 	if (signal_init_handling_inside_execution() < 0)

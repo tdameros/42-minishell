@@ -18,6 +18,7 @@ SRC				=\
 	env_variables/print_env_variables.c	\
 \
 \
+	execution/exec_free_minishell.c		\
 	execution/exec_here_docs_tools.c	\
 	execution/execute_command.c			\
 	execution/execute_command_no_pipe.c	\
