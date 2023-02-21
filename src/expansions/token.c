@@ -50,5 +50,8 @@ static int	apply_arguments_expansion(t_token *token, t_hashmap env_variables)
 	token->args = temp;
 	if (remove_quotes_in_args(token->args) < 0)
 		return (-1);
+	if (token->type != EXECUTABLE && token->args[0] != NULL
+		&& ft_strchr(token->args[0], '/') != NULL)
+		token->type = EXECUTABLE;
 	return (0);
 }

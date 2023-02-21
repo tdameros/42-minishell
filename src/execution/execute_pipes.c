@@ -88,7 +88,6 @@ static int	execute_pipes_sub_tokens(t_minishell *minishell,
 		return (-1);
 	ret = execute_pipes_sub_tokens(minishell, sub_tokens);
 	close(STDIN_FILENO);
-	if (pid != -1)
-		waitpid(pid, NULL, 0);
+	waitpid(pid, NULL, 0);
 	return (ret);
 }
