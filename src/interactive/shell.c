@@ -21,6 +21,7 @@
 #include "execution.h"
 #include "exit_code.h"
 #include "libft.h"
+#include "error.h"
 
 #define PROMPT "\e[32m➜ \e[36mminishell-1.0$ \x1b[0m"
 
@@ -36,9 +37,11 @@ int	run_interactive_shell(t_minishell *minishell)
 	command = readline(PROMPT);
 	while (command != NULL && ft_strcmp(command, "exit"))
 	{
+		errno = 0;
 		if (ft_strlen(command) > 0)
 		{
-			return_code = run_new_interactive_parsing(&command, &tokens, &here_docs);
+			return_code = run_new_interactive_parsing(&command, &tokens,
+					&here_docs);
 			minishell->tokens = tokens;
 			minishell->here_docs = here_docs;
 			if (return_code != 0)
@@ -50,6 +53,12 @@ int	run_interactive_shell(t_minishell *minishell)
 			add_history(command);
 		}
 		free(command);
+		if (exit_code(GET) < 0)
+		{
+			print_error(NULL, "Fatal error with errno", get_error());
+			ft_hm_clear(&minishell->env_variables, &free);
+			return (1);
+		}
 		if (command == NULL)
 			break ;
 		command = readline(PROMPT);

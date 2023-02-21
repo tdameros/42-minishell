@@ -68,13 +68,15 @@ static t_list	*create_sub_tokens(t_list **tokens)
 	return (ft_lst_reverse(&sub_tokens));
 }
 
+// Do not secure close(STDIN_FILENO) in this function. It is normal if it
+// fails in some cases
 static int	execute_pipes_sub_tokens(t_minishell *minishell,
 				t_list **sub_tokens)
 {
 	int		ret;
 	pid_t	pid;
 
-	if (sub_tokens == NULL)
+	if (sub_tokens == NULL || *sub_tokens == NULL)
 		return (-1);
 	if ((*sub_tokens)->next == NULL)
 	{
@@ -85,8 +87,7 @@ static int	execute_pipes_sub_tokens(t_minishell *minishell,
 	if (pid == -1)
 		return (-1);
 	ret = execute_pipes_sub_tokens(minishell, sub_tokens);
-	if (close(STDIN_FILENO) < 0)
-		return (-1);// TODO maybe
+	close(STDIN_FILENO);
 	if (pid != -1)
 		waitpid(pid, NULL, 0);
 	return (ret);
