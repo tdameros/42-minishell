@@ -22,18 +22,14 @@
 #include "execution.h"
 #include "expansions.h"
 
-static void	run_subshell(t_minishell *minishell, t_list **tokens,
-				t_token *command);
-static void	run_command(t_minishell *minishell, t_list **tokens,
-				t_token *command, char **envp);
-static void	run_command_error(t_minishell *minishell, t_list **tokens,
-				t_token *command);
+static void	run_subshell(t_minishell *minishell, t_token *command);
+static void	run_command(t_minishell *minishell, t_token *command, char **envp);
+static void	run_command_error(t_minishell *minishell, t_token *command);
 static int	print_error_get_error_code(t_token *command);
 
-void	execute_command(t_minishell *minishell, t_list **tokens,
-			t_token *command, char **envp)
+void	execute_command(t_minishell *minishell, t_token *command, char **envp)
 {
-	int io_redirection;
+	int	io_redirection;
 
 	if (command->type == BUILTIN)
 		return (run_builtin(minishell, command));
@@ -45,12 +41,11 @@ void	execute_command(t_minishell *minishell, t_list **tokens,
 		return ;
 	}
 	if (command->type == SUBSHELL)
-		return (run_subshell(minishell, tokens, command));
-	return (run_command(minishell, tokens, command, envp));
+		return (run_subshell(minishell, command));
+	return (run_command(minishell, command, envp));
 }
 
-static void	run_subshell(t_minishell *minishell, t_list **tokens,
-				t_token *command)
+static void	run_subshell(t_minishell *minishell, t_token *command)
 {
 	t_list	*tokens_save;
 
@@ -59,7 +54,6 @@ static void	run_subshell(t_minishell *minishell, t_list **tokens,
 	execute_commands(minishell);
 	minishell->tokens = tokens_save;
 	// TODO free minishell
-	ft_lstclear(tokens, &free_token);
 	if (signal_init_handling_inside_execution())
 		exit_code(-1);
 	if (terminal_restore(minishell->termios_save) < 0)
@@ -67,29 +61,25 @@ static void	run_subshell(t_minishell *minishell, t_list **tokens,
 	exit(exit_code(GET));
 }
 
-static void	run_command(t_minishell *minishell, t_list **tokens,
-				t_token *command, char **envp)
+static void	run_command(t_minishell *minishell, t_token *command, char **envp)
 {
 	execve(command->name, command->args, envp);
 	ft_free_split(envp);
 	if (command->name == NULL)
 	{
-		ft_lstclear(tokens, &free_token);
 		//TODO free minishell
 		exit(0);
 	}
-	run_command_error(minishell, tokens, command);
+	run_command_error(minishell, command);
 }
 
-static void	run_command_error(t_minishell *minishell, t_list **tokens,
-				t_token *command)
+static void	run_command_error(t_minishell *minishell, t_token *command)
 {
 	int	ret;
 
 	ret = print_error_get_error_code(command);
 	// TODO free minishell
 	(void)minishell;
-	ft_lstclear(tokens, &free_token);
 	exit(ret);
 }
 

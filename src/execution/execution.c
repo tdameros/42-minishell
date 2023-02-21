@@ -35,7 +35,7 @@ static enum e_operators	get_next_operator(t_list *tokens);
 static void				get_next_command(t_list **tokens, int last_exit_code);
 static void				skip_to_next_command(t_list **tokens,
 							enum e_operators target);
-
+#include <stdio.h>
 void	execute_commands(t_minishell *minishell)
 {
 	if (terminal_restore(minishell->termios_save) < 0)
@@ -71,7 +71,7 @@ static void	execute_commands_loop(t_minishell *minishell)
 		if (get_next_operator(minishell->tokens) == PIPE)
 			execute_pipes(minishell);
 		else
-			execute_command_no_pipe(minishell, &minishell->tokens, false);
+			execute_command_no_pipe(minishell, false);
 		if (exit_code(GET) == -1)
 			return ;
 		if (minishell->tokens != NULL)

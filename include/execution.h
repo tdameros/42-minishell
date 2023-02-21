@@ -20,10 +20,9 @@ void	skip_tokens_here_docs(t_list *tokens, t_list **here_docs);
 void	skip_token_here_docs(t_token *token, t_list **here_docs);
 int		read_here_doc(t_list **here_docs);
 
-void	execute_command(t_minishell *minishell, t_list **tokens,
-			t_token *command, char **envp);
+void	execute_command(t_minishell *minishell, t_token *command, char **envp);
 
-void	execute_command_no_pipe(t_minishell *minishell, t_list **tokens,
+void	execute_command_no_pipe(t_minishell *minishell,
 			bool is_last_piped_command);
 
 pid_t	execute_piped_command(t_minishell *minishell,

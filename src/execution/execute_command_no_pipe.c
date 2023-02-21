@@ -20,24 +20,21 @@
 #include "sys/wait.h"
 #include "env_variables.h"
 
-static void		execute_builtin_no_pipe(t_minishell *minishell, t_list **tokens,
-					t_token *token);
-static void		skip_command(t_minishell *minishell, t_list **tokens);
+static void		execute_builtin_no_pipe(t_minishell *minishell, t_token *token);
 static void		execute_non_builtin_no_pipe(t_minishell *minishell,
-					t_list **tokens, t_token *token,
-					bool is_last_piped_command);
+					t_token *token, bool is_last_piped_command);
 static pid_t	fork_and_execute_command(t_minishell *minishell,
-					t_list **tokens, t_token *command);
+					t_token *command);
 
-void	execute_command_no_pipe(t_minishell *minishell, t_list **tokens,
+void	execute_command_no_pipe(t_minishell *minishell,
 			bool is_last_piped_command)
 {
 	t_token	*token;
 
-	if (minishell == NULL || tokens == NULL || *tokens == NULL
-		|| (*tokens)->content == NULL)
+	if (minishell == NULL || minishell->tokens == NULL
+		|| minishell->tokens->content == NULL)
 		return ;
-	token = (*tokens)->content;
+	token = minishell->tokens->content;
 	if (apply_token_expansion(
 			token, minishell->here_docs, minishell->env_variables) < 0)
 	{
@@ -46,40 +43,28 @@ void	execute_command_no_pipe(t_minishell *minishell, t_list **tokens,
 		return ;
 	}
 	if (token->type == BUILTIN)
-		return (execute_builtin_no_pipe(minishell, tokens, token));
-	execute_non_builtin_no_pipe(minishell, tokens, token,
-		is_last_piped_command);
+		return (execute_builtin_no_pipe(minishell, token));
+	execute_non_builtin_no_pipe(minishell, token, is_last_piped_command);
 }
 
-static void	execute_builtin_no_pipe(t_minishell *minishell, t_list **tokens,
-				t_token *token)
+static void	execute_builtin_no_pipe(t_minishell *minishell, t_token *token)
 {
 	if (minishell == NULL)
 		return ;
-	execute_command(minishell, tokens, token, NULL);
+	execute_command(minishell, token, NULL);
 	skip_token_here_docs(token, &minishell->here_docs);
-	skip_command(minishell, tokens);
+	ft_lst_get_next_free_current(&minishell->tokens, &free_token);
 }
 
-static void	skip_command(t_minishell *minishell, t_list **tokens)
-{
-	if (minishell == NULL || tokens == NULL)
-		return ;
-	if (minishell->tokens == *tokens)
-		ft_lst_get_next_free_current(&minishell->tokens, &free_token);
-	else
-		ft_lst_get_next_free_current(tokens, &free_token);
-}
-
-static void	execute_non_builtin_no_pipe(t_minishell *minishell, t_list **tokens,
-				t_token *token, bool is_last_piped_command)
+static void	execute_non_builtin_no_pipe(t_minishell *minishell, t_token *token,
+				bool is_last_piped_command)
 {
 	pid_t	pid;
 	int		status;
 
-	pid = fork_and_execute_command(minishell, tokens, token);
+	pid = fork_and_execute_command(minishell, token);
 	skip_token_here_docs(token, &minishell->here_docs);
-	skip_command(minishell, tokens);
+	ft_lst_get_next_free_current(&minishell->tokens, &free_token);
 	if (pid == -1)
 		exit_code(-1);
 	else if ((is_last_piped_command == false && waitpid(pid, &status, 0) >= 0)
@@ -88,7 +73,7 @@ static void	execute_non_builtin_no_pipe(t_minishell *minishell, t_list **tokens,
 }
 
 static pid_t	fork_and_execute_command(t_minishell *minishell,
-					t_list **tokens, t_token *command)
+					t_token *command)
 {
 	pid_t	pid;
 	char	**envp;
@@ -109,7 +94,7 @@ static pid_t	fork_and_execute_command(t_minishell *minishell,
 		ft_free_split(envp);
 		return (pid);
 	}
-	execute_command(minishell, tokens, command, envp);
+	execute_command(minishell, command, envp);
 	ft_free_split(envp);
 	// TODO free minishell
 	exit(exit_code(GET));

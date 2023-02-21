@@ -23,6 +23,8 @@
 static t_list	*create_sub_tokens(t_list **tokens);
 static int		execute_pipes_sub_tokens(t_minishell *minishell,
 					t_list **sub_tokens);
+static int	fork_and_execute_command_no_pipe(t_minishell *minishell,
+				t_list *sub_tokens);
 
 void	execute_pipes(t_minishell *minishell)
 {
@@ -79,10 +81,7 @@ static int	execute_pipes_sub_tokens(t_minishell *minishell,
 	if (sub_tokens == NULL || *sub_tokens == NULL)
 		return (-1);
 	if ((*sub_tokens)->next == NULL)
-	{
-		execute_command_no_pipe(minishell, sub_tokens, true);
-		return (exit_code(GET));
-	}
+		return (fork_and_execute_command_no_pipe(minishell, *sub_tokens));
 	pid = execute_piped_command(minishell, sub_tokens);
 	if (pid == -1)
 		return (-1);
@@ -90,4 +89,30 @@ static int	execute_pipes_sub_tokens(t_minishell *minishell,
 	close(STDIN_FILENO);
 	waitpid(pid, NULL, 0);
 	return (ret);
+}
+
+static int	fork_and_execute_command_no_pipe(t_minishell *minishell,
+				t_list *sub_tokens)
+{
+	const pid_t	pid = fork();
+	t_token		*token;
+	int			status;
+
+	token = sub_tokens->content;
+	if (pid < 0)
+	{
+		print_error(token->args[0], FORK_FAILED, get_error());
+		return (-1);
+	}
+	else if (pid != 0)
+	{
+		skip_token_here_docs(token, &minishell->here_docs);
+		if (waitpid(pid, &status, 0) >= 0 && WIFSIGNALED(status) == false)
+			return (WEXITSTATUS(status));
+		return (exit_code(GET));
+	}
+	ft_lstclear(&minishell->tokens, &free_token);
+	minishell->tokens = sub_tokens;
+	execute_command_no_pipe(minishell, true);
+	exit(exit_code(GET));
 }

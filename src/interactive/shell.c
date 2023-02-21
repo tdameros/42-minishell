@@ -28,22 +28,16 @@
 int	run_interactive_shell(t_minishell *minishell)
 {
 	char	*command;
-	t_list	*here_docs;
-	t_list	*tokens;
 	int		return_code;
 
-	here_docs = NULL;
-	tokens = NULL;
 	command = readline(PROMPT);
 	while (command != NULL && ft_strcmp(command, "exit"))
 	{
 		errno = 0;
 		if (ft_strlen(command) > 0)
 		{
-			return_code = run_new_interactive_parsing(&command, &tokens,
-					&here_docs);
-			minishell->tokens = tokens;
-			minishell->here_docs = here_docs;
+			return_code = run_new_interactive_parsing(&command,
+					&minishell->tokens, &minishell->here_docs);
 			if (return_code != 0)
 				exit_code(return_code);
 			else

@@ -19,10 +19,12 @@
 #include "exit_code.h"
 #include "env_variables.h"
 
-static int	execute_piped_command_fork(t_minishell *minishell, t_list **tokens,
-				int pipe_fd[2], char **envp);
-static void	execute_piped_command_main_process(t_list **sub_tokens,
-				t_minishell *minishell, int pipe_fd[2], char **envp);
+static int			execute_piped_command_fork(t_minishell *minishell,
+						t_list **tokens, int pipe_fd[2], char **envp);
+static void			execute_piped_command_main_process(t_list **sub_tokens,
+						t_minishell *minishell, int pipe_fd[2], char **envp);
+static t_minishell	*get_piped_command_minishell(t_minishell *minishell,
+						t_list *tokens);
 
 pid_t	execute_piped_command(t_minishell *minishell,
 					t_list **sub_tokens)
@@ -78,7 +80,8 @@ static int	execute_piped_command_fork(t_minishell *minishell, t_list **tokens,
 	}
 	if (dont_execute_command)
 		return (exit_code(-1));
-	execute_command(minishell, tokens, command, envp);
+	execute_command(
+		get_piped_command_minishell(minishell, *tokens), command, envp);
 	return (exit_code(GET));
 }
 
@@ -103,4 +106,12 @@ static void	execute_piped_command_main_process(t_list **sub_tokens,
 	}
 	skip_token_here_docs((*sub_tokens)->content, &minishell->here_docs);
 	ft_lst_get_next_free_current(sub_tokens, &free_token);
+}
+
+static t_minishell	*get_piped_command_minishell(t_minishell *minishell,
+			t_list *tokens)
+{
+	ft_lstclear(&minishell->tokens, &free_token);
+	minishell->tokens = tokens;
+	return (minishell);
 }
