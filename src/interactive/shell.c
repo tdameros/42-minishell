@@ -36,14 +36,12 @@ int	run_interactive_shell(t_minishell *minishell)
 		errno = 0;
 		if (ft_strlen(command) > 0)
 		{
-			return_code = run_new_interactive_parsing(&command,
+			return_code = run_interactive_parsing(&command,
 					&minishell->tokens, &minishell->here_docs);
 			if (return_code != 0)
 				exit_code(return_code);
 			else
 				execute_commands(minishell);
-//			ft_printf("PARSING CODE : %d\n", return_code);
-//			ft_printf("COMMAND : %s\n", command);
 			add_history(command);
 		}
 		free(command);

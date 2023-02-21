@@ -73,11 +73,10 @@ static int	get_forked_input(int *pipe_fd)
 {
 	char	*input;
 
-	errno = 0;
-	init_interactive_signal_handling();
-	if (errno != 0)
+	if (init_interactive_signal_handling() < 0)
 		return (close_pipe(pipe_fd), 1);
 	input = readline("> ");
+	errno = 0;
 	ft_putstr_fd(input, pipe_fd[1]);
 	if (errno != 0)
 		return (free(input), close_pipe(pipe_fd), 1);

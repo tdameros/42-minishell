@@ -13,7 +13,8 @@ static int	loop_interactive_parsing(char **command, t_list **here_docs);
 static int	interactive_quotes_parsing(char **command, t_list **here_docs);
 static int	interactive_syntax_parsing(char **command, t_list **here_docs);
 
-int	run_new_interactive_parsing(char **command, t_list **parsed_tokens, t_list **here_docs)
+int	run_interactive_parsing(char **command, t_list **parsed_tokens,
+		t_list **here_docs)
 {
 	int		return_code;
 	t_list	*tokens;

@@ -18,8 +18,6 @@
 
 char				*get_command_from_fd(int fd);
 int					set_end_of_file(char **command);
-int					run_interactive_parsing(char **command,
-						t_list **parsed_tokens);
 
 int					parse_syntax(t_list *tokens);
 
