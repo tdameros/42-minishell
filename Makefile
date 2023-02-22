@@ -11,6 +11,7 @@ SRC				=\
 	built-in/export.c					\
 	built-in/export_print.c				\
 	built-in/export_variables.c			\
+	built-in/export_variable.c			\
 	built-in/pwd.c						\
 	built-in/unset.c					\
 \
