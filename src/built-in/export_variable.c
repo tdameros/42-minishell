@@ -99,7 +99,6 @@ static int	change_quote_value(char *key, t_hashmap env_variables)
 	if (key[ft_strlen(key) - 1] == '+')
 		key[ft_strlen(key) - 1] = '\0';
 	value = ft_hm_get_content(env_variables, key);
-	ft_printf("%s\n", value);
 	if (value == NULL)
 		return (1);
 	new_value = ft_strdup(value);
@@ -110,7 +109,6 @@ static int	change_quote_value(char *key, t_hashmap env_variables)
 	new_value = tmp;
 	if (new_value == NULL)
 		return (-1);
-	ft_printf("%s\n", new_value);
 	if (ft_hm_add_elem(env_variables, key, new_value, free) < 0)
 		return (free(new_value), -1);
 	return (1);
