@@ -14,7 +14,7 @@
 #include "ft_io.h"
 #include <unistd.h>
 
-void	ft_putstr(char *s)
+void	ft_putstr(const char *s)
 {
 	if (s == NULL)
 		return ;

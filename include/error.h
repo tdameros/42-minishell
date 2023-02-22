@@ -30,7 +30,8 @@
 # define MALLOC_FAILED -1
 # define FILE_COUNT_IS_BAD 2
 
-void	print_error(char *command, char *context, char *error);
+void	print_error(const char *command, const char *context,
+			const char *error);
 char	*get_name(t_list *token);
 char	*get_error(void);
 

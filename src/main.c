@@ -18,20 +18,20 @@
 #include "env_variables.h"
 #include "interactive.h"
 #include "terminal.h"
+#include "execute_single_line_command.h"
 
 #define PROMPT "\e[32m➜ \e[36mminishell-1.0$ \x1b[0m"
 
 #define FAILED_TO_SAVE_TERMINAL -2
 
 static int	minishell_init(t_minishell *minishell, char **envp);
+static int run_shell(t_minishell *minishell, int argc, char **argv);
 
 int	main(int argc, char **argv, char **envp)
 {
 	t_minishell		minishell;
 	int				tmp;
 
-	(void)argc;
-	(void)argv;
 	tmp = minishell_init(&minishell, envp);
 	if (tmp < 0)
 	{
@@ -41,7 +41,7 @@ int	main(int argc, char **argv, char **envp)
 			terminal_restore(minishell.termios_save);
 		return (1);
 	}
-	tmp = run_interactive_shell(&minishell);
+	tmp = run_shell(&minishell, argc, argv);
 	ft_hm_clear(&minishell.env_variables, &free);
 	if (terminal_restore(minishell.termios_save) < 0)
 		return (2);
@@ -60,6 +60,16 @@ static int	minishell_init(t_minishell *minishell, char **envp)
 		|| terminal_disable_ctrl_backslash_output() < 0)
 		return (-1);
 	return (0);
+}
+
+static int run_shell(t_minishell *minishell, int argc, char **argv)
+{
+	if (argc == 1 || ft_strcmp(argv[1], "-c") != 0)
+		return (run_interactive_shell(minishell));
+	else if (argc > 2)
+		return (execute_single_line_command(minishell, argv[2]));
+	print_error(NULL, "-c", "option requires an argument");
+	return (2);
 }
 
 void	print_here_docs(t_list *here_docs)
