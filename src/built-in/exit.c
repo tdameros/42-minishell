@@ -18,6 +18,9 @@
 #include "exit_code.h"
 #include "built_in.h"
 #include "terminal.h"
+#include "execution.h"
+
+static void	restore_terminal_and_free_everything(t_minishell *minishell);
 
 int	exit_builtin(char **args, t_minishell *minishell)
 {
@@ -26,21 +29,28 @@ int	exit_builtin(char **args, t_minishell *minishell)
 	write(1, "exit\n", 5);
 	if (args[1] == NULL)
 	{
-		terminal_restore(minishell->termios_save);
+		restore_terminal_and_free_everything(minishell);
 		exit(0);
 	}
-	if (args[2] != NULL)
+	errno = 0;
+	status = ft_atoll(args[1]);
+	if (args[2] != NULL && errno != EINVAL)
 	{
 		print_error("exit", NULL, "too many arguments");
 		return (exit_code(1));
 	}
-	terminal_restore(minishell->termios_save);
-	errno = 0;
-	status = ft_atoll(args[1]);
 	if (errno == ERANGE || errno == EINVAL)
 	{
 		print_error("exit", args[1], "numeric argument required");
+		restore_terminal_and_free_everything(minishell);
 		exit(2);
 	}
+	restore_terminal_and_free_everything(minishell);
 	exit(status);
+}
+
+static void	restore_terminal_and_free_everything(t_minishell *minishell)
+{
+	terminal_restore(minishell->termios_save);
+	exec_free_minishell(minishell);
 }
