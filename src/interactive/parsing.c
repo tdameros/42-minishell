@@ -30,6 +30,7 @@ int	run_interactive_parsing(char **command, t_list **parsed_tokens,
 		return (1);
 	simplify_tokens(&tokens);
 	*parsed_tokens = tokens;
+	ft_lst_reverse(here_docs);
 	return (0);
 }
 

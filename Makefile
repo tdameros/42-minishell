@@ -77,10 +77,11 @@ SRC				=\
 	interactive/utils.c				\
 \
 \
-	exit_code.c			\
-	get_cursor_x_pos.c	\
-	main.c				\
-	signal.c			\
+	execute_single_line_command.c	\
+	exit_code.c						\
+	get_cursor_x_pos.c				\
+	main.c							\
+	signal.c						\
 	terminal.c
 
 

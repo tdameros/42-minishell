@@ -18,6 +18,7 @@
 #include "env_variables.h"
 #include "interactive.h"
 #include "terminal.h"
+#include "execute_single_line_command.h"
 
 #define PROMPT "\e[32m➜ \e[36mminishell-1.0$ \x1b[0m"
 
@@ -41,6 +42,16 @@ int	main(int argc, char **argv, char **envp)
 			terminal_restore(minishell.termios_save);
 		return (1);
 	}
+//	// Test
+//	char *line = get_next_line(STDIN_FILENO);
+//	int i;
+//	for (i = 0; line[i] != '\0'; i++);
+//	if (i > 0)
+//		line[i - 1] = '\0';
+//	execute_single_line_command(&minishell, line);
+//	free(line);
+//	if (false)
+//	//! Test
 	tmp = run_interactive_shell(&minishell);
 	ft_hm_clear(&minishell.env_variables, &free);
 	if (terminal_restore(minishell.termios_save) < 0)
