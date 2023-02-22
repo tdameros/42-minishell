@@ -28,7 +28,7 @@ int	run_interactive_parsing(char **command, t_list **parsed_tokens,
 	tokens = get_tokens(*command);
 	if (tokens == NULL)
 		return (1);
-	simplify_tokens(&tokens);
+	simplify_tokens(&tokens); // TODO check if simplify token failed (check return value)
 	*parsed_tokens = tokens;
 	ft_lst_reverse(here_docs);
 	return (0);

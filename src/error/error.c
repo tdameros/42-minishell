@@ -14,7 +14,7 @@
 #include "lexer.h"
 #include "error.h"
 
-void	print_error(char *command, char *context, char *error)
+void	print_error(const char *command, const char *context, const char *error)
 {
 	ft_putstr_fd("minishell: ", STDERR_FILENO);
 	if (command != NULL)

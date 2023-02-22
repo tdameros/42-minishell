@@ -13,7 +13,7 @@ int	execute_single_line_command(t_minishell *minishell, char *command,
 {
 	if (is_valid_quote(command) == 0)
 	{
-		print_error("-c", line,
+		print_error(__FUNCTION__ , line,
 			"no matching `\"' found\n");
 		return (1);
 	}
@@ -22,7 +22,7 @@ int	execute_single_line_command(t_minishell *minishell, char *command,
 	if (parse_syntax(minishell->tokens) < 1)
 	{
 		ft_lstclear(&minishell->tokens, &free_token);
-		print_error("-c", line, "handle error"); // TODO handle error
+		print_error(__FUNCTION__ , line, "handle error"); // TODO handle error
 		return (2);
 	}
 	if (handle_here_docs(minishell) < 0)
@@ -31,7 +31,7 @@ int	execute_single_line_command(t_minishell *minishell, char *command,
 	{
 		ft_lstclear(&minishell->tokens, &free_token);
 		ft_lstclear(&minishell->here_docs, NULL);
-		print_error(NULL, "hande error\n", NULL); // TODO handle error
+		print_error(NULL, "simplify_tokens() failed\n", get_error());
 		return (-1);
 	}
 //	print_tokens(minishell->tokens);
@@ -58,7 +58,7 @@ static int	handle_here_docs(t_minishell *minishell)
 			{
 				ft_lstclear(&minishell->here_docs, NULL);
 				ft_lstclear(&minishell->tokens, &free_token);
-				print_error("-c", "malloc failed", get_error());
+				print_error(__FUNCTION__ , "malloc failed", get_error());
 				return (-1);
 			}
 			ft_lstadd_front(&minishell->here_docs, new_node);
