@@ -5,24 +5,24 @@
 #include "error.h"
 #include "parser.h"
 #include "execution.h"
+#include "exit_code.h"
 
+static int	bad_quote(char *line);
 static int	handle_here_docs(t_minishell *minishell);
 
 int	execute_single_line_command(t_minishell *minishell, char *command,
 		char *line)
 {
+	if (line == NULL || *line == '\0')
+		return (0);
 	if (is_valid_quote(command) == 0)
-	{
-		print_error(__FUNCTION__ , line,
-			"no matching `\"' found\n");
-		return (1);
-	}
+		return (bad_quote(line));
 	minishell->tokens = get_tokens(command);
 	minishell->here_docs = NULL;
 	if (parse_syntax(minishell->tokens) < 1)
 	{
 		ft_lstclear(&minishell->tokens, &free_token);
-		print_error(__FUNCTION__ , line, "handle error"); // TODO handle error
+		print_error("execute_single_line_command()", "syntax error", line);
 		return (2);
 	}
 	if (handle_here_docs(minishell) < 0)
@@ -34,9 +34,15 @@ int	execute_single_line_command(t_minishell *minishell, char *command,
 		print_error(NULL, "simplify_tokens() failed\n", get_error());
 		return (-1);
 	}
-//	print_tokens(minishell->tokens);
 	execute_commands(minishell);
-	return (0);
+	return (exit_code(GET));
+}
+
+static int	bad_quote(char *line)
+{
+	print_error("execute_single_line_command()", line,
+		"no matching `\"' found\n");
+	return (1);
 }
 
 static int	handle_here_docs(t_minishell *minishell)
@@ -58,7 +64,7 @@ static int	handle_here_docs(t_minishell *minishell)
 			{
 				ft_lstclear(&minishell->here_docs, NULL);
 				ft_lstclear(&minishell->tokens, &free_token);
-				print_error(__FUNCTION__ , "malloc failed", get_error());
+				print_error("handle_here_docs()", "malloc failed", get_error());
 				return (-1);
 			}
 			ft_lstadd_front(&minishell->here_docs, new_node);
