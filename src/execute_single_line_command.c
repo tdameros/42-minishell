@@ -31,7 +31,7 @@ int	execute_single_line_command(t_minishell *minishell, char *command,
 	{
 		ft_lstclear(&minishell->tokens, &free_token);
 		ft_lstclear(&minishell->here_docs, NULL);
-		print_error(NULL, "simplify_tokens() failed\n", get_error());
+		print_error(NULL, "simplify_tokens() failed", get_error());
 		return (-1);
 	}
 	execute_commands(minishell);
@@ -58,7 +58,7 @@ static int	handle_here_docs(t_minishell *minishell)
 		if (token->type == OPERATOR && token->operator == HERE_DOC)
 		{
 			print_error(NULL, "warning",
-				"here-document delimited by end-of-file\n");
+				"here-document delimited by end-of-file");
 			new_node = ft_lstnew(NULL);
 			if (new_node == NULL)
 			{
