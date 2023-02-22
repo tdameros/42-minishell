@@ -71,6 +71,7 @@ static int	add_here_doc(t_list **here_docs, char *limiter)
 		ft_lstclear(&input, &free);
 		return (return_code);
 	}
+	ft_lst_reverse(&input);
 	new_node = ft_lstnew(input);
 	if (new_node == NULL)
 	{

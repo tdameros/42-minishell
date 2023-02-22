@@ -50,7 +50,7 @@ char	*strdup_with_parameters_quote(char *string, t_hashmap env_variables)
 	index = 0;
 	while (*string != '\0')
 	{
-		if (get_current_quote(string, &quote) != '\'' && is_parameter(string))
+		if (get_current_quote(string, &quote) != '\'' && is_parameter(string, quote))
 		{
 			value = get_parameter_value(string, env_variables);
 			if (value != NULL)
@@ -73,7 +73,8 @@ static size_t	get_len_with_parameters_quote(char *string, t_hashmap env)
 	quote = 0;
 	while (*string != '\0')
 	{
-		if (get_current_quote(string, &quote) != '\'' && is_parameter(string))
+		if (get_current_quote(string, &quote) != '\''
+			&& is_parameter(string, quote))
 		{
 			value = get_parameter_value(string, env);
 			if (value != NULL)
@@ -103,7 +104,7 @@ char	*strdup_with_parameters(char *string, t_hashmap env_variables)
 	index = 0;
 	while (*string != '\0')
 	{
-		if (is_parameter(string))
+		if (is_parameter(string, 1))
 		{
 			value = get_parameter_value(string, env_variables);
 			if (value != NULL)
@@ -124,7 +125,7 @@ static size_t	get_len_with_parameters(char *string, t_hashmap env)
 	len = 0;
 	while (*string != '\0')
 	{
-		if (is_parameter(string))
+		if (is_parameter(string, 1))
 		{
 			value = get_parameter_value(string, env);
 			if (value != NULL)

@@ -14,16 +14,43 @@
 #include "ft_hashmap.h"
 #include "exit_code.h"
 #include "built_in.h"
+#include "error.h"
+
+static	bool	is_valid_key(char *key);
 
 int	unset(char **args, t_hashmap env_variables)
 {
 	size_t	index;
+	int		exit;
 
 	index = 1;
+	exit = 0;
 	while (args[index] != NULL)
 	{
-		ft_hm_delete_elem(env_variables, args[index], free);
+		if (!is_valid_key(args[index]))
+		{
+			print_error("unset", args[index], "not a valid identifier");
+			exit = 1;
+		}
+		else
+			ft_hm_delete_elem(env_variables, args[index], free);
 		index++;
 	}
-	return (exit_code(0));
+	return (exit_code(exit));
+}
+
+static	bool	is_valid_key(char *key)
+{
+	size_t	index;
+
+	index = 0;
+	if (!ft_isalpha(key[index]) && key[index] != '_')
+		return (false);
+	while (key[index] != '\0')
+	{
+		if (!ft_isalnum(key[index]) && key[index] != '_')
+			return (false);
+		index++;
+	}
+	return (true);
 }

@@ -78,7 +78,7 @@ char			*strdup_with_parameters(char *string, t_hashmap env_variables);
 //	parameters_utils.c
 char			*get_parameter_value(char *parameter, t_hashmap env_variables);
 char			*get_end_parameter(char *string);
-bool			is_parameter(char *string);
+bool			is_parameter(char *string, char quote);
 char			get_current_quote(char *string, char *quote);
 
 //	quotes.c

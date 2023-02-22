@@ -135,7 +135,7 @@ static	bool	is_valid_key(char *key)
 	size_t	index;
 
 	index = 0;
-	if (!ft_isalpha(key[index]))
+	if (!ft_isalpha(key[index]) && key[index] != '_')
 		return (false);
 	while (key[index] != '\0')
 	{
