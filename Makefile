@@ -9,6 +9,8 @@ SRC				=\
 	built-in/env.c						\
 	built-in/exit.c						\
 	built-in/export.c					\
+	built-in/export_print.c				\
+	built-in/export_variables.c			\
 	built-in/pwd.c						\
 	built-in/unset.c					\
 \
