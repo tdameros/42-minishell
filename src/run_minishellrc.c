@@ -54,6 +54,7 @@ static int	open_minishellrc(t_hashmap env_variables)
 		return (-2);
 	}
 	fd = open(minishellrc_path, O_RDONLY);
+	free(minishellrc_path);
 	return (fd);
 }
 
