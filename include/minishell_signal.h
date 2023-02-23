@@ -13,10 +13,15 @@
 #ifndef MINISHELL_SIGNAL_H
 # define MINISHELL_SIGNAL_H
 
-int		init_interactive_signal_handling(void);
+// general_signal_handling.c
 int		signal_init_handling_outside_execution(void);
 int		signal_init_handling_inside_execution(void);
+
+// interactive_signal_handling.c
+int		init_interactive_signal_handling(void);
+int		init_interactive_fork_signal_handling(void);
+
+// pipes_signal_handling.c
 int		signal_init_handling_pipes(void);
-int		init_interactive_signal_handling_interactive(void);
 
 #endif

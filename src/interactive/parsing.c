@@ -21,7 +21,7 @@ int	run_interactive_parsing(char **command, t_minishell *minishell)
 {
 	int		return_code;
 
-	if (init_interactive_signal_handling_interactive() < 0)
+	if (init_interactive_signal_handling() < 0)
 		return (exit_code(-1));
 	return_code = get_here_docs(*command, &minishell->here_docs);
 	if (return_code != 0)
