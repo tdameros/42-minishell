@@ -52,7 +52,7 @@ static int	prep_io(int *io_save, t_minishell *minishell, t_token *command)
 		exit_code(-1);
 		return (-1);
 	}
-	io_redirection = open_and_dup_files(command->files, minishell->here_docs);
+	io_redirection = open_and_dup_files(command->files, minishell);
 	if (io_redirection != 0)
 	{
 		restore_io_and_close_io_save(io_save, command->args[0]);

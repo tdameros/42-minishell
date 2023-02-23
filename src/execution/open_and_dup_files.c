@@ -20,9 +20,9 @@
 
 static int	open_and_dup(t_token *file);
 static int	open_file(t_token *file);
-static int	handle_here_doc(t_token *file, t_list **here_docs);
+static int	handle_here_doc(t_token *file, t_minishell *minishell);
 
-int	open_and_dup_files(t_list *files, t_list *here_docs)
+int	open_and_dup_files(t_list *files, t_minishell *minishell)
 {
 	t_token	*token;
 
@@ -31,7 +31,7 @@ int	open_and_dup_files(t_list *files, t_list *here_docs)
 		token = files->content;
 		if (token->operator == HERE_DOC)
 		{
-			if (handle_here_doc(token, &here_docs))
+			if (handle_here_doc(token, minishell))
 			{
 				exit_code(1);
 				return (-1);
@@ -89,9 +89,9 @@ static int	open_file(t_token *file)
 	return (fd);
 }
 
-static int	handle_here_doc(t_token *file, t_list **here_docs)
+static int	handle_here_doc(t_token *file, t_minishell *minishell)
 {
-	const int	fd = read_here_doc(here_docs);
+	const int	fd = read_here_doc(minishell);
 
 	if (fd < 0)
 	{

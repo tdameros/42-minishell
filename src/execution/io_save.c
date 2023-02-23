@@ -62,6 +62,7 @@ int	restore_io_and_close_io_save(int *io_save, char *command_name)
 {
 	int	ret;
 
+	ret = 0;
 	if (dup2(io_save[0], STDIN_FILENO) < 0)
 	{
 		print_error(command_name, BUILTIN_DUP2_FAILED, get_error());
