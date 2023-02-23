@@ -6,7 +6,7 @@
 /*   By: vfries <vfries@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/04 17:38:45 by vfries            #+#    #+#             */
-/*   Updated: 2023/02/19 14:39:19 by vfries           ###   ########lyon.fr   */
+/*   Updated: 2023/02/23 02:20:21 by vfries           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 #include "exit_code.h"
 #include "get_cursor_x_pos.h"
 #include "sys/wait.h"
+#include "terminal.h"
 #include <signal.h>
 #include <stdlib.h>
 #include <stdio.h>
@@ -26,6 +27,7 @@ static void	interactive_signal_handler(int sig);
 static void	signal_handler_outside_execution(int sig);
 static void	signal_handler_inside_execution(int sig);
 static void	signal_handler_pipes(int sig);
+static void	interactive_signal_handler_interactive(int sig);
 
 int	init_interactive_signal_handling(void)
 {
@@ -159,4 +161,30 @@ static void	signal_handler_pipes(int sig)
 		ft_putchar_fd('\n', STDERR_FILENO);
 		exit_code(130);
 	}
+}
+
+int	init_interactive_signal_handling_interactive(void)
+{
+	struct sigaction	action;
+
+	action.sa_handler = &interactive_signal_handler_interactive;
+	sigemptyset(&action.sa_mask);
+	action.sa_flags = SA_RESTART;
+	if (sigaction(SIGINT, &action, NULL) < 0)
+	{
+		print_error(NULL, "sigaction() failed", get_error());
+		return (-1);
+	}
+	if (sigaction(SIGQUIT, &action, NULL) < 0)
+	{
+		print_error(NULL, "sigaction() failed", get_error());
+		return (-1);
+	}
+	return (0);
+}
+
+static void	interactive_signal_handler_interactive(int sig)
+{
+	(void)sig;
+	ft_putstr_fd("\n", STDERR_FILENO);
 }
