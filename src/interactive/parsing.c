@@ -15,26 +15,27 @@
 static int	loop_interactive_parsing(char **command, t_list **here_docs);
 static int	interactive_quotes_parsing(char **command, t_list **here_docs);
 static int	interactive_syntax_parsing(char **command, t_list **here_docs);
-static void	restore_signals(struct termios termios_save);
+static int	leave_run_interactive_parsing(t_minishell *minishell, int ret);
 
 int	run_interactive_parsing(char **command, t_minishell *minishell)
 {
 	int		return_code;
 
-	init_interactive_signal_handling_interactive(); // TODO secure me
+	if (init_interactive_signal_handling_interactive() < 0)
+		return (exit_code(-1));
 	return_code = get_here_docs(*command, &minishell->here_docs);
 	if (return_code != 0)
-		return (restore_signals(minishell->termios_save), return_code);
+		return (leave_run_interactive_parsing(minishell, return_code));
 	return_code = loop_interactive_parsing(command, &minishell->here_docs);
 	if (return_code != 0)
-		return (restore_signals(minishell->termios_save), return_code);
+		return (leave_run_interactive_parsing(minishell, return_code));
 	minishell->tokens = get_tokens(*command);
 	if (minishell->tokens == NULL)
-		return (restore_signals(minishell->termios_save), 1);
-	simplify_tokens(&minishell->tokens); // TODO check if simplify token failed (check return value)
+		return (leave_run_interactive_parsing(minishell, 1));
+	if (simplify_tokens(&minishell->tokens))
+		return (leave_run_interactive_parsing(minishell, -1));
 	ft_lst_reverse(&minishell->here_docs);
-	restore_signals(minishell->termios_save);
-	return (0);
+	return (leave_run_interactive_parsing(minishell, 0));
 }
 
 static int	loop_interactive_parsing(char **command, t_list **here_docs)
@@ -91,12 +92,14 @@ static int	interactive_syntax_parsing(char **command, t_list **here_docs)
 	return (-1);
 }
 
-static void	restore_signals(struct termios termios_save)
+static int	leave_run_interactive_parsing(t_minishell *minishell, int ret)
 {
+	if (ret != 0)
+	{
+		ft_lstclear(&minishell->tokens, &free_token);
+		ft_lst_of_lst_clear(&minishell->here_docs, &free);
+	}
 	if (signal_init_handling_outside_execution() < 0)
-		exit_code(-1);
-	if (terminal_restore(termios_save) < 0)
-		exit_code(-1);
-	if (terminal_disable_ctrl_backslash_output() < 0)
-		exit_code(-1);
+		ret = exit_code(-1);
+	return (ret);
 }
