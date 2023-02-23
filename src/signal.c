@@ -53,6 +53,7 @@ static void	interactive_signal_handler(int sig)
 {
 	if (sig != SIGINT)
 		return ;
+	ft_putchar_fd('\n', STDERR_FILENO);
 	exit(130);
 }
 
@@ -186,5 +187,4 @@ int	init_interactive_signal_handling_interactive(void)
 static void	interactive_signal_handler_interactive(int sig)
 {
 	(void)sig;
-	ft_putstr_fd("\n", STDERR_FILENO);
 }
