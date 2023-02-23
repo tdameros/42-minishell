@@ -24,4 +24,6 @@ typedef struct s_minishell
 	struct termios	termios_save;
 }	t_minishell;
 
+void	free_minishell(t_minishell *minishell);
+
 #endif

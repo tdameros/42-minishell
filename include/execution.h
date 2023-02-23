@@ -16,7 +16,7 @@
 # include "minishell_struct.h"
 # include "lexer.h"
 
-void	exec_free_minishell(t_minishell *minishell);
+void	free_minishell(t_minishell *minishell);
 
 void	skip_tokens_here_docs(t_list *tokens, t_list **here_docs);
 void	skip_token_here_docs(t_token *token, t_list **here_docs);

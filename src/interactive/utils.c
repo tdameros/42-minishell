@@ -20,22 +20,22 @@
 #include "minishell_signal.h"
 #include "interactive.h"
 
-static int	get_input(char **input);
+static int	get_input(char **input, t_minishell *minishell);
 static int	get_forked_input(int *pipe_fd);
 static int	read_input(int *pipe_fd, char **input);
 
-int	get_input_command(char **command, char *join, t_list **here_docs)
+int	get_input_command(char **command, char *join, t_minishell *minishell)
 {
 	char	*new_input;
 	char	*new_command;
 	int		return_code;
 
-	return_code = get_input(&new_input);
+	return_code = get_input(&new_input, minishell);
 	if (return_code != 0)
 		return (return_code);
 	if (ft_strlen(new_input) > 0)
 	{
-		return_code = get_here_docs(new_input, here_docs);
+		return_code = get_here_docs_if_valid_syntax(new_input, minishell);
 		if (return_code != 0)
 			return (free(new_input), return_code);
 	}
@@ -46,7 +46,7 @@ int	get_input_command(char **command, char *join, t_list **here_docs)
 	return (*command == NULL);
 }
 
-static int	get_input(char **input)
+static int	get_input(char **input, t_minishell *minishell)
 {
 	int		pipe_fd[2];
 	pid_t	pid;
@@ -58,7 +58,11 @@ static int	get_input(char **input)
 	if (pid == -1)
 		return (close_pipe(pipe_fd), 1);
 	else if (pid == 0)
-		exit(get_forked_input(pipe_fd));
+	{
+		exit_code = get_forked_input(pipe_fd);
+		free_minishell(minishell);
+		exit(exit_code);
+	}
 	if (waitpid(pid, &exit_code, 0) < 0)
 		return (close_pipe(pipe_fd), 1);
 	exit_code = WEXITSTATUS(exit_code);

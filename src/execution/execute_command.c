@@ -53,7 +53,7 @@ static void	run_subshell(t_minishell *minishell, t_token *command)
 	minishell->tokens = command->subshell;
 	execute_commands(minishell);
 	minishell->tokens = tokens_save;
-	exec_free_minishell(minishell);
+	free_minishell(minishell);
 	if (signal_init_handling_inside_execution())
 		exit_code(-1);
 	if (terminal_restore(minishell->termios_save) < 0)
@@ -67,7 +67,7 @@ static void	run_command(t_minishell *minishell, t_token *command, char **envp)
 	ft_free_split(envp);
 	if (command->name == NULL)
 	{
-		exec_free_minishell(minishell);
+		free_minishell(minishell);
 		exit(0);
 	}
 	run_command_error(minishell, command);
@@ -78,7 +78,7 @@ static void	run_command_error(t_minishell *minishell, t_token *command)
 	int	ret;
 
 	ret = print_error_get_error_code(command);
-	exec_free_minishell(minishell);
+	free_minishell(minishell);
 	(void)minishell;
 	exit(ret);
 }
