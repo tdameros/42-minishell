@@ -52,5 +52,5 @@ int	exit_builtin(char **args, t_minishell *minishell)
 static void	restore_terminal_and_free_everything(t_minishell *minishell)
 {
 	terminal_restore(minishell->termios_save);
-	exec_free_minishell(minishell);
+	free_minishell(minishell);
 }

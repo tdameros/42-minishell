@@ -15,6 +15,8 @@
 
 # include "libft.h"
 
-int	get_here_docs(char *command, t_list **here_docs);
+#include "minishell_struct.h"
+
+int	get_here_docs(t_list *tokens, t_minishell *minishell);
 
 #endif

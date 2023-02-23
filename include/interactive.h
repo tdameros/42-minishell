@@ -16,9 +16,10 @@
 # include "libft.h"
 # include "minishell_struct.h"
 
-int		get_input_command(char **command, char *join, t_list **here_docs);
+int		get_input_command(char **command, char *join, t_minishell *minishell);
 void	close_pipe(int *fd);
 int		run_interactive_parsing(char **command, t_minishell *minishell);
+int		get_here_docs_if_valid_syntax(char *command, t_minishell *minishell);
 
 int		run_interactive_shell(t_minishell *minishell);
 

@@ -21,7 +21,6 @@ SRC				=\
 	env_variables/print_env_variables.c	\
 \
 \
-	execution/exec_free_minishell.c		\
 	execution/exec_here_docs_tools.c	\
 	execution/execute_command.c			\
 	execution/execute_command_no_pipe.c	\
@@ -75,6 +74,7 @@ SRC				=\
 \
 \
 	interactive/here_docs.c			\
+	interactive/here_docs_syntax.c	\
 	interactive/parsing.c			\
 	interactive/shell.c				\
 	interactive/utils.c				\
@@ -90,7 +90,8 @@ SRC				=\
 	get_cursor_x_pos.c				\
 	main.c							\
 	run_minishellrc.c				\
-	terminal.c
+	terminal.c						\
+	free_minishell.c
 
 
 DIR_INCS		=\
@@ -104,7 +105,7 @@ DIR_BUILD		=	.build/
 OBJS			=	$(patsubst %.c, $(DIR_BUILD)%.o, $(SRC))
 DEPS			=	$(patsubst %.c, $(DIR_BUILD)%.d, $(SRC))
 DEPS_FLAGS		=	-MMD -MP
-CFLAGS			=	-Wall -Wextra -Werror  -g3 -fsanitize=address -g3
+CFLAGS			=	-Wall -Wextra -Werror  -g3 #-fsanitize=address -g3
 RM				=	rm -rf
 AR				=	ar rcs
 

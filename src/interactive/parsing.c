@@ -20,9 +20,9 @@
 #include "exit_code.h"
 #include "get_here_docs.h"
 
-static int	loop_interactive_parsing(char **command, t_list **here_docs);
-static int	interactive_quotes_parsing(char **command, t_list **here_docs);
-static int	interactive_syntax_parsing(char **command, t_list **here_docs);
+static int	loop_interactive_parsing(char **command, t_minishell *minishell);
+static int	interactive_quotes_parsing(char **command, t_minishell *minishell);
+static int	interactive_syntax_parsing(char **command, t_minishell *minishell);
 static int	leave_run_interactive_parsing(t_minishell *minishell, int ret);
 
 int	run_interactive_parsing(char **command, t_minishell *minishell)
@@ -31,10 +31,10 @@ int	run_interactive_parsing(char **command, t_minishell *minishell)
 
 	if (init_interactive_signal_handling() < 0)
 		return (exit_code(-1));
-	return_code = get_here_docs(*command, &minishell->here_docs);
+	return_code = get_here_docs_if_valid_syntax(*command, minishell);
 	if (return_code != 0)
 		return (leave_run_interactive_parsing(minishell, return_code));
-	return_code = loop_interactive_parsing(command, &minishell->here_docs);
+	return_code = loop_interactive_parsing(command, minishell);
 	if (return_code != 0)
 		return (leave_run_interactive_parsing(minishell, return_code));
 	minishell->tokens = get_tokens(*command);
@@ -46,34 +46,34 @@ int	run_interactive_parsing(char **command, t_minishell *minishell)
 	return (leave_run_interactive_parsing(minishell, 0));
 }
 
-static int	loop_interactive_parsing(char **command, t_list **here_docs)
+static int	loop_interactive_parsing(char **command, t_minishell *minishell)
 {
 	int		return_code;
 
-	return_code = interactive_quotes_parsing(command, here_docs);
+	return_code = interactive_quotes_parsing(command, minishell);
 	if (return_code != -1)
 		return (return_code);
-	return_code = interactive_syntax_parsing(command, here_docs);
+	return_code = interactive_syntax_parsing(command, minishell);
 	if (return_code != -1)
 		return (return_code);
 	return (0);
 }
 
-static int	interactive_quotes_parsing(char **command, t_list **here_docs)
+static int	interactive_quotes_parsing(char **command, t_minishell *minishell)
 {
 	int	return_code;
 
 	if (!is_valid_quote(*command))
 	{
-		return_code = get_input_command(command, "\n", here_docs);
+		return_code = get_input_command(command, "\n",  minishell);
 		if (return_code != 0)
 			return (return_code);
-		return (loop_interactive_parsing(command, here_docs));
+		return (loop_interactive_parsing(command, minishell));
 	}
 	return (-1);
 }
 
-static int	interactive_syntax_parsing(char **command, t_list **here_docs)
+static int	interactive_syntax_parsing(char **command, t_minishell *minishell)
 {
 	int		return_code;
 	t_list	*tokens;
@@ -87,7 +87,7 @@ static int	interactive_syntax_parsing(char **command, t_list **here_docs)
 		return (2);
 	else if (return_code == 0)
 	{
-		return_code = get_input_command(command, " ", here_docs);
+		return_code = get_input_command(command, " ", minishell);
 		if (return_code == 2)
 		{
 			free(*command);
@@ -95,7 +95,7 @@ static int	interactive_syntax_parsing(char **command, t_list **here_docs)
 		}
 		if (return_code != 0)
 			return (return_code);
-		return (loop_interactive_parsing(command, here_docs));
+		return (loop_interactive_parsing(command, minishell));
 	}
 	return (-1);
 }

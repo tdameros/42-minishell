@@ -96,6 +96,6 @@ static pid_t	fork_and_execute_command(t_minishell *minishell,
 	}
 	execute_command(minishell, command, envp);
 	ft_free_split(envp);
-	exec_free_minishell(minishell);
+	free_minishell(minishell);
 	exit(exit_code(GET));
 }

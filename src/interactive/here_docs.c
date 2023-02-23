@@ -23,46 +23,39 @@
 
 #define HERE_DOC_PROMPT "> "
 
-static int	add_here_doc(t_list **here_docs, char *limiter);
-static int	get_input(t_list **input_lst, char *limiter);
+static int	add_here_doc(t_minishell *minishell, char *limiter);
+static int	get_input(t_list **input_lst, char *limiter, t_minishell *minishell);
 static int	add_input(t_list **input_lst, int *pipe_fd);
 static int	get_forked_input(int *pipe_fd, char *limiter);
 
-int	get_here_docs(char *command, t_list **here_docs)
+int	get_here_docs(t_list *tokens, t_minishell *minishell)
 {
-	t_list	*tokens_list;
-	t_list	*tokens;
 	t_token	*token;
 	t_token	*next_token;
 	int		return_code;
 
-	tokens_list = get_tokens(command);
-	if (tokens_list == NULL)
-		return (-1);
-	tokens = tokens_list;
 	return_code = 0;
 	while (tokens->next != NULL)
 	{
 		token = tokens->content;
 		next_token = tokens->next->content;
 		if (token->operator == HERE_DOC)
-			return_code = add_here_doc(here_docs, next_token->name);
+			return_code = add_here_doc(minishell, next_token->name);
 		if (return_code != 0)
-			return (ft_lstclear(&tokens_list, &free_token), return_code);
+			return (return_code);
 		tokens = tokens->next;
 	}
-	ft_lstclear(&tokens_list, &free_token);
 	return (0);
 }
 
-static int	add_here_doc(t_list **here_docs, char *limiter)
+static int	add_here_doc(t_minishell *minishell, char *limiter)
 {
 	t_list	*input;
 	t_list	*new_node;
 	int		return_code;
 
 	input = NULL;
-	return_code = get_input(&input, limiter);
+	return_code = get_input(&input, limiter, minishell);
 	if (return_code != 0)
 	{
 		ft_lstclear(&input, &free);
@@ -75,11 +68,11 @@ static int	add_here_doc(t_list **here_docs, char *limiter)
 		ft_lstclear(&input, &free);
 		return (1);
 	}
-	ft_lstadd_front(here_docs, new_node);
+	ft_lstadd_front(&minishell->here_docs, new_node);
 	return (0);
 }
 
-static int	get_input(t_list **input_lst, char *limiter)
+static int	get_input(t_list **input_lst, char *limiter, t_minishell *minishell)
 {
 	int		pipe_fd[2];
 	pid_t	pid;
@@ -91,7 +84,11 @@ static int	get_input(t_list **input_lst, char *limiter)
 	if (pid == -1)
 		return (close_pipe(pipe_fd), 1);
 	else if (pid == 0)
-		exit(get_forked_input(pipe_fd, limiter));
+	{
+		exit_code = get_forked_input(pipe_fd, limiter);
+		free_minishell(minishell);
+		exit(exit_code);
+	}
 	if (waitpid(pid, &exit_code, 0) < 0)
 		return (close_pipe(pipe_fd), 1);
 	exit_code = WEXITSTATUS(exit_code);
@@ -104,6 +101,7 @@ static int	get_forked_input(int *pipe_fd, char *limiter)
 {
 	char	*input;
 
+	errno = 0;
 	init_interactive_fork_signal_handling();
 	if (errno != 0)
 		return (close_pipe(pipe_fd), 1);

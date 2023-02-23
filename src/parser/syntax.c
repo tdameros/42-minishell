@@ -49,6 +49,9 @@ int	parse_syntax(t_list *tokens)
 
 static bool	is_valid_operator_syntax(t_token *token, t_token *previous_token)
 {
+	if (previous_token != NULL && previous_token->operator == HERE_DOC
+		&& token->type == OPERATOR)
+		return (false);
 	if (previous_token != NULL && token->operator == OPEN_PARENTHESES
 		&& !is_separator_token(previous_token))
 		return (false);
