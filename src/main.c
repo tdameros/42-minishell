@@ -6,13 +6,14 @@
 /*   By: vfries <vfries@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/14 18:07:30 by vfries            #+#    #+#             */
-/*   Updated: 2023/02/18 06:39:10 by vfries           ###   ########lyon.fr   */
+/*   Updated: 2023/02/23 02:04:22 by vfries           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 #include "minishell_struct.h"
 #include "error.h"
+#include "run_minishellrc.h"
 #include "minishell_signal.h"
 #include "exit_code.h"
 #include "env_variables.h"
@@ -25,7 +26,7 @@
 #define FAILED_TO_SAVE_TERMINAL -2
 
 static int	minishell_init(t_minishell *minishell, char **envp);
-static int run_shell(t_minishell *minishell, int argc, char **argv);
+static int	run_shell(t_minishell *minishell, int argc, char **argv);
 
 int	main(int argc, char **argv, char **envp)
 {
@@ -62,16 +63,20 @@ static int	minishell_init(t_minishell *minishell, char **envp)
 	return (0);
 }
 
-static int run_shell(t_minishell *minishell, int argc, char **argv)
+static int	run_shell(t_minishell *minishell, int argc, char **argv)
 {
 	if (argc == 1 || ft_strcmp(argv[1], "-c") != 0)
+	{
+		run_minishellrc(minishell);
 		return (run_interactive_shell(minishell));
+	}
 	else if (argc > 2)
 		return (execute_single_line_command(minishell, argv[2]));
 	print_error(NULL, "-c", "option requires an argument");
 	return (2);
 }
 
+// TODO remove function below
 void	print_here_docs(t_list *here_docs)
 {
 	t_list	*cursor;

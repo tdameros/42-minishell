@@ -84,6 +84,7 @@ SRC				=\
 	exit_code.c						\
 	get_cursor_x_pos.c				\
 	main.c							\
+	run_minishellrc.c				\
 	signal.c						\
 	terminal.c
 
