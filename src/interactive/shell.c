@@ -59,3 +59,5 @@ int	run_interactive_shell(t_minishell *minishell)
 	ft_hm_clear(&minishell->env_variables, &free);
 	return (exit_code(GET));
 }
+
+static int

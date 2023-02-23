@@ -112,7 +112,7 @@ static int	add_dir_match_in_list(t_list **path_list, t_path path,
 			free(new_path.absolute);
 		}
 		else
-			if (add_match_in_list(path_list, new_path, ft_skip_char(slash + 1, '/')) < 0)
+			if (add_match_in_list(path_list, new_path, slash + 1) < 0)
 				return (-1);
 	}
 	*slash = '/';

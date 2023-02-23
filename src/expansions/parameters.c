@@ -34,7 +34,7 @@ int	insert_parameters_in_args(char **args, t_hashmap env_variables)
 	return (0);
 }
 
-char	*strdup_with_parameters_quote(char *string, t_hashmap env_variables)
+char	*strdup_with_parameters_quote(char *str, t_hashmap env_variables)
 {
 	char	*string_with_env;
 	char	*value;
@@ -42,23 +42,23 @@ char	*strdup_with_parameters_quote(char *string, t_hashmap env_variables)
 	size_t	index;
 	size_t	size;
 
-	size = get_len_with_parameters_quote(string, env_variables) + 1;
+	size = get_len_with_parameters_quote(str, env_variables) + 1;
 	string_with_env = ft_calloc(size, sizeof(char));
 	if (string_with_env == NULL)
 		return (NULL);
 	quote = 0;
 	index = 0;
-	while (*string != '\0')
+	while (*str != '\0')
 	{
-		if (get_current_quote(string, &quote) != '\'' && is_parameter(string, quote))
+		if (get_current_quote(str, &quote) != '\'' && is_parameter(str, quote))
 		{
-			value = get_parameter_value(string, env_variables);
+			value = get_parameter_value(str, env_variables);
 			if (value != NULL)
 				index = ft_strlcat(string_with_env, value, size);
-			string = get_end_parameter(string);
+			str = get_end_parameter(str);
 		}
 		else
-			string_with_env[index++] = *(string++);
+			string_with_env[index++] = *(str++);
 	}
 	return (string_with_env);
 }

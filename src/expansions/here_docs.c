@@ -1,25 +1,34 @@
-//
-// Created by tdameros on 2/13/23.
-//
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   here_docs.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tdameros <tdameros@student.42lyon.fr>      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/02/23 16:10:20 by tdameros          #+#    #+#             */
+/*   Updated: 2023/02/23 16:10:24 by tdameros         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include <stdlib.h>
 #include "libft.h"
 #include "lexer.h"
 #include "expansions.h"
 
-static int	replace_parameter_in_here_doc(t_list *here_doc, t_hashmap env_variables);
-static int count_here_docs_in_token(t_token *token);
+static int	replace_parameter(t_list *here_doc, t_hashmap env_variables);
+static int	count_here_docs_in_token(t_token *token);
 
-int	apply_here_docs_expansions(t_token *token, t_list *here_docs, t_hashmap env_variables)
+int	apply_here_docs_expansions(t_token *token,
+	t_list *here_docs, t_hashmap env_variables)
 {
 	int	count;
-	int index;
+	int	index;
 
 	count = count_here_docs_in_token(token);
 	index = 0;
 	while (index < count)
 	{
-		if (replace_parameter_in_here_doc(here_docs->content, env_variables) < 0)
+		if (replace_parameter(here_docs->content, env_variables) < 0)
 			return (-1);
 		here_docs = here_docs->next;
 		index++;
@@ -27,7 +36,7 @@ int	apply_here_docs_expansions(t_token *token, t_list *here_docs, t_hashmap env_
 	return (0);
 }
 
-static int	replace_parameter_in_here_doc(t_list *here_doc, t_hashmap env_variables)
+static int	replace_parameter(t_list *here_doc, t_hashmap env_variables)
 {
 	char	*new_content;
 
@@ -43,7 +52,7 @@ static int	replace_parameter_in_here_doc(t_list *here_doc, t_hashmap env_variabl
 	return (0);
 }
 
-static int count_here_docs_in_token(t_token *token)
+static int	count_here_docs_in_token(t_token *token)
 {
 	t_list	*files;
 	t_token	*file;

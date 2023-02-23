@@ -20,8 +20,6 @@ char	*get_parameter_value(char *parameter, t_hashmap env_variables)
 	char	tmp;
 	char	*value;
 
-//	if (!is_parameter(parameter))
-//		return (NULL);
 	end_parameter = get_end_parameter(parameter);
 	tmp = *end_parameter;
 	*end_parameter = '\0';
@@ -37,7 +35,8 @@ char	*get_end_parameter(char *string)
 	index = 1;
 	if (string[0] != '$')
 		return (string);
-	if (!ft_isalnum(string[index]) && string[index] != '?' && string[index] != '_')
+	if (!ft_isalnum(string[index])
+		&& string[index] != '?' && string[index] != '_')
 		return (string + 1);
 	if (ft_isdigit(string[index]) || string[index] == '?')
 		return (string + index + 1);
@@ -48,11 +47,12 @@ char	*get_end_parameter(char *string)
 
 bool	is_parameter(char *string, char quote)
 {
-//	ft_printf("%s\n", string);
 	if (quote == 0)
-		return (string[0] == '$' && (ft_isalnum(string[1]) || string[1] == '_' || string[1] == '?' || string[1] == '\'' || string[1] == '"'));
-	return (string[0] == '$' && (ft_isalnum(string[1]) || string[1] == '_' || string[1] == '?'));
-//	return (string != get_end_parameter(string));
+		return (string[0] == '$' && (ft_isalnum(string[1])
+				|| string[1] == '_' || string[1] == '?'
+				|| string[1] == '\'' || string[1] == '"'));
+	return (string[0] == '$' && (ft_isalnum(string[1])
+			|| string[1] == '_' || string[1] == '?'));
 }
 
 char	get_current_quote(char *string, char *quote)
