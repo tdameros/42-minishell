@@ -47,12 +47,13 @@ void	execute_command(t_minishell *minishell, t_token *command, char **envp)
 
 static void	run_subshell(t_minishell *minishell, t_token *command)
 {
-	t_list	*tokens_save;
+	t_list	*tmp;
 
-	tokens_save = minishell->tokens;
-	minishell->tokens = command->subshell;
+	tmp = command->subshell;
+	command->subshell = NULL;
+	ft_lstclear(&minishell->tokens, &free_token);
+	minishell->tokens = tmp;
 	execute_commands(minishell);
-	minishell->tokens = tokens_save;
 	free_minishell(minishell);
 	if (signal_init_handling_inside_execution())
 		exit_code(-1);
