@@ -75,7 +75,7 @@ static int	get_forked_input(int *pipe_fd)
 {
 	char	*input;
 
-	if (init_interactive_signal_handling() < 0)
+	if (init_interactive_fork_signal_handling() < 0)
 		return (close_pipe(pipe_fd), 1);
 	input = readline("> ");
 	errno = 0;

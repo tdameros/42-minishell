@@ -80,12 +80,16 @@ SRC				=\
 	interactive/utils.c				\
 \
 \
+	signals/general_signal_handling.c		\
+	signals/interactive_signal_handling.c	\
+	signals/pipes_signal_handling.c			\
+\
+\
 	execute_single_line_command.c	\
 	exit_code.c						\
 	get_cursor_x_pos.c				\
 	main.c							\
 	run_minishellrc.c				\
-	signal.c						\
 	terminal.c						\
 	free_minishell.c
 

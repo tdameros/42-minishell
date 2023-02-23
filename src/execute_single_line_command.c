@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_single_line_command.c                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdameros <tdameros@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: vfries <vfries@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 15:51:22 by tdameros          #+#    #+#             */
-/*   Updated: 2023/02/23 15:51:23 by tdameros         ###   ########.fr       */
+/*   Updated: 2023/02/23 22:46:39 by vfries           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,12 @@ int	execute_single_line_command(t_minishell *minishell, char *command,
 		char *line)
 {
 	if (line == NULL || *line == '\0')
-		return (0);
+		return (exit_code(GET));
 	if (is_valid_quote(command) == 0)
 		return (bad_quote(line));
 	minishell->tokens = get_tokens(command);
+	if (minishell->tokens == NULL)
+		return (exit_code(GET));
 	minishell->here_docs = NULL;
 	if (parse_syntax(minishell->tokens) < 1)
 	{
