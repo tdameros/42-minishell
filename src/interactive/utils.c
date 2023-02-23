@@ -16,15 +16,13 @@
 #include <stdio.h>
 #include <readline/readline.h>
 #include "libft.h"
-#include "lexer.h"
 #include "get_here_docs.h"
 #include "minishell_signal.h"
-#include "parser.h"
+#include "interactive.h"
 
 static int	get_input(char **input);
 static int	get_forked_input(int *pipe_fd);
 static int	read_input(int *pipe_fd, char **input);
-static void	close_pipe(int *fd);
 
 int	get_input_command(char **command, char *join, t_list **here_docs)
 {
@@ -105,7 +103,7 @@ static int	read_input(int *pipe_fd, char **input)
 	return (0);
 }
 
-static void	close_pipe(int *fd)
+void	close_pipe(int *fd)
 {
 	close(fd[0]);
 	close(fd[1]);

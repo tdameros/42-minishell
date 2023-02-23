@@ -67,17 +67,13 @@ int	read_here_doc(t_list **here_docs)
 	if (here_docs == NULL || *here_docs == NULL)
 		return (-1);
 	if (pipe(pipe_fd) == -1)
-	{
-//		free_one_here_doc(here_docs);
 		return (-1);
-	}
 	here_doc = (*here_docs)->content;
 	while (here_doc != NULL)
 	{
 		ft_putstr_fd(here_doc->content, pipe_fd[1]);
 		here_doc = here_doc->next;
 	}
-//	free_one_here_doc(here_docs);
 	if (close(pipe_fd[1]) < 0)
 	{
 		close(pipe_fd[0]);

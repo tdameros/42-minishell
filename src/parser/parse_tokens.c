@@ -14,7 +14,6 @@
 #include "parser.h"
 #include "exit_code.h"
 
-
 int	parse_tokens(t_list	**tokens)
 {
 	if (parse_syntax(*tokens) != 1)
@@ -26,23 +25,3 @@ int	parse_tokens(t_list	**tokens)
 		return (-1);
 	return (0);
 }
-
-//static int check_syntax(t_list *tokens)
-//{
-//	char *new_command;
-//	char *temp;
-//
-//	while (parse_syntax())
-//	{
-//		temp = readline("> ");
-//		new_command = ft_strjoin_three(command, "\n",temp);
-//		if (new_command == NULL)
-//		{
-//			free(command);
-//			return (NULL);
-//		}
-//		free(command);
-//		command = new_command;
-//	}
-//	return (command);
-//}
