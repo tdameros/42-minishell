@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   general_signal_handling.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vfries <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: vfries <vfries@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 17:25:59 by vfries            #+#    #+#             */
-/*   Updated: 2023/02/23 17:26:01 by vfries           ###   ########.fr       */
+/*   Updated: 2023/02/23 22:36:45 by vfries           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <signal.h>
+#include <stdio.h>
 #include <readline/readline.h>
 #include <sys/wait.h>
 #include "error.h"
