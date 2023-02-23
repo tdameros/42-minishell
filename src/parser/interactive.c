@@ -6,7 +6,7 @@
 /*   By: vfries <vfries@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 01:27:00 by tomy              #+#    #+#             */
-/*   Updated: 2023/02/11 23:37:59 by vfries           ###   ########.fr       */
+/*   Updated: 2023/02/23 02:23:21 by vfries           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,4 +125,3 @@ static int	run_interactive_syntax_parsing(char **command,
 	}
 	return (0);
 }
-

@@ -6,7 +6,7 @@
 /*   By: vfries <vfries@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/04 17:49:49 by vfries            #+#    #+#             */
-/*   Updated: 2023/02/18 07:59:02 by vfries           ###   ########lyon.fr   */
+/*   Updated: 2023/02/23 02:20:31 by vfries           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,5 +17,6 @@ int		init_interactive_signal_handling(void);
 int		signal_init_handling_outside_execution(void);
 int		signal_init_handling_inside_execution(void);
 int		signal_init_handling_pipes(void);
+int		init_interactive_signal_handling_interactive(void);
 
 #endif
