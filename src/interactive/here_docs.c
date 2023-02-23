@@ -88,7 +88,6 @@ static int	get_input(t_list **input_lst, char *limiter)
 	pid_t	pid;
 	int		exit_code;
 
-	// TODO Make this work with ctrl c handling
 	if (pipe(pipe_fd) == -1)
 		return (1);
 	pid = fork();

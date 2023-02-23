@@ -7,31 +7,35 @@
 #include "parser.h"
 #include "lexer.h"
 #include "interactive.h"
+#include "minishell_signal.h"
+#include "exit_code.h"
 #include "get_here_docs.h"
+#include "terminal.h"
 
 static int	loop_interactive_parsing(char **command, t_list **here_docs);
 static int	interactive_quotes_parsing(char **command, t_list **here_docs);
 static int	interactive_syntax_parsing(char **command, t_list **here_docs);
+static int	leave_run_interactive_parsing(t_minishell *minishell, int ret);
 
-int	run_interactive_parsing(char **command, t_list **parsed_tokens,
-		t_list **here_docs)
+int	run_interactive_parsing(char **command, t_minishell *minishell)
 {
 	int		return_code;
-	t_list	*tokens;
 
-	return_code = get_here_docs(*command, here_docs);
+	if (init_interactive_signal_handling_interactive() < 0)
+		return (exit_code(-1));
+	return_code = get_here_docs(*command, &minishell->here_docs);
 	if (return_code != 0)
-		return (return_code);
-	return_code = loop_interactive_parsing(command, here_docs);
+		return (leave_run_interactive_parsing(minishell, return_code));
+	return_code = loop_interactive_parsing(command, &minishell->here_docs);
 	if (return_code != 0)
-		return (return_code);
-	tokens = get_tokens(*command);
-	if (tokens == NULL)
-		return (1);
-	simplify_tokens(&tokens); // TODO check if simplify token failed (check return value)
-	*parsed_tokens = tokens;
-	ft_lst_reverse(here_docs);
-	return (0);
+		return (leave_run_interactive_parsing(minishell, return_code));
+	minishell->tokens = get_tokens(*command);
+	if (minishell->tokens == NULL)
+		return (leave_run_interactive_parsing(minishell, 1));
+	if (simplify_tokens(&minishell->tokens))
+		return (leave_run_interactive_parsing(minishell, -1));
+	ft_lst_reverse(&minishell->here_docs);
+	return (leave_run_interactive_parsing(minishell, 0));
 }
 
 static int	loop_interactive_parsing(char **command, t_list **here_docs)
@@ -86,4 +90,16 @@ static int	interactive_syntax_parsing(char **command, t_list **here_docs)
 		return (loop_interactive_parsing(command, here_docs));
 	}
 	return (-1);
+}
+
+static int	leave_run_interactive_parsing(t_minishell *minishell, int ret)
+{
+	if (ret != 0)
+	{
+		ft_lstclear(&minishell->tokens, &free_token);
+		ft_lst_of_lst_clear(&minishell->here_docs, &free);
+	}
+	if (signal_init_handling_outside_execution() < 0)
+		ret = exit_code(-1);
+	return (ret);
 }
