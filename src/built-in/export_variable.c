@@ -7,7 +7,6 @@ static int		add_value(char *key, char *value, t_hashmap env_variables);
 static int		addition_export(char *key, char *value,
 					t_hashmap env_variables);
 static bool		is_valid_key(char *key);
-static int		change_quote_value(char *key, t_hashmap env_variables);
 
 int	export_variable(char *variable, t_hashmap env_variables)
 {
@@ -31,8 +30,6 @@ int	export_variable(char *variable, t_hashmap env_variables)
 		return (-1);
 	return_code = add_value(key, value, env_variables);
 	if (return_code < 0)
-		return (-1);
-	if (change_quote_value(key, env_variables) < 0)
 		return (-1);
 	return (1);
 }
@@ -87,29 +84,5 @@ static int	addition_export(char *key, char *value, t_hashmap env_variables)
 		free(value);
 		return (-1);
 	}
-	return (1);
-}
-
-static int	change_quote_value(char *key, t_hashmap env_variables)
-{
-	char	*value;
-	char	*new_value;
-	char	*tmp;
-
-	if (key[ft_strlen(key) - 1] == '+')
-		key[ft_strlen(key) - 1] = '\0';
-	value = ft_hm_get_content(env_variables, key);
-	if (value == NULL)
-		return (1);
-	new_value = ft_strdup(value);
-	if (new_value == NULL)
-		return (-1);
-	tmp = ft_strjoin_three("\"", new_value, "\"");
-	free(new_value);
-	new_value = tmp;
-	if (new_value == NULL)
-		return (-1);
-	if (ft_hm_add_elem(env_variables, key, new_value, free) < 0)
-		return (free(new_value), -1);
 	return (1);
 }
