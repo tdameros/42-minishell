@@ -71,7 +71,7 @@ int				apply_here_docs_expansions(t_token *token, t_list *here_docs,
 
 //	parameters.c
 int				insert_parameters_in_args(char **args, t_hashmap env_variables);
-char			*strdup_with_parameters_quote(char *string,
+char			*strdup_with_parameters_quote(char *str,
 					t_hashmap env_variables);
 char			*strdup_with_parameters(char *string, t_hashmap env_variables);
 

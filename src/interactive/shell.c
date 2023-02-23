@@ -25,37 +25,46 @@
 
 #define PROMPT "\e[32m➜ \e[36mminishell-1.0$ \x1b[0m"
 
+static int	run_interactive_command(char *command, t_minishell *minishell);
+
 int	run_interactive_shell(t_minishell *minishell)
 {
 	char	*command;
-	int		return_code;
 
 	command = readline(PROMPT);
 	while (command != NULL && ft_strcmp(command, "exit"))
 	{
-		errno = 0;
-		if (ft_strlen(command) > 0)
-		{
-			return_code = run_interactive_parsing(&command, minishell);
-			if (return_code != 0)
-				exit_code(return_code);
-			else
-				execute_commands(minishell);
-			add_history(command);
-		}
-		free(command);
-		if (exit_code(GET) < 0)
-		{
-			print_error(NULL, "Fatal error with errno", get_error());
-			ft_hm_clear(&minishell->env_variables, &free);
-			return (1);
-		}
-		if (command == NULL)
-			break ;
+		run_interactive_command(command, minishell);
 		command = readline(PROMPT);
 	}
 	free(command);
 	ft_putstr("exit\n");
 	ft_hm_clear(&minishell->env_variables, &free);
 	return (exit_code(GET));
+}
+
+static int	run_interactive_command(char *command, t_minishell *minishell)
+{
+	int	return_code;
+
+	errno = 0;
+	if (ft_strlen(command) > 0)
+	{
+		return_code = run_interactive_parsing(&command, minishell);
+		if (return_code != 0)
+			exit_code(return_code);
+		else
+			execute_commands(minishell);
+		add_history(command);
+	}
+	free(command);
+	if (exit_code(GET) < 0)
+	{
+		print_error(NULL, "Fatal error with errno", get_error());
+		ft_hm_clear(&minishell->env_variables, &free);
+		return (-1);
+	}
+	if (command == NULL)
+		return (-1);
+	return (0);
 }

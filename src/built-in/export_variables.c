@@ -40,4 +40,3 @@ int	export_variables(char **args, t_hashmap env_variables)
 	}
 	return (return_code);
 }
-

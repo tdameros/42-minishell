@@ -19,13 +19,13 @@
 #include "minishell_signal.h"
 #include "parser.h"
 #include "error.h"
+#include "interactive.h"
 
 #define HERE_DOC_PROMPT "> "
 
 static int	add_here_doc(t_list **here_docs, char *limiter);
 static int	get_input(t_list **input_lst, char *limiter);
 static int	add_input(t_list **input_lst, int *pipe_fd);
-static void	close_pipe(int *fd);
 static int	get_forked_input(int *pipe_fd, char *limiter);
 
 int	get_here_docs(char *command, t_list **here_docs)
@@ -48,10 +48,7 @@ int	get_here_docs(char *command, t_list **here_docs)
 		if (token->operator == HERE_DOC)
 			return_code = add_here_doc(here_docs, next_token->name);
 		if (return_code != 0)
-		{
-			ft_lstclear(&tokens_list, &free_token);
-			return (return_code);
-		}
+			return (ft_lstclear(&tokens_list, &free_token), return_code);
 		tokens = tokens->next;
 	}
 	ft_lstclear(&tokens_list, &free_token);
@@ -140,8 +137,6 @@ static int	add_input(t_list **input_lst, int *pipe_fd)
 		return (1);
 	}
 	input = get_next_line(pipe_fd[0]);
-//	if (input == NULL)
-//		print_error(NULL, "warning", "here-document delimited by end-of-file");
 	while (input != NULL)
 	{
 		new_node = ft_lstnew(input);
@@ -152,10 +147,4 @@ static int	add_input(t_list **input_lst, int *pipe_fd)
 	}
 	close(pipe_fd[0]);
 	return (0);
-}
-
-static void	close_pipe(int *fd)
-{
-	close(fd[0]);
-	close(fd[1]);
 }

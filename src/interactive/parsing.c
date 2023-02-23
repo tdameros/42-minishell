@@ -1,6 +1,15 @@
-//
-// Created by tdameros on 2/11/23.
-//
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parsing.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tdameros <tdameros@student.42lyon.fr>      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/02/23 16:21:59 by tdameros          #+#    #+#             */
+/*   Updated: 2023/02/23 16:22:02 by tdameros         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <stdlib.h>
 #include <unistd.h>
 #include "libft.h"
@@ -10,7 +19,6 @@
 #include "minishell_signal.h"
 #include "exit_code.h"
 #include "get_here_docs.h"
-#include "terminal.h"
 
 static int	loop_interactive_parsing(char **command, t_list **here_docs);
 static int	interactive_quotes_parsing(char **command, t_list **here_docs);
