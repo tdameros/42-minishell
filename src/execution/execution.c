@@ -5,24 +5,13 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: vfries <vfries@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/19 19:49:20 by vfries            #+#    #+#             */
-/*   Updated: 2023/02/19 19:50:02 by vfries           ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   execution.c                                        :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: vfries <vfries@student.42lyon.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/19 18:03:22 by vfries            #+#    #+#             */
 /*   Updated: 2023/02/19 18:37:53 by vfries           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
+#include <sys/wait.h>
 #include "lexer.h"
 #include "terminal.h"
 #include "exit_code.h"
@@ -60,6 +49,8 @@ void	execute_commands(t_minishell *minishell)
 		exit_code(-1);
 	if (terminal_disable_ctrl_backslash_output() < 0)
 		exit_code(-1);
+	while (waitpid(-1, NULL, WNOHANG) > 0)
+		;
 }
 
 static void	execute_commands_loop(t_minishell *minishell)

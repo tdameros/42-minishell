@@ -33,7 +33,7 @@ void	execute_command(t_minishell *minishell, t_token *command, char **envp)
 
 	if (command->type == BUILTIN)
 		return (run_builtin(minishell, command));
-	io_redirection = open_and_dup_files(command->files, minishell->here_docs);
+	io_redirection = open_and_dup_files(command->files, minishell);
 	if (io_redirection != 0)
 	{
 		if (io_redirection < 0)
