@@ -31,7 +31,7 @@ int	run_interactive_parsing(char **command, t_minishell *minishell)
 
 	if (init_interactive_signal_handling() < 0)
 		return (exit_code(-1));
-	return_code = get_here_docs_if_valid_syntax(*command, minishell);
+	return_code = get_here_docs_if_valid_syntax(*command, *command, minishell);
 	if (return_code != 0)
 		return (leave_run_interactive_parsing(minishell, return_code));
 	return_code = loop_interactive_parsing(command, minishell);
@@ -65,7 +65,7 @@ static int	interactive_quotes_parsing(char **command, t_minishell *minishell)
 
 	if (!is_valid_quote(*command))
 	{
-		return_code = get_input_command(command, "\n",  minishell);
+		return_code = get_input_command(command, "\n", minishell);
 		if (return_code != 0)
 			return (return_code);
 		return (loop_interactive_parsing(command, minishell));
@@ -85,14 +85,9 @@ static int	interactive_syntax_parsing(char **command, t_minishell *minishell)
 	ft_lstclear(&tokens, &free_token);
 	if (return_code < 0)
 		return (2);
-	else if (return_code == 0)
+	if (return_code == 0)
 	{
 		return_code = get_input_command(command, " ", minishell);
-		if (return_code == 2)
-		{
-			free(*command);
-			*command = NULL;
-		}
 		if (return_code != 0)
 			return (return_code);
 		return (loop_interactive_parsing(command, minishell));

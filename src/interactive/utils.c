@@ -33,14 +33,19 @@ int	get_input_command(char **command, char *join, t_minishell *minishell)
 	return_code = get_input(&new_input, minishell);
 	if (return_code != 0)
 		return (return_code);
-	if (ft_strlen(new_input) > 0)
-	{
-		return_code = get_here_docs_if_valid_syntax(new_input, minishell);
-		if (return_code != 0)
-			return (free(new_input), return_code);
-	}
 	new_command = ft_strjoin_three(*command, join, new_input);
 	free(*command);
+	if (ft_strlen(new_input) > 0)
+	{
+		return_code = get_here_docs_if_valid_syntax(new_input,
+				new_command, minishell);
+		if (return_code != 0)
+		{
+			*command = new_command;
+			free(new_input);
+			return (return_code);
+		}
+	}
 	free(new_input);
 	*command = new_command;
 	return (*command == NULL);

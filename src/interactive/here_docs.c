@@ -21,10 +21,9 @@
 #include "error.h"
 #include "interactive.h"
 
-#define HERE_DOC_PROMPT "> "
-
 static int	add_here_doc(t_minishell *minishell, char *limiter);
-static int	get_input(t_list **input_lst, char *limiter, t_minishell *minishell);
+static int	get_input(t_list **input_lst, char *limiter,
+				t_minishell *minishell);
 static int	add_input(t_list **input_lst, int *pipe_fd);
 static int	get_forked_input(int *pipe_fd, char *limiter);
 
