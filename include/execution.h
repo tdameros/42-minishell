@@ -20,7 +20,7 @@ void	free_minishell(t_minishell *minishell);
 
 void	skip_tokens_here_docs(t_list *tokens, t_list **here_docs);
 void	skip_token_here_docs(t_token *token, t_list **here_docs);
-int		read_here_doc(t_list **here_docs);
+int		read_here_doc(t_minishell *minishell);
 
 void	execute_command(t_minishell *minishell, t_token *command, char **envp);
 
@@ -38,7 +38,7 @@ int		save_io(char *command_name, int *io_save);
 int		close_io_save(char *command_name, int *io_save);
 int		restore_io_and_close_io_save(int *io_save, char *command_name);
 
-int		open_and_dup_files(t_list *files, t_list *here_docs);
+int	open_and_dup_files(t_list *files, t_minishell *minishell);
 
 void	run_builtin(t_minishell *minishell, t_token *command);
 

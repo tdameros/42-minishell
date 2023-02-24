@@ -24,7 +24,7 @@
 static int	add_here_doc(t_minishell *minishell, char *limiter);
 static int	get_input(t_list **input_lst, char *limiter,
 				t_minishell *minishell);
-static int	add_input(t_list **input_lst, int *pipe_fd);
+static int	add_input(t_list **input_lst, int *pipe_fd, pid_t pid);
 static int	get_forked_input(int *pipe_fd, char *limiter);
 
 int	get_here_docs(t_list *tokens, t_minishell *minishell)
@@ -88,12 +88,7 @@ static int	get_input(t_list **input_lst, char *limiter, t_minishell *minishell)
 		free_minishell(minishell);
 		exit(exit_code);
 	}
-	if (waitpid(pid, &exit_code, 0) < 0)
-		return (close_pipe(pipe_fd), 1);
-	exit_code = WEXITSTATUS(exit_code);
-	if (exit_code == 130 || exit_code == 1)
-		return (close_pipe(pipe_fd), exit_code);
-	return (add_input(input_lst, pipe_fd));
+	return (add_input(input_lst, pipe_fd, pid));
 }
 
 static int	get_forked_input(int *pipe_fd, char *limiter)
@@ -123,10 +118,11 @@ static int	get_forked_input(int *pipe_fd, char *limiter)
 	return (0);
 }
 
-static int	add_input(t_list **input_lst, int *pipe_fd)
+static int	add_input(t_list **input_lst, int *pipe_fd, pid_t pid)
 {
 	char	*input;
 	t_list	*new_node;
+	int		exit_status;
 
 	if (close(pipe_fd[1]) < 0)
 	{
@@ -143,5 +139,10 @@ static int	add_input(t_list **input_lst, int *pipe_fd)
 		input = get_next_line(pipe_fd[0]);
 	}
 	close(pipe_fd[0]);
+	if (waitpid(pid, &exit_status, 0) < 0)
+		return (1);
+	exit_status = WEXITSTATUS(exit_status);
+	if (exit_status == 130 || exit_status == 1)
+		return (close_pipe(pipe_fd), exit_status);
 	return (0);
 }
