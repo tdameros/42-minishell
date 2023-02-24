@@ -38,7 +38,7 @@ int		save_io(char *command_name, int *io_save);
 int		close_io_save(char *command_name, int *io_save);
 int		restore_io_and_close_io_save(int *io_save, char *command_name);
 
-int	open_and_dup_files(t_list *files, t_minishell *minishell);
+int		noropen_and_dup_files(t_list *files, t_minishell *minishell);
 
 void	run_builtin(t_minishell *minishell, t_token *command);
 

@@ -21,8 +21,6 @@
 #include "terminal.h"
 #include "execute_single_line_command.h"
 
-#define PROMPT "\e[32m➜ \e[36mminishell-1.0$ \x1b[0m"
-
 #define FAILED_TO_SAVE_TERMINAL -2
 
 static int	minishell_init(t_minishell *minishell, char **envp);
@@ -74,28 +72,4 @@ static int	run_shell(t_minishell *minishell, int argc, char **argv)
 		return (execute_single_line_command(minishell, argv[2]));
 	print_error(NULL, "-c", "option requires an argument");
 	return (2);
-}
-
-// TODO remove function below
-void	print_here_docs(t_list *here_docs)
-{
-	t_list	*cursor;
-	int		i;
-
-	i = 0;
-	ft_printf("========= HERE DOCS ==========\n");
-	while (here_docs != NULL)
-	{
-		ft_printf("========= HERE DOC %d ==========\n", i);
-		ft_printf("         (Reversed)\n");
-		cursor = here_docs->content;
-		// ft_printf("%c", ((char *)cursor->content)[0]);
-		while (cursor != NULL)
-		{
-			ft_printf("%s", cursor->content);
-			cursor = cursor->next;
-		}
-		here_docs = here_docs->next;
-		i++;
-	}
 }

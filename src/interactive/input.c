@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   input.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: vfries <marvin@42.fr>                      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/02/24 15:32:35 by vfries            #+#    #+#             */
+/*   Updated: 2023/02/24 15:32:40 by vfries           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include <stdlib.h>
 
@@ -10,7 +21,6 @@
 #include "get_here_docs.h"
 #include "minishell_signal.h"
 #include "interactive.h"
-
 
 static int	get_input(char **input, t_minishell *minishell);
 static int	get_forked_input(int *pipe_fd);

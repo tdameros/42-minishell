@@ -23,7 +23,8 @@
 #include "libft.h"
 #include "error.h"
 
-#define PROMPT "\e[32m➜ \e[36mminishell-1.0$ \x1b[0m"
+#define ARROW "\001\e[32m\002\001➜\002"
+#define PROMPT "\001\e[36m\002minishell-1.0$ \001\x1b[0m\002"
 
 static int	run_interactive_command(char **command, t_minishell *minishell);
 
@@ -31,12 +32,12 @@ int	run_interactive_shell(t_minishell *minishell)
 {
 	char	*command;
 
-	command = readline(PROMPT);
+	command = readline(ARROW" "PROMPT);
 	while (command != NULL && ft_strcmp(command, "exit"))
 	{
 		if (run_interactive_command(&command, minishell) < 0)
 			break ;
-		command = readline(PROMPT);
+		command = readline(ARROW" "PROMPT);
 	}
 	free(command);
 	ft_putstr("exit\n");
