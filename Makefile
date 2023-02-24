@@ -75,6 +75,7 @@ SRC				=\
 \
 	interactive/here_docs.c			\
 	interactive/here_docs_syntax.c	\
+	interactive/input.c				\
 	interactive/parsing.c			\
 	interactive/shell.c				\
 	interactive/utils.c				\
