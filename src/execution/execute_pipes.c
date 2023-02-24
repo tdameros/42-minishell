@@ -16,7 +16,6 @@
 #include "execution.h"
 #include "minishell_signal.h"
 #include "exit_code.h"
-#include "expansions.h"
 #include <sys/wait.h>
 #include <stdlib.h>
 

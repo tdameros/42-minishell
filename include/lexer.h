@@ -69,7 +69,6 @@ t_list		*get_tokens(char *command);
 void		free_token(void *token);
 t_token		*create_token(enum e_type type, enum e_operators operator,
 				char *name);
-void		print_tokens(t_list *tokens);
 
 int			get_operator(char *string);
 int			add_operator_token(t_list **tokens, enum e_operators operator);

@@ -12,10 +12,8 @@
 
 #include <unistd.h>
 #include <termios.h>
-#include "error.h"
 
 #define BUFFER_SIZE 30
-#define CURSOR_ERROR "Failed to get cursor position"
 
 static int	get_cursor_pos(char *buf);
 static void	prep_termios_structs(struct termios *term_tmp,

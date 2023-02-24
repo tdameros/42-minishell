@@ -11,13 +11,11 @@
 /* ************************************************************************** */
 
 #include <stdlib.h>
-#include <stdio.h>
 #include <readline/readline.h>
 #include <readline/history.h>
 #include "minishell_struct.h"
 #include "env_variables.h"
 #include "interactive.h"
-#include "lexer.h"
 #include "execution.h"
 #include "exit_code.h"
 #include "libft.h"

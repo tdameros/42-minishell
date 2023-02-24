@@ -20,7 +20,6 @@
 #include "exit_code.h"
 #include "env_variables.h"
 #include "execution.h"
-#include "expansions.h"
 
 static void	run_subshell(t_minishell *minishell, t_token *command);
 static void	run_command(t_minishell *minishell, t_token *command, char **envp);

@@ -28,7 +28,6 @@
 # define BUILTIN_DUP2_FAILED "dup2() failed on builtin"
 
 # define MALLOC_FAILED -1
-# define FILE_COUNT_IS_BAD 2
 
 void	print_error(const char *command, const char *context,
 			const char *error);

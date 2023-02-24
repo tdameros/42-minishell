@@ -16,7 +16,6 @@
 #include "error.h"
 #include "exit_code.h"
 #include "env_variables.h"
-#include "built_in.h"
 
 static int	open_and_dup(t_token *file);
 static int	open_file(t_token *file);

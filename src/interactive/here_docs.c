@@ -17,7 +17,6 @@
 #include <errno.h>
 #include "lexer.h"
 #include "minishell_signal.h"
-#include "parser.h"
 #include "error.h"
 #include "interactive.h"
 

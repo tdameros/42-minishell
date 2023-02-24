@@ -12,7 +12,6 @@
 
 #include <stdlib.h>
 #include "libft.h"
-#include "expansions.h"
 
 static int		add_value(char *key, char *value, t_hashmap env_variables);
 static int		addition_export(char *key, char *value,

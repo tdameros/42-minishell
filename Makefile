@@ -129,6 +129,8 @@ all:
 $(NAME):	$(OBJS)
 			$(CC) $(CFLAGS) $(INCLUDES) $(OBJS) $(LIBFT_L) -o $(NAME) -L/opt/homebrew/opt/readline/lib -lreadline
 
+.PHONY:	bonus
+bonus:	all
 
 .PHONY:	clean
 clean:

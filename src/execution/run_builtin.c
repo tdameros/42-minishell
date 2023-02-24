@@ -14,8 +14,6 @@
 #include "execution.h"
 #include "lexer.h"
 #include "exit_code.h"
-#include "error.h"
-#include "env_variables.h"
 
 static int	prep_io(int *io_save, t_minishell *minishell, t_token *command);
 

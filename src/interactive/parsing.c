@@ -18,7 +18,6 @@
 #include "interactive.h"
 #include "minishell_signal.h"
 #include "exit_code.h"
-#include "get_here_docs.h"
 
 static int	loop_interactive_parsing(char **command, t_minishell *minishell);
 static int	interactive_quotes_parsing(char **command, t_minishell *minishell);

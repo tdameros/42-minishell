@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "lexer.h"
-#include "lexer.h"
 #include "parser.h"
 
 static void	free_lsts(t_list **simplified_tokens, t_list **tokens);

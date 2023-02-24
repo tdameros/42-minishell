@@ -12,7 +12,6 @@
 
 #include "exit_code.h"
 #include "env_variables.h"
-#include <sys/wait.h>
 #include <stdlib.h>
 
 static int	static_exit_code(int new_exit_code, t_hashmap_content *env_var_ptr);

@@ -12,7 +12,6 @@
 
 #include "lexer.h"
 #include "parser.h"
-#include "lexer.h"
 
 static void	seperate_command_elements(t_list **tokens, t_list **args,
 				t_list **files);

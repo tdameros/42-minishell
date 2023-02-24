@@ -11,9 +11,7 @@
 /* ************************************************************************** */
 
 #include <stdlib.h>
-
 #include "libft.h"
-
 #include "lexer.h"
 #include "parser.h"
 #include "get_here_docs.h"
