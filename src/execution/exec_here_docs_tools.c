@@ -16,6 +16,7 @@
 #include "execution.h"
 
 static void	free_one_here_doc(t_list **here_docs);
+static int	write_here_doc_to_pipe(t_minishell *minishell, int pipe_fd[2]);
 
 void	skip_tokens_here_docs(t_list *tokens, t_list **here_docs)
 {
@@ -59,25 +60,49 @@ static void	free_one_here_doc(t_list **here_docs)
 	free(tmp);
 }
 
-int	read_here_doc(t_list **here_docs)
+int	read_here_doc(t_minishell *minishell)
 {
-	t_list	*here_doc;
 	int		pipe_fd[2];
+	pid_t	pid;
 
-	if (here_docs == NULL || *here_docs == NULL)
+	if (minishell == NULL || minishell->here_docs == NULL)
 		return (-1);
 	if (pipe(pipe_fd) == -1)
 		return (-1);
-	here_doc = (*here_docs)->content;
+	pid = fork();
+	if (pid == -1)
+	{
+		print_error(NULL, "Failed to create fork for here_doc", get_error());
+		return (-1);
+	}
+	if (pid != 0)
+	{
+		close(pipe_fd[1]);
+		return (pipe_fd[0]);
+	}
+	exit(write_here_doc_to_pipe(minishell, pipe_fd));
+}
+
+static int	write_here_doc_to_pipe(t_minishell *minishell, int pipe_fd[2])
+{
+	t_list	*here_doc;
+
+	close(pipe_fd[0]);
+	if (minishell == NULL || minishell->here_docs == NULL
+		|| minishell->here_docs->content == NULL)
+	{
+		close(pipe_fd[0]);
+		close(pipe_fd[1]);
+		free_minishell(minishell);
+		exit(0);
+	}
+	here_doc = minishell->here_docs->content;
 	while (here_doc != NULL)
 	{
 		ft_putstr_fd(here_doc->content, pipe_fd[1]);
 		here_doc = here_doc->next;
 	}
-	if (close(pipe_fd[1]) < 0)
-	{
-		close(pipe_fd[0]);
-		return (-1);
-	}
-	return (pipe_fd[0]);
+	close(pipe_fd[1]);
+	free_minishell(minishell);
+	exit(0);
 }
