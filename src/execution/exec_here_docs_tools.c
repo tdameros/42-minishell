@@ -93,7 +93,7 @@ static int	write_here_doc_to_pipe(t_minishell *minishell, int pipe_fd[2])
 	{
 		close(pipe_fd[0]);
 		close(pipe_fd[1]);
-		exec_free_minishell(minishell);
+		free_minishell(minishell);
 		exit(0);
 	}
 	here_doc = minishell->here_docs->content;
@@ -103,6 +103,6 @@ static int	write_here_doc_to_pipe(t_minishell *minishell, int pipe_fd[2])
 		here_doc = here_doc->next;
 	}
 	close(pipe_fd[1]);
-	exec_free_minishell(minishell);
+	free_minishell(minishell);
 	exit(0);
 }
