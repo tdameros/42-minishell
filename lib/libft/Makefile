@@ -6,6 +6,13 @@ NAME_TEST_DEBUG =	libft_test_debug
 
 SRC_PATH =	src/
 SRC =\
+	bitmask/bitmask_free.c			\
+	bitmask/bitmask_get_position.c	\
+	bitmask/bitmask_get.c			\
+	bitmask/bitmask_init.c			\
+	bitmask/bitmask_set.c			\
+\
+\
 	bools/reverse_bool.c	\
 \
 \
@@ -138,9 +145,7 @@ SRC =\
 
 TEST_DIR = test/
 SRCS_TEST =\
-	header/test/ft_string_test.h.c	\
-\
-\
+	$(LIBFT_INCLUDE)ft_bitmask.h.c		\
 	$(LIBFT_INCLUDE)ft_bools.h.c		\
 	$(LIBFT_INCLUDE)ft_char.h.c			\
 	$(LIBFT_INCLUDE)ft_hashmap.h.c		\
@@ -149,11 +154,14 @@ SRCS_TEST =\
 	$(LIBFT_INCLUDE)ft_math.h.c			\
 	$(LIBFT_INCLUDE)ft_mem.h.c			\
 	$(LIBFT_INCLUDE)ft_numbers.h.c		\
+	$(LIBFT_INCLUDE)ft_sort.h.c		\
 	$(LIBFT_INCLUDE)ft_string.h.c		\
 	$(LIBFT_INCLUDE)libft.h.c			\
 \
 \
 	$(SRC_PATH)hashmap/hashmap_test.c	\
+\
+	$(SRC_PATH)bitmask/bitmask_test.c	\
 \
 	$(SRC_PATH)string/join/join_strs_test.c	\
 \

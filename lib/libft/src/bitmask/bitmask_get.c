@@ -1,27 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   bitmask_get.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vfries <vfries@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/12/20 15:29:14 by vfries            #+#    #+#             */
-/*   Updated: 2023/02/25 19:33:54 by vfries           ###   ########lyon.fr   */
+/*   Created: 2023/02/25 13:30:17 by vfries            #+#    #+#             */
+/*   Updated: 2023/02/25 13:37:18 by vfries           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_io.h"
-#include "ft_string_test.h"
-#include "ft_bitmask_test.h"
-#include "hashmap_test.h"
+#include "ft_bitmask.h"
 
-int	main(void)
+bool	ft_bitmask_get(t_bitmask bitmask, size_t target)
 {
-	if (ft_join_strs_test() == false)
-		ft_putstr("ft_join_strs: KO\n");
-	if (ft_hashmap_test() == false)
-		ft_putstr("hashmap: KO\n");
-	if (ft_bitmask_test() == false)
-		ft_putstr("bitmask: KO\n");
-	ft_putstr("Tests done\n");
+	size_t	index;
+	int8_t	right_shift;
+
+	ft_bitmask_get_position(target, &index, &right_shift);
+	return ((bitmask.arr[index] >> right_shift) % 2);
 }

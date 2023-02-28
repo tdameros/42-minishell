@@ -1,13 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   hashmap_test.h.c                                   :+:      :+:    :+:   */
+/*   bitmask_free.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vfries <vfries@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/17 17:13:16 by vfries            #+#    #+#             */
-/*   Updated: 2023/01/17 17:13:20 by vfries           ###   ########lyon.fr   */
+/*   Created: 2023/02/25 13:04:06 by vfries            #+#    #+#             */
+/*   Updated: 2023/02/25 13:05:01 by vfries           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "hashmap_test.h"
+#include <stdlib.h>
+#include "ft_bitmask.h"
+
+void	ft_bitmask_free(t_bitmask *bitmask)
+{
+	free(bitmask->arr);
+	bitmask->arr = NULL;
+}
