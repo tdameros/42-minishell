@@ -6,7 +6,7 @@
 /*   By: vfries <vfries@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/25 13:34:28 by vfries            #+#    #+#             */
-/*   Updated: 2023/02/27 18:35:04 by vfries           ###   ########lyon.fr   */
+/*   Updated: 2023/03/01 12:35:03 by vfries           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,9 @@ void	ft_bitmask_set(t_bitmask bitmask, size_t target, bool new_value)
 {
 	size_t		index;
 	int8_t		right_shift;
-	u_int8_t	tmp;
-	u_int8_t	i;
-	u_int8_t	power;
+	uint8_t		tmp;
+	uint8_t		i;
+	uint8_t		power;
 
 	ft_bitmask_get_position(target, &index, &right_shift);
 	tmp = 0;
