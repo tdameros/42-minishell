@@ -6,7 +6,7 @@
 /*   By: vfries <vfries@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/08 21:32:51 by vfries            #+#    #+#             */
-/*   Updated: 2023/02/06 08:46:58 by vfries           ###   ########lyon.fr   */
+/*   Updated: 2023/03/01 12:35:15 by vfries           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	*clear_str_list_and_return_null(t_list **str_list)
 	return (NULL);
 }
 
-char	add_str_to_str_list(t_list **str_list, t_list *new)
+int	add_str_to_str_list(t_list **str_list, t_list *new)
 {
 	static t_list	*last_elem = NULL;
 
