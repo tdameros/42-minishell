@@ -95,26 +95,41 @@ SRC				=\
 	free_minishell.c
 
 
-DIR_INCS		=\
+DIR_INCS =\
 	include/			\
-	$(LIBFT_INCLUDES)	\
-	/opt/homebrew/opt/readline/include
+	$(LIBFT_INCLUDES)
 
-INCLUDES		=	$(addprefix -I , $(DIR_INCS))
+OS	= $(shell uname -s)
+
+ifeq ($(OS), Linux)
+	LIBS = \
+		-l readline	\
+		$(LIBFT_L)
+	INCLUDES =\
+	$(addprefix -I , $(DIR_INCS))
+endif
+ifeq ($(OS), Darwin)
+	LIBS = \
+		$(LDFLAGS) -l readline	\
+		$(LIBFT_L)
+	INCLUDES =\
+		$(addprefix -I , $(DIR_INCS))	\
+		$(CPPFLAGS)
+endif
+
 
 DIR_BUILD		=	.build/
 OBJS			=	$(patsubst %.c, $(DIR_BUILD)%.o, $(SRC))
 DEPS			=	$(patsubst %.c, $(DIR_BUILD)%.d, $(SRC))
 DEPS_FLAGS		=	-MMD -MP
-CFLAGS			=	-Wall -Wextra -Werror  -g3# -fsanitize=address -g3
+CFLAGS			=	-Wall -Wextra -Werror  -g3 #-fsanitize=address
 RM				=	rm -rf
 AR				=	ar rcs
 
-
 LIBFT_PATH		=	lib/libft/
 LIBFT_INCLUDES	=	$(LIBFT_PATH)include
-LIBFT_L			=	-L$(LIBFT_PATH) -lft
-LIBFT_L_DEBUG	=	-L$(LIBFT_PATH) -lft_debug
+LIBFT_L			=	-L $(LIBFT_PATH) -l ft
+LIBFT_L_DEBUG	=	-L $(LIBFT_PATH) -l ft_debug
 LIBFT_A			=	$(LIBFT_PATH)libft.a
 LIBFT_A_DEBUG	=	$(LIBFT_PATH)libft_debug.a
 MAKE_LIBFT		=	$(MAKE) -C $(LIBFT_PATH)
@@ -127,7 +142,7 @@ all:
 			$(MAKE) $(NAME)
 
 $(NAME):	$(OBJS)
-			$(CC) $(CFLAGS) $(INCLUDES) $(OBJS) $(LIBFT_L) -o $(NAME) -L/opt/homebrew/opt/readline/lib -lreadline
+			$(CC) $(CFLAGS) $(INCLUDES) $(LIBS) $(OBJS) -o $(NAME)
 
 .PHONY:	bonus
 bonus:	all
@@ -146,8 +161,26 @@ fclean:	clean
 re:		fclean
 		$(MAKE) all
 
+.PHONY:	leaks
+leaks:	all
+		echo "{" > valgrind_ignore_leaks.txt
+		echo "    leak readline" >> valgrind_ignore_leaks.txt
+		echo "    Memcheck:Leak" >> valgrind_ignore_leaks.txt
+		echo "    ..." >> valgrind_ignore_leaks.txt
+		echo "    fun:readline" >> valgrind_ignore_leaks.txt
+		echo "}" >> valgrind_ignore_leaks.txt
+		echo "{" >> valgrind_ignore_leaks.txt
+		echo "    leak add_history" >> valgrind_ignore_leaks.txt
+		echo "    Memcheck:Leak" >> valgrind_ignore_leaks.txt
+		echo "    ..." >> valgrind_ignore_leaks.txt
+		echo "    fun:add_history" >> valgrind_ignore_leaks.txt
+		echo "}" >> valgrind_ignore_leaks.txt
+		valgrind --suppressions=valgrind_ignore_leaks.txt --leak-check=full\
+			--show-leak-kinds=all --track-origins=yes --verbose\
+			--show-mismatched-frees=yes --read-var-info=yes ./${NAME}
+
 -include $(DEPS)
 
 $(DIR_BUILD)%.o : $(SRC_PATH)%.c $(LIBFT_A)
-		mkdir -p $(shell dirname $@)
+		@mkdir -p $(shell dirname $@)
 		$(CC) $(CFLAGS) $(DEPS_FLAGS) $(INCLUDES) -c $< -o $@

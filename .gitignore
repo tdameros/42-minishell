@@ -9,7 +9,6 @@ cmake-build-debug
 .DS_Store
 .nfs*
 .vscode
-CMakeLists.txt
 
 # Norm
 .normignore
@@ -18,7 +17,6 @@ better_norminette.log
 # IDE
 .idea/
 .VSCode/
-CMakeLists.txt
 cmake-build-debug/
 
 # Executables

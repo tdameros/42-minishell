@@ -140,7 +140,7 @@ SRC =\
 \
 	sort/msort_int.c				\
 	sort/msort_str.c				\
-	sort/msort_str_ignore_case.c	\
+	sort/msort_str_ignore_case.c
 
 
 TEST_DIR = test/
