@@ -1,18 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   skip_char.c                                        :+:      :+:    :+:   */
+/*   lstsize.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vfries <vfries@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/13 19:29:14 by vfries            #+#    #+#             */
-/*   Updated: 2023/03/05 19:28:27 by vfries           ###   ########lyon.fr   */
+/*   Created: 2022/10/13 15:39:15 by vfries            #+#    #+#             */
+/*   Updated: 2023/01/09 01:02:58 by vfries           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
-char	*ft_skip_char(const char *str, char c)
+#include "ft_linked_list.h"
+
+size_t	ft_lstsize(t_list *lst)
 {
-	while (*str == c)
-		str++;
-	return ((char *)str);
+	size_t	size;
+
+	size = 0;
+	while (lst)
+	{
+		size++;
+		lst = lst->next;
+	}
+	return (size);
 }

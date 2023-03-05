@@ -28,7 +28,7 @@ void	run_builtin(t_minishell *minishell, t_token *command)
 	else if (command->builtin == CD)
 		cd(command->args, minishell->env_variables);
 	else if (command->builtin == PWD)
-		pwd();
+		pwd(minishell->env_variables);
 	else if (command->builtin == EXPORT)
 		export(command->args, minishell->env_variables);
 	else if (command->builtin == UNSET)

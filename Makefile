@@ -4,7 +4,8 @@ NAME			=	minishell
 SRC_PATH		=	src/
 
 SRC				=\
-	built-in/cd.c						\
+	built-in/cd/cd.c					\
+	built-in/cd/get_cleaned_path.c		\
 	built-in/echo.c						\
 	built-in/env.c						\
 	built-in/exit.c						\
@@ -142,7 +143,7 @@ all:
 			$(MAKE) $(NAME)
 
 $(NAME):	$(OBJS)
-			$(CC) $(CFLAGS) $(INCLUDES) $(LIBS) $(OBJS) -o $(NAME)
+			$(CC) $(CFLAGS) $(INCLUDES) $(OBJS) $(LIBS) -o $(NAME)
 
 .PHONY:	bonus
 bonus:	all

@@ -1,37 +1,41 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lstmap.c                                           :+:      :+:    :+:   */
+/*   dlst_reverse.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vfries <vfries@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/13 16:06:15 by vfries            #+#    #+#             */
-/*   Updated: 2023/01/09 01:02:51 by vfries           ###   ########lyon.fr   */
+/*   Created: 2022/11/12 21:22:03 by vfries            #+#    #+#             */
+/*   Updated: 2023/03/03 17:32:37 by vfries           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_linked_list.h"
-#include <stddef.h>
 
-t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *))
+static void	swap_next_and_previous(t_dlist *node);
+
+t_dlist	*ft_dlst_reverse(t_dlist **lst)
 {
-	t_list	*new_list;
-	t_list	*new_elem;
+	t_dlist	*cursor;
 
-	if (f == NULL || del == NULL)
+	if (lst == NULL || *lst == NULL)
 		return (NULL);
-	new_list = NULL;
-	while (lst)
+	cursor = *lst;
+	while (cursor->next)
 	{
-		new_elem = ft_lstnew(f(lst->content));
-		if (new_elem == NULL)
-		{
-			ft_lstclear(&new_list, del);
-			return (NULL);
-		}
-		ft_lstadd_front(&new_list, new_elem);
-		lst = lst->next;
+		swap_next_and_previous(cursor);
+		cursor = cursor->previous;
 	}
-	ft_lst_reverse(&new_list);
-	return (new_list);
+	swap_next_and_previous(cursor);
+	*lst = cursor;
+	return (*lst);
+}
+
+static void	swap_next_and_previous(t_dlist *node)
+{
+	t_dlist	*tmp;
+
+	tmp = node->next;
+	node->next = node->previous;
+	node->previous = tmp;
 }

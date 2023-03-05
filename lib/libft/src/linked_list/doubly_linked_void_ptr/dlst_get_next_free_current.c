@@ -1,18 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   skip_char.c                                        :+:      :+:    :+:   */
+/*   dlst_get_next_free_current.c                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vfries <vfries@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/13 19:29:14 by vfries            #+#    #+#             */
-/*   Updated: 2023/03/05 19:28:27 by vfries           ###   ########lyon.fr   */
+/*   Created: 2022/12/03 02:30:21 by vfries            #+#    #+#             */
+/*   Updated: 2023/03/03 17:29:10 by vfries           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
-char	*ft_skip_char(const char *str, char c)
+#include "ft_linked_list.h"
+#include <stdlib.h>
+
+t_dlist	*ft_dlst_get_next_free_current(t_dlist **lst, void (*del)(void *))
 {
-	while (*str == c)
-		str++;
-	return ((char *)str);
+	t_dlist	*next;
+
+	if (lst == NULL || *lst == NULL)
+		return (NULL);
+	next = (*lst)->next;
+	if (del != NULL)
+		del((*lst)->content);
+	free(*lst);
+	next->previous = NULL;
+	*lst = next;
+	return (next);
 }

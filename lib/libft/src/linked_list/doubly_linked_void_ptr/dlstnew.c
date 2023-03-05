@@ -1,18 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   skip_char.c                                        :+:      :+:    :+:   */
+/*   dlstnew.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vfries <vfries@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/13 19:29:14 by vfries            #+#    #+#             */
-/*   Updated: 2023/03/05 19:28:27 by vfries           ###   ########lyon.fr   */
+/*   Created: 2022/10/12 21:44:30 by vfries            #+#    #+#             */
+/*   Updated: 2023/03/03 17:49:51 by vfries           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
-char	*ft_skip_char(const char *str, char c)
+#include "ft_linked_list.h"
+#include <stdlib.h>
+
+t_dlist	*ft_dlstnew(void *content)
 {
-	while (*str == c)
-		str++;
-	return ((char *)str);
+	t_dlist	*new;
+
+	new = malloc(sizeof(*new));
+	if (new == NULL)
+		return (NULL);
+	new->previous = NULL;
+	new->content = content;
+	new->next = NULL;
+	return (new);
 }

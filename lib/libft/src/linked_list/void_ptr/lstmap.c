@@ -1,26 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstsize.c                                 :+:      :+:    :+:   */
+/*   lstmap.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vfries <vfries@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/13 15:39:15 by vfries            #+#    #+#             */
-/*   Updated: 2022/10/13 15:40:15 by vfries           ###   ########lyon.fr   */
+/*   Created: 2022/10/13 16:06:15 by vfries            #+#    #+#             */
+/*   Updated: 2023/03/03 17:44:43 by vfries           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_linked_list.h"
+#include <stddef.h>
 
-size_t	ft_lsti_size(t_list_i *lst)
+t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *))
 {
-	size_t	size;
+	t_list	*new_list;
+	t_list	*new_elem;
 
-	size = 0;
+	if (f == NULL)
+		return (NULL);
+	new_list = NULL;
 	while (lst)
 	{
-		size++;
+		new_elem = ft_lstnew(f(lst->content));
+		if (new_elem == NULL)
+		{
+			ft_lstclear(&new_list, del);
+			return (NULL);
+		}
+		ft_lstadd_front(&new_list, new_elem);
 		lst = lst->next;
 	}
-	return (size);
+	ft_lst_reverse(&new_list);
+	return (new_list);
 }

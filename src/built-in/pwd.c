@@ -17,10 +17,16 @@
 #include "exit_code.h"
 #include "built_in.h"
 
-int	pwd(void)
+int	pwd(t_hashmap env_variables)
 {
 	char	*current_path;
 
+	current_path = ft_hm_get_content(env_variables, "PWD");
+	if (current_path != NULL)
+	{
+		ft_printf("%s\n", current_path);
+		return (exit_code(0));
+	}
 	current_path = getcwd(NULL, 0);
 	if (current_path == NULL)
 	{

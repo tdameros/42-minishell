@@ -1,18 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   skip_char.c                                        :+:      :+:    :+:   */
+/*   dlstlast.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vfries <vfries@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/13 19:29:14 by vfries            #+#    #+#             */
-/*   Updated: 2023/03/05 19:28:27 by vfries           ###   ########lyon.fr   */
+/*   Created: 2022/10/13 15:41:21 by vfries            #+#    #+#             */
+/*   Updated: 2023/03/03 17:50:51 by vfries           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
-char	*ft_skip_char(const char *str, char c)
+#include "ft_linked_list.h"
+#include <stddef.h>
+
+t_dlist	*ft_dlstlast(t_dlist *lst)
 {
-	while (*str == c)
-		str++;
-	return ((char *)str);
+	if (lst == NULL)
+		return (NULL);
+	while (lst->next)
+		lst = lst->next;
+	return (lst);
 }

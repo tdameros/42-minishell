@@ -6,7 +6,7 @@
 /*   By: vfries <vfries@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/19 11:08:57 by vfries            #+#    #+#             */
-/*   Updated: 2023/01/13 19:32:55 by vfries           ###   ########lyon.fr   */
+/*   Updated: 2023/03/05 19:28:10 by vfries           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ char	*ft_strjoin(char const *s1, char const *s2);
 char	*ft_join_strs(char **strs, char const *sep);
 char	*ft_strjoin_three(char const *s1, char const *s2, char const *s3);
 
-char	*ft_skip_char(char *str, char c);
+char	*ft_skip_char(const char *str, char c);
 char	*ft_strchr(const char *s, int c);
 int		ft_strcmp(const char *s1, const char *s2);
 int		ft_strcmp_ignore_case(const char *s1, const char *s2);

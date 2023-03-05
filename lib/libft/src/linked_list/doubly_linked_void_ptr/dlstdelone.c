@@ -1,18 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   skip_char.c                                        :+:      :+:    :+:   */
+/*   dlstdelone.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vfries <vfries@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/13 19:29:14 by vfries            #+#    #+#             */
-/*   Updated: 2023/03/05 19:28:27 by vfries           ###   ########lyon.fr   */
+/*   Created: 2022/10/13 15:47:44 by vfries            #+#    #+#             */
+/*   Updated: 2023/03/03 17:43:27 by vfries           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
-char	*ft_skip_char(const char *str, char c)
+#include "ft_linked_list.h"
+#include <stdlib.h>
+
+void	ft_dlstdelone(t_dlist *lst, void (*del)(void *))
 {
-	while (*str == c)
-		str++;
-	return ((char *)str);
+	if (lst == NULL)
+		return ;
+	if (del != NULL)
+		del(lst->content);
+	free(lst);
 }

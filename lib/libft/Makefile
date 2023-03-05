@@ -53,6 +53,20 @@ SRC =\
 	io/printf/formating/format_u_x.c	\
 \
 \
+	linked_list/doubly_linked_void_ptr/dlst_get_next_free_current.c	\
+	linked_list/doubly_linked_void_ptr/dlst_of_dlst_clear.c			\
+	linked_list/doubly_linked_void_ptr/dlst_push.c					\
+	linked_list/doubly_linked_void_ptr/dlst_reverse.c				\
+	linked_list/doubly_linked_void_ptr/dlstadd_back.c				\
+	linked_list/doubly_linked_void_ptr/dlstadd_front.c				\
+	linked_list/doubly_linked_void_ptr/dlstclear.c					\
+	linked_list/doubly_linked_void_ptr/dlstdelone.c					\
+	linked_list/doubly_linked_void_ptr/dlstiter.c					\
+	linked_list/doubly_linked_void_ptr/dlstlast.c					\
+	linked_list/doubly_linked_void_ptr/dlstmap.c					\
+	linked_list/doubly_linked_void_ptr/dlstnew.c					\
+	linked_list/doubly_linked_void_ptr/dlstsize.c					\
+\
 	linked_list/int/lsti_add_back.c					\
 	linked_list/int/lsti_add_front.c				\
 	linked_list/int/lsti_clear.c					\
@@ -68,19 +82,20 @@ SRC =\
 	linked_list/int/lsti_reverse.c					\
 	linked_list/int/lsti_size.c						\
 \
-	linked_list/lst_get_next_free_current.c	\
-	linked_list/lst_of_lst_clear.c			\
-	linked_list/lst_push.c					\
-	linked_list/lst_reverse.c				\
-	linked_list/lstadd_back.c				\
-	linked_list/lstadd_front.c				\
-	linked_list/lstclear.c					\
-	linked_list/lstdelone.c					\
-	linked_list/lstiter.c					\
-	linked_list/lstlast.c					\
-	linked_list/lstmap.c					\
-	linked_list/lstnew.c					\
-	linked_list/lstsize.c					\
+	linked_list/void_ptr/lst_get_next_free_current.c	\
+	linked_list/void_ptr/lst_join_strs.c				\
+	linked_list/void_ptr/lst_of_lst_clear.c				\
+	linked_list/void_ptr/lst_push.c						\
+	linked_list/void_ptr/lst_reverse.c					\
+	linked_list/void_ptr/lstadd_back.c					\
+	linked_list/void_ptr/lstadd_front.c					\
+	linked_list/void_ptr/lstclear.c						\
+	linked_list/void_ptr/lstdelone.c					\
+	linked_list/void_ptr/lstiter.c						\
+	linked_list/void_ptr/lstlast.c						\
+	linked_list/void_ptr/lstmap.c						\
+	linked_list/void_ptr/lstnew.c						\
+	linked_list/void_ptr/lstsize.c						\
 \
 \
 	math/angle_to_theta.c	\
@@ -154,7 +169,7 @@ SRCS_TEST =\
 	$(LIBFT_INCLUDE)ft_math.h.c			\
 	$(LIBFT_INCLUDE)ft_mem.h.c			\
 	$(LIBFT_INCLUDE)ft_numbers.h.c		\
-	$(LIBFT_INCLUDE)ft_sort.h.c		\
+	$(LIBFT_INCLUDE)ft_sort.h.c			\
 	$(LIBFT_INCLUDE)ft_string.h.c		\
 	$(LIBFT_INCLUDE)libft.h.c			\
 \
@@ -164,6 +179,8 @@ SRCS_TEST =\
 	$(SRC_PATH)bitmask/bitmask_test.c	\
 \
 	$(SRC_PATH)string/join/join_strs_test.c	\
+\
+	$(SRC_PATH)linked_list/doubly_linked_void_ptr.c	\
 \
 \
 	main.c
@@ -213,7 +230,7 @@ $(NAME):	$(OBJS)
 
 -include $(DEPS)
 $(DIR_BUILD)%.o:	$(SRC_PATH)%.c
-			$(MKDIR) $(shell dirname $@)
+			@$(MKDIR) $(shell dirname $@)
 			$(CC) $(FLAGS) $(INCLUDES) -c $< -o $@
 
 #---------------------------------- debug -------------------------------------#
@@ -226,37 +243,35 @@ $(NAME_DEBUG):	$(OBJS_DEBUG)
 
 -include $(DEPS_DEBUG)
 $(DIR_BUILD)%_debug.o:	$(SRC_PATH)%.c
-			$(MKDIR) $(shell dirname $@)
+			@$(MKDIR) $(shell dirname $@)
 			$(CC) $(DEBUG_FLAGS) $(INCLUDES) -c $< -o $@
 
 #----------------------------------- test -------------------------------------#
 
 .PHONY:		test
 test:		$(NAME_TEST) $(NAME_TEST_DEBUG)
+			@./$(NAME_TEST_DEBUG)
 			@echo
 			leaks -atExit -- ./$(NAME_TEST)
-			@echo
-			@echo
-			./$(NAME_TEST_DEBUG)
 
 
 $(NAME_TEST):	$(OBJS_TEST) $(NAME)
-			$(CC) $(FLAGS) $(INCLUDES) -L. -lft $(OBJS_TEST)\
-				-o $(NAME_TEST)
+			$(CC) $(FLAGS) $(INCLUDES) $(OBJS_TEST) \
+				-L. -lft -o $(NAME_TEST)
 
 -include $(DEPS_TEST)
 $(TEST_BUILD_DIR)%.o:	$(TEST_DIR)%.c
-			$(MKDIR) $(shell dirname $@)
+			@$(MKDIR) $(shell dirname $@)
 			$(CC) $(FLAGS) $(INCLUDES) -I test/header -c $< -o $@
 
 
 $(NAME_TEST_DEBUG):	$(OBJS_TEST_DEBUG) $(NAME_DEBUG)
-			$(CC) $(DEBUG_FLAGS) $(INCLUDES) -L. -lft_debug\
-				$(OBJS_TEST_DEBUG) -o $(NAME_TEST_DEBUG)
+			$(CC) $(DEBUG_FLAGS) $(INCLUDES) $(OBJS_TEST_DEBUG) \
+				-L. -lft -o $(NAME_TEST_DEBUG)
 
 -include $(DEPS_TEST_DEBUG)
 $(TEST_BUILD_DIR)%_debug.o:	$(TEST_DIR)%.c
-			$(MKDIR) $(shell dirname $@)
+			@$(MKDIR) $(shell dirname $@)
 			$(CC) $(DEBUG_FLAGS) $(INCLUDES) -I test/header -c $< -o $@
 
 #---------------------------------- other -------------------------------------#
