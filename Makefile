@@ -82,6 +82,11 @@ SRC				=\
 	interactive/utils.c				\
 \
 \
+	prompt/get_command_result.c	\
+	prompt/get_git_branch.c		\
+	prompt/get_prompt.c			\
+\
+\
 	signals/general_signal_handling.c		\
 	signals/interactive_signal_handling.c	\
 	signals/pipes_signal_handling.c			\

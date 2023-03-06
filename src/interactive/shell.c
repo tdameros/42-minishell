@@ -6,7 +6,7 @@
 /*   By: vfries <vfries@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/12 16:37:00 by tomy              #+#    #+#             */
-/*   Updated: 2023/02/14 22:55:16 by vfries           ###   ########lyon.fr   */
+/*   Updated: 2023/03/06 00:37:19 by vfries           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,27 +21,44 @@
 #include "exit_code.h"
 #include "libft.h"
 #include "error.h"
+#include "prompt.h"
 
-#define ARROW "\001\e[32m\002\001➜\002"
-#define PROMPT "\001\e[36m\002minishell-1.0$ \001\x1b[0m\002"
-
+static char	*get_command(t_hashmap env_variables);
 static int	run_interactive_command(char **command, t_minishell *minishell);
 
 int	run_interactive_shell(t_minishell *minishell)
 {
 	char	*command;
 
-	command = readline(ARROW" "PROMPT);
+	command = get_command(minishell->env_variables);
 	while (command != NULL && ft_strcmp(command, "exit"))
 	{
 		if (run_interactive_command(&command, minishell) < 0)
 			break ;
-		command = readline(ARROW" "PROMPT);
+		command = get_command(minishell->env_variables);
 	}
 	free(command);
 	ft_putstr("exit\n");
 	ft_hm_clear(&minishell->env_variables, &free);
 	return (exit_code(GET));
+}
+
+static char	*get_command(t_hashmap env_variables)
+{
+	char	*prompt;
+	char	*command;
+
+	if (isatty(STDIN_FILENO) == false)
+		return (readline("minishell$ "));
+	prompt = get_prompt(env_variables);
+	if (prompt == NULL)
+	{
+		print_error(NULL, "failed to get prompt", get_error());
+		return (NULL);
+	}
+	command = readline(prompt);
+	free(prompt);
+	return (command);
 }
 
 static int	run_interactive_command(char **command, t_minishell *minishell)
