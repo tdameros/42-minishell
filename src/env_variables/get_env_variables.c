@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "libft.h"
+#include "built_in.h"
 #include <sys/stat.h>
 #include <stdlib.h>
 #include <stdbool.h>
@@ -20,7 +21,7 @@ static char	*get_var_name(char *envp_var);
 static char	*get_var_content(char *envp_var, char *var_name);
 static void	fix_env_variables(t_hashmap env_variables);
 
-t_hashmap	get_env_variables(char **envp)
+t_hashmap	get_env_variables(char **envp, char *minishell_path)
 {
 	t_hashmap	env_variables;
 
@@ -35,6 +36,12 @@ t_hashmap	get_env_variables(char **envp)
 	if (fill_env_variables(env_variables, envp))
 		ft_hm_clear(&env_variables, &free);
 	fix_env_variables(env_variables);
+	if (ft_hm_add_elem(env_variables, "SHELL", minishell_path, &free) < 0)
+	{
+		free(minishell_path);
+		ft_hm_clear(&env_variables, &free);
+		return (NULL);
+	}
 	return (env_variables);
 }
 

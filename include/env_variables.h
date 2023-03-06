@@ -17,7 +17,7 @@
 
 # define LAST_EXIT_CODE "?"
 
-t_hashmap	get_env_variables(char **envp);
+t_hashmap	get_env_variables(char **envp, char *minishell_path);
 char		**get_non_empty_envp(t_hashmap env_variables,
 				char *executable_path);
 char		**get_all_envp(t_hashmap env_variables);
