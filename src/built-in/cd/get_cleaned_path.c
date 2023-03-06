@@ -16,6 +16,8 @@
 static t_list		*init_lst(void);
 static const char	*handle_dot_dot(t_list **lst, const char *path);
 static const char	*handle_directory(t_list **lst, const char *path);
+static char			*remove_slash_at_the_end_of_cleaned_path(
+						char *cleaned_path);
 
 char	*get_cleaned_path(const char *path)
 {
@@ -43,7 +45,7 @@ char	*get_cleaned_path(const char *path)
 	}
 	cleaned_path = ft_lst_join_strs(ft_lst_reverse(&lst));
 	ft_lstclear(&lst, &free);
-	return (cleaned_path);
+	return (remove_slash_at_the_end_of_cleaned_path(cleaned_path));
 }
 
 static t_list	*init_lst(void)
@@ -90,4 +92,15 @@ static const char	*handle_directory(t_list **lst, const char *path)
 	if (slash == NULL)
 		return (path + ft_strlen(path));
 	return (slash);
+}
+
+static char	*remove_slash_at_the_end_of_cleaned_path(char *cleaned_path)
+{
+	const size_t	len = ft_strlen(cleaned_path);
+
+	if (len < 2)
+		return (cleaned_path);
+	if (cleaned_path[len - 1] == '/')
+		cleaned_path[len - 1] = '\0';
+	return (cleaned_path);
 }

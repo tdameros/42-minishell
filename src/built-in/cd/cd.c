@@ -118,7 +118,7 @@ static char	*get_new_path(t_hashmap env_variables, char *path)
 	char	*tmp;
 
 	if (path[0] == '/')
-		return (ft_strdup(path));
+		return (get_cleaned_path(path));
 	pwd = ft_hm_get_content(env_variables, "PWD");
 	if (pwd == NULL)
 		return (getcwd(NULL, 0));
