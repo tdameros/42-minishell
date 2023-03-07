@@ -41,7 +41,7 @@ static int	file_expansion(t_token *file, t_hashmap env_variables)
 	tokens = get_str_expansion(file->name, env_variables);
 	if (errno != 0)
 		return (-1);
-	if (tokens != NULL && tokens->next != NULL)
+	if (tokens == NULL || tokens->next != NULL)
 	{
 		ft_lstclear(&tokens, free_expansion);
 		return (set_ambiguous_file(file));
