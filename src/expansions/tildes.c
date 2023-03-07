@@ -26,7 +26,7 @@ int	replace_tildes(t_list **tokens, t_hashmap env_variables)
 		else if (quote == -1 && (expansion->type == SIMPLE_QUOTE
 				|| expansion->type == DOUBLE_QUOTE))
 			quote = expansion->type;
-		if (quote == -1 && is_tilde(expansion))
+		if (quote == -1 && is_tilde(expansion) && token->next == NULL)
 		{
 			if (change_tilde(expansion, env_variables) < 0)
 				return (-1);
