@@ -5,11 +5,12 @@
 #include "env_variables.h"
 #include "error.h"
 #include "exit_code.h"
+#include "built_in.h"
 
-static int	print_alias_variables(char **envp);
+static int	print_alias_variables(char **aliases);
 
-static int add_alias_variables(char **args, t_hashmap alias_variable);
-int	print_alias(t_hashmap alias);
+static int	add_alias_variables(char **args, t_hashmap alias_variable);
+static int	print_alias(t_hashmap alias);
 
 int	alias(char **args, t_hashmap alias_variables)
 {
@@ -29,10 +30,10 @@ int	alias(char **args, t_hashmap alias_variables)
 	return (exit_code(0));
 }
 
-static int add_alias_variables(char **args, t_hashmap alias_variable)
+static int	add_alias_variables(char **args, t_hashmap alias_variable)
 {
 	char	*value;
-	char 	*equal;
+	char	*equal;
 
 	while (*args != NULL)
 	{
@@ -53,41 +54,32 @@ static int add_alias_variables(char **args, t_hashmap alias_variable)
 	return (0);
 }
 
-int	print_alias(t_hashmap alias)
+static int	print_alias(t_hashmap alias)
 {
-	char	**envp;
+	char	**aliases;
 
-	if (ft_hm_size(alias) == 1)
-		return (0);
-	envp = get_all_envp(alias);
-	if (envp == NULL)
+	aliases = get_all_aliases(alias);
+	if (aliases == NULL)
 		return (-1);
-	if (ft_msort_str(envp, 0, ft_split_size(envp) - 1) < 0)
+	if (ft_msort_str(aliases, 0, ft_split_size(aliases) - 1) < 0)
 	{
-		ft_free_split(envp);
+		ft_free_split(aliases);
 		return (-1);
 	}
-	return (print_alias_variables(envp));
+	return (print_alias_variables(aliases));
 }
 
-static int	print_alias_variables(char **envp)
+static int	print_alias_variables(char **aliases)
 {
-	char *equal;
-	size_t index;
+	size_t	index;
 
 	index = 0;
-	while (envp[index] != NULL) {
-		equal = ft_strchr(envp[index], '=');
-		if (equal == NULL)
-			ft_printf("alias %s\n", envp[index]);
-		else
-		{
-			*equal = '\0';
-			ft_printf("alias %s='%s'\n", envp[index], equal + 1);
-		}
-		free(envp[index]);
+	while (aliases[index] != NULL)
+	{
+		ft_printf("alias %s\n", aliases[index]);
+		free(aliases[index]);
 		index++;
 	}
-	free(envp);
+	free(aliases);
 	return (0);
 }

@@ -164,14 +164,14 @@ add_executable(minishell
         lib/libft/src/string/substr.c
         src/built-in/cd/cd.c
         src/built-in/cd/get_cleaned_path.c
-        src/built-in/alias.c
+        src/built-in/alias/alias.c
         src/built-in/echo.c
         src/built-in/env.c
         src/built-in/exit.c
-        src/built-in/export.c
-        src/built-in/export_print.c
-        src/built-in/export_variable.c
-        src/built-in/export_variables.c
+        src/built-in/export/export.c
+        src/built-in/export/export_print.c
+        src/built-in/export/export_variable.c
+        src/built-in/export/export_variables.c
         src/built-in/pwd.c
         src/built-in/unset.c
         src/env_variables/get_env_variables.c
@@ -241,6 +241,6 @@ add_executable(minishell
         src/get_cursor_x_pos.c
         src/main.c
         src/run_minishellrc.c
-        src/terminal.c)
+        src/built-in/alias/get_all_aliases.c)
 
 target_link_libraries(minishell readline)
