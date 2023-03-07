@@ -16,15 +16,15 @@
 #include "expansions.h"
 
 static int	add_simple_match_in_list(t_list **path_list, t_path path,
-				char *pattern);
-static int	search_dir_match(t_list **path_list, t_path path, char *pattern);
+				t_list *pattern);
+static int	search_dir_match(t_list **path_list, t_path path, t_list *pattern);
 static int	add_dir_match_in_list(t_list **path_list, t_path path,
-				char *pattern, struct dirent *file);
+				t_list *pattern, struct dirent *file);
 
-int	add_match_in_list(t_list **path_list, t_path path, char *pattern)
+int	add_match_in_list(t_list **path_list, t_path path, t_list *pattern)
 {
 	errno = 0;
-	if (ft_strchr(pattern, '/') == NULL)
+	if (get_slash_token(pattern) == NULL)
 	{
 		if (add_simple_match_in_list(path_list, path, pattern) < 0)
 			return (free_path(&path), -1);
@@ -39,7 +39,7 @@ int	add_match_in_list(t_list **path_list, t_path path, char *pattern)
 }
 
 static int	add_simple_match_in_list(t_list **path_list,
-										t_path path, char *pattern)
+										t_path path, t_list *pattern)
 {
 	DIR				*dir;
 	struct dirent	*file;
@@ -54,11 +54,11 @@ static int	add_simple_match_in_list(t_list **path_list,
 	file = readdir(dir);
 	while (file != NULL)
 	{
-		if (is_match(pattern, file->d_name))
+		if (is_wilcard_match(pattern, file->d_name))
 		{
 			new_relative_path = ft_strjoin(path.relative, file->d_name);
-			ft_lstadd_front(path_list, ft_lstnew(new_relative_path));
-			if (errno != 0)
+			if (add_wildcard_with_space(new_relative_path, WORD, path_list) < 0)
+//			if (add_expansion_node(new_relative_path, WORD, path_list) < 0)
 				return (free(new_relative_path), closedir(dir) - 1);
 		}
 		file = readdir(dir);
@@ -67,7 +67,7 @@ static int	add_simple_match_in_list(t_list **path_list,
 	return (closedir(dir));
 }
 
-static int	search_dir_match(t_list **path_list, t_path path, char *pattern)
+static int	search_dir_match(t_list **path_list, t_path path, t_list *pattern)
 {
 	DIR				*dir;
 	struct dirent	*file;
@@ -90,31 +90,28 @@ static int	search_dir_match(t_list **path_list, t_path path, char *pattern)
 }
 
 static int	add_dir_match_in_list(t_list **path_list, t_path path,
-									char *pattern, struct dirent *file)
+									t_list *pattern, struct dirent *file)
 {
-	char	*slash;
+	t_list	*slash;
 	t_path	new_path;
 
-	slash = ft_strchr(pattern, '/');
-	*slash = '\0';
+	slash = get_slash_token(pattern);
 	if (ft_isdir(path.absolute, file->d_name)
-		&& is_match(pattern, file->d_name))
+		&& is_wilcard_match(pattern, file->d_name))
 	{
 		new_path.absolute = ft_strjoin_three(path.absolute, "/", file->d_name);
 		new_path.relative = ft_strjoin_three(path.relative, file->d_name, "/");
 		if (new_path.relative == NULL || new_path.absolute == NULL)
 			return (free_path(&new_path), -1);
-		if (ft_strlen(ft_skip_char(slash + 1, '/')) == 0)
+		if (slash->next == NULL)
 		{
-			ft_lstadd_front(path_list, ft_lstnew(new_path.relative));
-			if (errno != 0)
+			if (add_wildcard_with_space(new_path.relative, WORD, path_list) < 0)
 				return (free_path(&new_path), -1);
 			free(new_path.absolute);
 		}
 		else
-			if (add_match_in_list(path_list, new_path, slash + 1) < 0)
+			if (add_match_in_list(path_list, new_path, slash->next) < 0)
 				return (-1);
 	}
-	*slash = '/';
 	return ((errno == 0) - 1);
 }

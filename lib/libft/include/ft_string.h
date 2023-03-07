@@ -26,6 +26,7 @@ char	*ft_strjoin(char const *s1, char const *s2);
 char	*ft_join_strs(char **strs, char const *sep);
 char	*ft_strjoin_three(char const *s1, char const *s2, char const *s3);
 
+char	*ft_skip_set(const char *str, const char *set);
 char	*ft_skip_char(const char *str, char c);
 char	*ft_strchr(const char *s, int c);
 int		ft_strcmp(const char *s1, const char *s2);

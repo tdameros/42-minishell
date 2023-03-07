@@ -50,7 +50,7 @@ int	get_index_end_token(char *command)
 	else
 	{
 		while (!is_operator(command + index)
-			&& command[index] != ' ' && command[index] != '\0')
+			&& !ft_is_in_set(command[index], IFS) && command[index] != '\0')
 		{
 			if (command[index] == '"' || command[index] == '\'')
 				index += skip_quote_in_token(command + index);
@@ -76,7 +76,7 @@ static int	skip_quote_in_token(char *command)
 	{
 		if (command[index] == quote)
 			count_quote++;
-		if ((is_operator(command) || command[index] == ' ')
+		if ((is_operator(command) || ft_is_in_set(command[index], IFS))
 			&& count_quote % 2 == 0)
 			return (index);
 		index++;
@@ -101,7 +101,7 @@ int	get_index_next_token(char *command)
 	}
 	else
 		index += get_index_end_token(command);
-	while (command[index] == ' ')
+	while (ft_is_in_set(command[index], IFS))
 		index++;
 	return (index);
 }

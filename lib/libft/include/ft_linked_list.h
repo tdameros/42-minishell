@@ -49,6 +49,7 @@ char		*ft_lst_join_strs(t_list *str_list);
 void		ft_lst_of_lst_clear(t_list **lst, void (*del)(void *));
 void		ft_lst_push(t_list **dst, t_list **src);
 t_list		*ft_lst_reverse(t_list **lst);
+void		ft_lst_sort(t_list *lst, int (*f)(void *, void *));
 void		ft_lstadd_back(t_list **lst, t_list *new);
 void		ft_lstadd_front(t_list **lst, t_list *new);
 void		ft_lstclear(t_list **lst, void (*del)(void *));
@@ -58,6 +59,8 @@ t_list		*ft_lstlast(t_list *lst);
 t_list		*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *));
 t_list		*ft_lstnew(void *content);
 size_t		ft_lstsize(t_list *lst);
+void		ft_list_remove_if(t_list **begin_list, int (*cmp)(void *),
+				void (*free_fct)(void *));
 
 // int
 typedef struct s_list_i

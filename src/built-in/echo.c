@@ -24,6 +24,7 @@ int	echo(char **args)
 	bool	n_flag;
 
 	index = 1;
+	return_code = 0;
 	n_flag = is_n_flag(args[index]);
 	if (n_flag)
 		index++;

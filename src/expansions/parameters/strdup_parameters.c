@@ -1,18 +1,72 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parameters_utils.c                                 :+:      :+:    :+:   */
+/*   strdup_parameters.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tomy <tomy@student.42lyon.fr>              +#+  +:+       +#+        */
+/*   By: tdameros <tdameros@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/30 23:42:00 by tomy              #+#    #+#             */
-/*   Updated: 2023/01/30 23:42:00 by tomy             ###   ########lyon.fr   */
+/*   Created: 2023/03/06 19:39:41 by tdameros          #+#    #+#             */
+/*   Updated: 2023/03/06 19:39:42 by tdameros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdbool.h>
 #include "libft.h"
-#include "expansions.h"
+
+static size_t	get_len_with_parameters(char *string, t_hashmap env);
+char			*get_parameter_value(char *parameter, t_hashmap env_variables);
+char			*get_end_parameter(char *string);
+bool			is_parameter(char *string, char quote);
+
+char	*strdup_with_parameters(char *string, t_hashmap env_variables)
+{
+	char	*string_with_env;
+	char	*value;
+	size_t	index;
+	size_t	size;
+
+	size = get_len_with_parameters(string, env_variables) + 1;
+	string_with_env = ft_calloc(size, sizeof(char));
+	if (string_with_env == NULL)
+		return (NULL);
+	index = 0;
+	while (*string != '\0')
+	{
+		if (is_parameter(string, 1))
+		{
+			value = get_parameter_value(string, env_variables);
+			if (value != NULL)
+				index = ft_strlcat(string_with_env, value, size);
+			string = get_end_parameter(string);
+		}
+		else
+			string_with_env[index++] = *(string++);
+	}
+	return (string_with_env);
+}
+
+static size_t	get_len_with_parameters(char *string, t_hashmap env)
+{
+	size_t	len;
+	char	*value;
+
+	len = 0;
+	while (*string != '\0')
+	{
+		if (is_parameter(string, 1))
+		{
+			value = get_parameter_value(string, env);
+			if (value != NULL)
+				len += ft_strlen(value);
+			string = get_end_parameter(string);
+		}
+		else
+		{
+			len++;
+			string++;
+		}
+	}
+	return (len);
+}
 
 char	*get_parameter_value(char *parameter, t_hashmap env_variables)
 {
@@ -53,13 +107,4 @@ bool	is_parameter(char *string, char quote)
 				|| string[1] == '\'' || string[1] == '"'));
 	return (string[0] == '$' && (ft_isalnum(string[1])
 			|| string[1] == '_' || string[1] == '?'));
-}
-
-char	get_current_quote(char *string, char *quote)
-{
-	if ((*string == '"' || *string == '\'') && *quote == 0)
-		*quote = *string;
-	else if (*string == *quote)
-		*quote = 0;
-	return (*quote);
 }

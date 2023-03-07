@@ -46,6 +46,7 @@ int	main(int argc, char **argv, char **envp)
 	}
 	tmp = run_shell(&minishell, argc, argv, *envp != NULL);
 	ft_hm_clear(&minishell.env_variables, &free);
+	ft_hm_clear(&minishell.alias, &free);
 	if (terminal_restore(minishell.termios_save) < 0)
 		return (2);
 	return (tmp);
@@ -62,7 +63,9 @@ static int	minishell_init(t_minishell *minishell, char **envp, char *argv_zero)
 	if (minishell_path == NULL)
 		return (-1);
 	minishell->env_variables = get_env_variables(envp, minishell_path);
+	minishell->alias = ft_hm_init();
 	if (minishell->env_variables == NULL
+		|| minishell->alias == NULL
 		|| signal_init_handling_outside_execution() < 0
 		|| init_exit_code(minishell->env_variables) < 0
 		|| terminal_disable_ctrl_backslash_output() < 0)

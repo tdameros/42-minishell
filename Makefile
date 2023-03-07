@@ -4,6 +4,7 @@ NAME			=	minishell
 SRC_PATH		=	src/
 
 SRC				=\
+	built-in/alias.c					\
 	built-in/cd/cd.c					\
 	built-in/cd/get_cleaned_path.c		\
 	built-in/echo.c						\
@@ -33,23 +34,31 @@ SRC				=\
 	execution/run_builtin.c				\
 \
 \
+	expansions/lexer/expressions.c		\
+	expansions/lexer/tokens.c			\
+	expansions/lexer/utils.c			\
+	expansions/parameters/replace.c		\
+	expansions/parameters/strdup_parameters.c \
 	expansions/paths/absolute_path.c	\
 	expansions/paths/add_path.c			\
 	expansions/paths/builtin.c			\
 	expansions/paths/command.c			\
 	expansions/wildcards/add.c			\
-	expansions/wildcards/duplicate.c	\
 	expansions/wildcards/list.c			\
 	expansions/wildcards/match.c		\
+	expansions/wildcards/pattern_lexer.c	\
+	expansions/wildcards/replace.c		\
+	expansions/wildcards/slash.c		\
 	expansions/wildcards/utils.c		\
 	expansions/alias.c					\
+	expansions/arguments.c				\
 	expansions/files.c					\
 	expansions/here_docs.c				\
-	expansions/parameters.c				\
-	expansions/parameters_utils.c		\
+	expansions/merge_words.c			\
 	expansions/quotes.c					\
+	expansions/tildes.c					\
 	expansions/token.c					\
-	expansions/words.c					\
+	expansions/words_splitting.c		\
 \
 \
 	error/error.c	\
@@ -128,7 +137,7 @@ DIR_BUILD		=	.build/
 OBJS			=	$(patsubst %.c, $(DIR_BUILD)%.o, $(SRC))
 DEPS			=	$(patsubst %.c, $(DIR_BUILD)%.d, $(SRC))
 DEPS_FLAGS		=	-MMD -MP
-CFLAGS			=	-Wall -Wextra -Werror  -g3 #-fsanitize=address
+CFLAGS			=	-Wall -Wextra -Werror -g3 #-fsanitize=address
 RM				=	rm -rf
 AR				=	ar rcs
 

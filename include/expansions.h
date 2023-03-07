@@ -17,7 +17,83 @@
 # include "libft.h"
 # include "lexer.h"
 
-//	add_path/
+//  lexer/
+enum e_expansion_type
+{
+	WORD = 0,
+	DOUBLE_QUOTE = 1,
+	SIMPLE_QUOTE = 2,
+	DOLLAR = 3,
+	SPACE = 4,
+	SLASH = 5,
+	STAR = 6
+};
+
+typedef struct s_expansion
+{
+	enum e_expansion_type	type;
+	char					*content;
+}	t_expansion;
+
+//	lexer/expressions.c
+ssize_t	add_simple_quotes_expression(char *arg, t_list **expansions);
+ssize_t	add_double_quotes_expression(char *arg, t_list **expansions);
+ssize_t	add_dollar_expression(char *arg, t_list **expansions);
+ssize_t	add_expression(char *arg, char *delimiters, t_list **expansions);
+
+//	lexer/tokens.c
+t_list	*get_expansion_tokens(char *arg);
+
+//	lexer/utils.c
+char	*get_end_expression(char *arg, char *delimiters);
+char	*get_end_dollar_parameter(char *arg);
+int		add_expansion_node(char *content, int type, t_list **expansions);
+t_list	*create_expansion_node(char *content, int type);
+void	free_expansion(void *expansion);
+
+//	parameters/replace.c
+int		replace_parameters(t_list **expansions, t_hashmap env_variables);
+
+
+
+
+
+
+
+//	lexer/tokens.c
+t_list		*get_expansion_tokens(char *arg);
+
+//  lexer/expressions.c
+ssize_t		add_simple_quotes_expression(char *arg, t_list **expansions);
+ssize_t		add_dollar_expression(char *arg, t_list **expansions);
+ssize_t		add_double_quotes_expression(char *arg, t_list **expansions);
+ssize_t		add_expression(char *arg, char *delimiters, t_list **expansions);
+
+//  lexer/utils.c
+char    *get_end_expression(char *arg, char *delimiters);
+char    *get_end_dollar_parameter(char *arg);
+int     add_expansion_node(char *content, int type, t_list **expansions);
+void	free_expansion(void *expansion);
+t_list	*create_expansion_node(char *content, int type);
+void    print_expansion_tokens(t_list *tokens);
+
+int	apply_arguments_expansion(t_token *token, t_hashmap env_variables);
+
+//	lexer/parameters.c
+int		replace_parameters(t_list **expansions, t_hashmap env_variables);
+
+int		merge_words(t_list **tokens);
+int		split_words(t_list **tokens);
+int	add_empty_word_beetween_quotes(t_list **tokens);
+
+t_list *wildcard_lexer(t_list *expansions_tokens);
+int		is_wilcard_match(t_list *wilcards, char *string);
+int		replace_wildcards(t_list **tokens);
+int	replace_tildes(t_list **tokens, t_hashmap env_variables);
+t_list	*get_argument_expansion(char *argument, t_hashmap env_variables);
+int	add_wildcard_with_space(char *content, int type, t_list **tokens);
+
+//  add_path/
 
 //	absolute_path.c
 bool			is_absolute_path(t_token *command, t_hashmap env_variables);
@@ -42,13 +118,13 @@ typedef struct s_path
 
 //	wildcards/add.c
 int				add_match_in_list(t_list **path_list, t_path path,
-					char *pattern);
+					t_list *pattern);
 
 //	wildcards/duplicate.c
 char			**duplicate_args_with_wildcards(char **argument);
 
 //	wildcards/list.c
-t_list			*get_wildcards_list(char *pattern);
+t_list			*get_wildcards_list(t_list *pattern);
 
 //	wildcards/match.c
 int				is_match(char *pattern, char *string);
@@ -58,6 +134,9 @@ bool			ft_isdir(char *path, char *file_name);
 void			free_path(t_path *path);
 int				is_wildcard(char *pattern);
 ssize_t			size_with_wildcards_args(char **arguments);
+bool			is_slash_token(t_list *token);
+t_list			*skip_slash_token(t_list *token);
+t_list			*get_slash_token(t_list *token);
 
 //	alias.c
 int				replace_alias(char **args, t_hashmap alias_variables);

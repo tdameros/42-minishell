@@ -6,8 +6,6 @@ set(CMAKE_C_STANDARD 11)
 include_directories(include)
 include_directories(lib/libft/include)
 include_directories(lib/libft/src/io/get_next_line)
-include_directories(lib/libft/test/header)
-include_directories(lib/libft/test/include)
 
 add_executable(minishell
         include/built_in.h
@@ -45,6 +43,7 @@ add_executable(minishell
         lib/libft/src/bitmask/bitmask_init.c
         lib/libft/src/bitmask/bitmask_set.c
         lib/libft/src/bools/reverse_bool.c
+        lib/libft/src/char/is_in_set.c
         lib/libft/src/char/isalnum.c
         lib/libft/src/char/isalpha.c
         lib/libft/src/char/isascii.c
@@ -63,10 +62,7 @@ add_executable(minishell
         lib/libft/src/hashmap/hm_size.c
         lib/libft/src/io/get_next_line/get_next_line.c
         lib/libft/src/io/get_next_line/get_next_line.h
-        lib/libft/src/io/get_next_line/get_next_line_multi_fd.c
-        lib/libft/src/io/get_next_line/get_next_line_multi_fd.h
         lib/libft/src/io/get_next_line/get_next_line_utils.c
-        lib/libft/src/io/get_next_line/get_next_line_utils_multi_fd.c
         lib/libft/src/io/printf/formating/format.c
         lib/libft/src/io/printf/formating/format_u_x.c
         lib/libft/src/io/printf/get_final_str.c
@@ -107,7 +103,9 @@ add_executable(minishell
         lib/libft/src/linked_list/void_ptr/lst_join_strs.c
         lib/libft/src/linked_list/void_ptr/lst_of_lst_clear.c
         lib/libft/src/linked_list/void_ptr/lst_push.c
+        lib/libft/src/linked_list/void_ptr/lst_remove_if.c
         lib/libft/src/linked_list/void_ptr/lst_reverse.c
+        lib/libft/src/linked_list/void_ptr/lst_sort.c
         lib/libft/src/linked_list/void_ptr/lstadd_back.c
         lib/libft/src/linked_list/void_ptr/lstadd_front.c
         lib/libft/src/linked_list/void_ptr/lstclear.c
@@ -148,6 +146,7 @@ add_executable(minishell
         lib/libft/src/string/split/split_unless_in_quotes.c
         lib/libft/src/string/is_number.c
         lib/libft/src/string/skip_char.c
+        lib/libft/src/string/skip_set.c
         lib/libft/src/string/strchr.c
         lib/libft/src/string/strcmp.c
         lib/libft/src/string/strcmp_ignore_case.c
@@ -163,30 +162,9 @@ add_executable(minishell
         lib/libft/src/string/strrstr.c
         lib/libft/src/string/strtrim.c
         lib/libft/src/string/substr.c
-        lib/libft/test/header/ft_bitmask_test.h
-        lib/libft/test/header/ft_string_test.h
-        lib/libft/test/header/hashmap_test.h
-        lib/libft/test/header/linked_list.h
-        lib/libft/test/include/ft_bitmask.h.c
-        lib/libft/test/include/ft_bools.h.c
-        lib/libft/test/include/ft_char.h.c
-        lib/libft/test/include/ft_hashmap.h.c
-        lib/libft/test/include/ft_io.h.c
-        lib/libft/test/include/ft_linked_list.h.c
-        lib/libft/test/include/ft_math.h.c
-        lib/libft/test/include/ft_mem.h.c
-        lib/libft/test/include/ft_numbers.h.c
-        lib/libft/test/include/ft_sort.h.c
-        lib/libft/test/include/ft_string.h.c
-        lib/libft/test/include/libft.h.c
-        lib/libft/test/src/bitmask/bitmask_test.c
-        lib/libft/test/src/hashmap/hashmap_test.c
-        lib/libft/test/src/linked_list/doubly_linked_void_ptr.c
-        lib/libft/test/src/string/join/join_strs_test.c
-        lib/libft/test/main.c
-        minishell_tester/test_files/loop.c
         src/built-in/cd/cd.c
         src/built-in/cd/get_cleaned_path.c
+        src/built-in/alias.c
         src/built-in/echo.c
         src/built-in/env.c
         src/built-in/exit.c
@@ -209,23 +187,31 @@ add_executable(minishell
         src/execution/io_save.c
         src/execution/open_and_dup_files.c
         src/execution/run_builtin.c
+        src/expansions/lexer/expressions.c
+        src/expansions/lexer/tokens.c
+        src/expansions/lexer/utils.c
+        src/expansions/parameters/replace.c
+        src/expansions/parameters/strdup_parameters.c
         src/expansions/paths/absolute_path.c
         src/expansions/paths/add_path.c
         src/expansions/paths/builtin.c
         src/expansions/paths/command.c
         src/expansions/wildcards/add.c
-        src/expansions/wildcards/duplicate.c
         src/expansions/wildcards/list.c
         src/expansions/wildcards/match.c
+        src/expansions/wildcards/pattern_lexer.c
+        src/expansions/wildcards/replace.c
+        src/expansions/wildcards/slash.c
         src/expansions/wildcards/utils.c
         src/expansions/alias.c
+        src/expansions/arguments.c
         src/expansions/files.c
         src/expansions/here_docs.c
-        src/expansions/parameters.c
-        src/expansions/parameters_utils.c
+        src/expansions/merge_words.c
         src/expansions/quotes.c
+        src/expansions/tildes.c
         src/expansions/token.c
-        src/expansions/words.c
+        src/expansions/words_splitting.c
         src/interactive/here_docs.c
         src/interactive/here_docs_syntax.c
         src/interactive/input.c
@@ -256,3 +242,5 @@ add_executable(minishell
         src/main.c
         src/run_minishellrc.c
         src/terminal.c)
+
+target_link_libraries(minishell readline)

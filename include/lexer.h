@@ -13,6 +13,8 @@
 #ifndef LEXER_H
 # define LEXER_H
 
+# define IFS " \t"
+
 # include "libft.h"
 
 enum e_type
@@ -52,6 +54,7 @@ enum e_builtin
 	UNSET = 4,
 	ENV = 5,
 	EXIT = 6,
+	ALIAS = 7,
 };
 
 typedef struct s_token

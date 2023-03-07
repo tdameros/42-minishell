@@ -13,20 +13,25 @@
 #include <stdlib.h>
 #include <error.h>
 #include <dirent.h>
+
+#include "libft.h"
+
 #include "expansions.h"
 
-t_list	*get_wildcards_list(char *pattern)
+static int	cmp_match(void *content1, void *content2);
+
+t_list	*get_wildcards_list(t_list *pattern)
 {
 	t_list	*wildcards;
 	t_path	wildcards_path;
 
 	errno = 0;
 	wildcards = NULL;
-	if (pattern[0] == '/')
+	if (is_slash_token(pattern))
 	{
 		wildcards_path.relative = ft_strdup("/");
 		wildcards_path.absolute = ft_strdup("/");
-		pattern = ft_skip_char(pattern, '/');
+		pattern = skip_slash_token(pattern);
 	}
 	else
 	{
@@ -37,5 +42,16 @@ t_list	*get_wildcards_list(char *pattern)
 		return (free_path(&wildcards_path), NULL);
 	if (add_match_in_list(&wildcards, wildcards_path, pattern) < 0)
 		ft_lstclear(&wildcards, free);
+	ft_lst_sort(wildcards, cmp_match);
 	return (wildcards);
+}
+
+static int	cmp_match(void *content1, void *content2)
+{
+	t_expansion	*expansion1;
+	t_expansion	*expansion2;
+
+	expansion1 = content1;
+	expansion2 = content2;
+	return (ft_strcmp(expansion1->content, expansion2->content));
 }

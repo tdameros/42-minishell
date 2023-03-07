@@ -16,14 +16,15 @@ SRC =\
 	bools/reverse_bool.c	\
 \
 \
-	char/isalnum.c	\
-	char/isalpha.c	\
-	char/isascii.c	\
-	char/isdigit.c	\
-	char/isprint.c	\
-	char/isspace.c	\
-	char/toupper.c	\
-	char/tolower.c	\
+	char/isalnum.c		\
+	char/isalpha.c		\
+	char/isascii.c		\
+	char/isdigit.c		\
+	char/isprint.c		\
+	char/isspace.c		\
+	char/toupper.c		\
+	char/tolower.c		\
+	char/is_in_set.c	\
 \
 \
 	hashmap/hm_add_elem.c		\
@@ -87,6 +88,7 @@ SRC =\
 	linked_list/void_ptr/lst_of_lst_clear.c				\
 	linked_list/void_ptr/lst_push.c						\
 	linked_list/void_ptr/lst_reverse.c					\
+	linked_list/void_ptr/lst_sort.c						\
 	linked_list/void_ptr/lstadd_back.c					\
 	linked_list/void_ptr/lstadd_front.c					\
 	linked_list/void_ptr/lstclear.c						\
@@ -96,6 +98,7 @@ SRC =\
 	linked_list/void_ptr/lstmap.c						\
 	linked_list/void_ptr/lstnew.c						\
 	linked_list/void_ptr/lstsize.c						\
+	linked_list/void_ptr/lst_remove_if.c				\
 \
 \
 	math/angle_to_theta.c	\
@@ -134,6 +137,7 @@ SRC =\
 	string/join/strjoin_three.c	\
 \
 	string/skip_char.c			\
+	string/skip_set.c			\
 	string/strchr.c				\
 	string/strcmp.c				\
 	string/strcmp_ignore_case.c	\
@@ -211,7 +215,7 @@ DEPS_TEST_DEBUG =	$(addprefix $(TEST_BUILD_DIR),$(SRCS_TEST:.c=.debug.d))
 DEPS_FLAGS =	-MMD -MP
 FLAGS_NO_O3 =	-Wall -Wextra -Werror $(DEPS_FLAGS)
 
-FLAGS =			$(FLAGS_NO_O3)
+FLAGS =			$(FLAGS_NO_O3) -g3
 DEBUG_FLAGS	=	$(FLAGS_NO_O3) -g3 -fsanitize=address
 
 

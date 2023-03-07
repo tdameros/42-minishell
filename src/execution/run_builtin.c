@@ -35,6 +35,8 @@ void	run_builtin(t_minishell *minishell, t_token *command)
 		unset(command->args, minishell->env_variables);
 	else if (command->builtin == ENV)
 		env(command->args, minishell->env_variables);
+	else if (command->builtin == ALIAS)
+		alias(command->args, minishell->alias);
 	if (restore_io_and_close_io_save(io_save, command->args[0]) < 0)
 		exit_code(-1);
 	if (command->builtin == EXIT)

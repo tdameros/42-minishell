@@ -24,6 +24,7 @@ t_list	*get_tokens(char *command)
 	int			return_code;
 
 	tokens = NULL;
+	command = ft_skip_set(command, IFS);
 	while (*command != '\0')
 	{
 		type = identify_token(tokens, command);

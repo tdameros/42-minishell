@@ -1,137 +1,90 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   match.c                                            :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: tdameros <tdameros@student.42lyon.fr>      +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/24 15:44:00 by tdameros          #+#    #+#             */
-/*   Updated: 2023/01/24 15:44:00 by tdameros         ###   ########lyon.fr   */
-/*                                                                            */
-/* ************************************************************************** */
-
-#include <stdlib.h>
-#include <dirent.h>
 #include "libft.h"
+
 #include "expansions.h"
 
-static int	search_match(char **pattern, char **string, char *quote);
-static int	is_start_or_end_quote(char *string, char *quote);
-static int	search_match_after_star(char **pattern, char **string);
-static int	get_index_end_pattern(char *pattern);
+static bool	is_hidden_file(t_list *wildcard, char *string);
+static bool	is_wildcard_pattern(t_list *wildcard);
+static int	get_wildcard_pattern(t_list *wildcard);
+static int	search_match(t_list **wildcards, char **string);
 
-int	is_match(char *pattern, char *string)
+int	is_wilcard_match(t_list *wildcards, char *string)
 {
-	char	quote;
-	int		search_match_result;
-	char	*pattern_without_quotes;
+	t_expansion	*expansion;
 
-	quote = 0;
-	if (pattern[0] != '.' && string[0] == '.')
-		return (false);
-	while (*string != '\0' && *pattern != '\0')
-	{
-		search_match_result = search_match(&pattern, &string, &quote);
-		if (search_match_result == 0 || search_match_result == 1)
-			return (search_match_result);
-	}
-	if (quote != 0 && *pattern == quote)
-		pattern++;
-	pattern_without_quotes = strdup_without_quote(pattern);
-	pattern = pattern_without_quotes;
-	if (pattern_without_quotes == NULL)
+	if (is_hidden_file(wildcards, string))
 		return (0);
-	while (*pattern == '*')
-		pattern++;
-	if (ft_strlen(pattern) != 0)
-		return (free(pattern_without_quotes), 0);
-	free(pattern_without_quotes);
+	while (is_wildcard_pattern(wildcards))
+	{
+		expansion = wildcards->content;
+		if (expansion->type == STAR && !is_wildcard_pattern(wildcards->next))
+			return (1);
+		if (search_match(&wildcards, &string) < 0)
+			return (0);
+		wildcards = wildcards->next;
+	}
 	return (*string == '\0');
 }
 
-static int	search_match(char **pattern, char **string, char *quote)
+static bool	is_hidden_file(t_list *wildcard, char *string)
 {
-	if (is_start_or_end_quote(*pattern, quote))
-		*pattern += 1;
-	else if (**pattern == '?' && *quote == 0)
-	{
-		*pattern += 1;
-		*string += 1;
-	}
-	else if (**pattern == '*' && *(*pattern + 1) == '\0' && *quote == 0)
-		return (1);
-	else if (**pattern == '*' && *(*pattern + 1) == '*' && *quote == 0)
-		*pattern += 1;
-	else if (**pattern == '*' && *quote == 0)
-	{
-		if (search_match_after_star(pattern, string) == 0)
-			return (0);
-	}
-	else
-	{
-		if (**string != **pattern)
-			return (0);
-		*pattern += 1;
-		*string += 1;
-	}
-	return (-1);
-}
+	t_expansion	*expansion;
 
-static int	is_start_or_end_quote(char *string, char *quote)
-{
-	if (*string == *quote && *quote != 0)
-	{
-		*quote = 0;
+	if (wildcard == NULL)
 		return (1);
-	}
-	else if (*quote == 0 && (*string == '\'' || *string == '"'))
-	{
-		*quote = *string;
+	expansion = wildcard->content;
+	if (string[0] == '.' && (expansion->type != WORD
+			|| expansion->content[0] != '.'))
 		return (1);
-	}
 	return (0);
 }
 
-static int	search_match_after_star(char **pattern, char **string)
+static bool	is_wildcard_pattern(t_list *wildcard)
 {
-	char	*sub_pattern;
-	char	*tmp;
+	t_expansion	*expansion;
 
-	(*pattern)++;
-	while (**pattern == '?')
-		(*pattern)++;
-	tmp = ft_substr(*pattern, 0, get_index_end_pattern(*pattern));
-	if (tmp == NULL)
-		return (0);
-	sub_pattern = strdup_without_quote(tmp);
-	free(tmp);
-	if (sub_pattern == NULL)
-		return (0);
-	*string = ft_strrstr(*string, sub_pattern);
-	if (*string == NULL)
-	{
-		free(sub_pattern);
-		return (0);
-	}
-	*string += ft_strlen(sub_pattern);
-	free(sub_pattern);
-	*pattern += get_index_end_pattern(*pattern);
-	return (1);
+	if (wildcard == NULL)
+		return (false);
+	expansion = wildcard->content;
+	if (expansion == NULL)
+		return (false);
+	return (expansion->type == WORD || expansion->type == STAR);
 }
 
-static int	get_index_end_pattern(char *pattern)
+static int	get_wildcard_pattern(t_list *wildcard)
 {
-	int		index;
-	char	quote;
+	t_expansion	*expansion;
 
-	index = 0;
-	quote = 0;
-	is_start_or_end_quote(pattern, &quote);
-	while (pattern[index] != '\0'
-		&& !(quote == 0 && (pattern[index] == '*' || pattern[index] == '?')))
+	if (wildcard == NULL)
+		return (-1);
+	expansion = wildcard->content;
+	if (expansion == NULL)
+		return (-1);
+	return (expansion->type);
+}
+
+static int	search_match(t_list **wildcards, char **string)
+{
+	t_expansion	*expansion;
+	t_expansion	*next_expansion;
+	t_list		*wildcard;
+
+	wildcard = *wildcards;
+	expansion = wildcard->content;
+	if (expansion->type == STAR && get_wildcard_pattern(wildcard->next) == WORD)
 	{
-		index++;
-		is_start_or_end_quote(pattern, &quote);
+		next_expansion = wildcard->next->content;
+		*string = ft_strrstr(*string, next_expansion->content);
+		if (*string == NULL)
+			return (-1);
+		*string += ft_strlen(next_expansion->content);
+		*wildcards = wildcard->next;
 	}
-	return (index);
+	else if (expansion->type == WORD)
+	{
+		if (ft_strncmp(*string, expansion->content,
+				ft_strlen(expansion->content)) != 0)
+			return (-1);
+		*string += ft_strlen(expansion->content);
+	}
+	return (0);
 }

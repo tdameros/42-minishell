@@ -1,87 +1,59 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   quote_removal.c                                    :+:      :+:    :+:   */
+/*   quotes.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tomy <tomy@student.42lyon.fr>              +#+  +:+       +#+        */
+/*   By: tdameros <tdameros@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/31 18:24:00 by tomy              #+#    #+#             */
-/*   Updated: 2023/01/31 18:24:00 by tomy             ###   ########lyon.fr   */
+/*   Created: 2023/03/06 18:26:20 by tdameros          #+#    #+#             */
+/*   Updated: 2023/03/06 18:26:21 by tdameros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
+#include <errno.h>
+
+#include "libft.h"
+
 #include "expansions.h"
 
-static size_t	strlen_without_quote(char *command);
+static bool	is_quote(t_list *token);
 
-int	remove_quotes_in_args(char **args)
+int	add_empty_word_beetween_quotes(t_list **tokens)
 {
-	char	*new_arg;
-	size_t	index;
+	t_list		*tmp_node;
+	t_list		*token;
+	char		*word;
+	int			return_code;
 
-	index = 0;
-	while (args[index] != NULL)
+	token = *tokens;
+	while (token != NULL)
 	{
-		new_arg = strdup_without_quote(args[index]);
-		if (new_arg == NULL)
-			return (-1);
-		free(args[index]);
-		args[index] = new_arg;
-		index++;
+		if (is_quote(token) && is_quote(token->next))
+		{
+			word = ft_strdup("");
+			if (word == NULL)
+				return (-1);
+			tmp_node = token->next;
+			token->next = NULL;
+			return_code = add_expansion_node(word, WORD, &token);
+			ft_lstadd_back(&token, tmp_node);
+			if (return_code < 0)
+				return (free(word), -1);
+		}
+		token = token->next;
 	}
 	return (0);
 }
 
-char	*strdup_without_quote(char *command)
+static bool	is_quote(t_list *token)
 {
-	int		simple_quote;
-	int		double_quote;
-	int		index;
-	char	*str;
+	t_expansion	*expansion;
 
-	simple_quote = 0;
-	double_quote = 0;
-	index = 0;
-	str = malloc(sizeof(*str) * (strlen_without_quote(command) + 1));
-	if (str == NULL)
-		return (NULL);
-	while (*command != '\0')
-	{
-		if (*command != '"' && *command != '\'')
-			str[index++] = *command;
-		else if (*command == '"' && simple_quote % 2 == 0)
-			double_quote++;
-		else if (*command == '\'' && double_quote % 2 == 0)
-			simple_quote++;
-		else
-			str[index++] = *command;
-		command++;
-	}
-	str[index] = '\0';
-	return (str);
-}
-
-static size_t	strlen_without_quote(char *command)
-{
-	int		simple_quote;
-	int		double_quote;
-	size_t	len;
-
-	simple_quote = 0;
-	double_quote = 0;
-	len = 0;
-	while (*command != '\0')
-	{
-		if (*command != '"' && *command != '\'')
-			len++;
-		else if (*command == '"' && simple_quote % 2 == 0)
-			double_quote++;
-		else if (*command == '\'' && double_quote % 2 == 0)
-			simple_quote++;
-		else
-			len++;
-		command++;
-	}
-	return (len);
+	if (token == NULL)
+		return (false);
+	expansion = token->content;
+	if (expansion == NULL)
+		return (false);
+	return (expansion->type == DOUBLE_QUOTE || expansion->type == SIMPLE_QUOTE);
 }
