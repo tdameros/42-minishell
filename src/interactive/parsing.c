@@ -12,12 +12,15 @@
 
 #include <stdlib.h>
 #include <unistd.h>
+
 #include "libft.h"
+
 #include "parser.h"
 #include "lexer.h"
 #include "interactive.h"
 #include "minishell_signal.h"
 #include "exit_code.h"
+#include "expansions.h"
 
 static int	loop_interactive_parsing(char **command, t_minishell *minishell);
 static int	interactive_quotes_parsing(char **command, t_minishell *minishell);
@@ -40,6 +43,8 @@ int	run_interactive_parsing(char **command, t_minishell *minishell)
 	if (minishell->tokens == NULL)
 		return (leave_run_interactive_parsing(minishell, 1));
 	if (simplify_tokens(&minishell->tokens))
+		return (leave_run_interactive_parsing(minishell, -1));
+	if (replace_alias(minishell->tokens, minishell->alias) < 0)
 		return (leave_run_interactive_parsing(minishell, -1));
 	ft_lst_reverse(&minishell->here_docs);
 	return (leave_run_interactive_parsing(minishell, 0));

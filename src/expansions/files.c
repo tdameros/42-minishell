@@ -38,7 +38,7 @@ static int	file_expansion(t_token *file, t_hashmap env_variables)
 	t_expansion	*expansion;
 
 	errno = 0;
-	tokens = get_argument_expansion(file->name, env_variables);
+	tokens = get_str_expansion(file->name, env_variables);
 	if (errno != 0)
 		return (-1);
 	if (tokens != NULL && tokens->next != NULL)

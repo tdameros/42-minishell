@@ -11,7 +11,9 @@
 /* ************************************************************************** */
 
 #include <stdlib.h>
+
 #include "ft_hashmap.h"
+
 #include "exit_code.h"
 #include "built_in.h"
 #include "error.h"
@@ -33,7 +35,7 @@ int	unset(char **args, t_hashmap env_variables)
 			exit = 1;
 		}
 		else
-		ft_hm_delete_elem(env_variables, args[index], free);
+			ft_hm_delete_elem(env_variables, args[index], free);
 		index++;
 	}
 	return (exit_code(exit));

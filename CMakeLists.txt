@@ -164,14 +164,14 @@ add_executable(minishell
         lib/libft/src/string/substr.c
         src/built-in/cd/cd.c
         src/built-in/cd/get_cleaned_path.c
-        src/built-in/alias.c
+        src/built-in/alias/alias.c
         src/built-in/echo.c
         src/built-in/env.c
         src/built-in/exit.c
-        src/built-in/export.c
-        src/built-in/export_print.c
-        src/built-in/export_variable.c
-        src/built-in/export_variables.c
+        src/built-in/export/export.c
+        src/built-in/export/export_print.c
+        src/built-in/export/export_variable.c
+        src/built-in/export/export_variables.c
         src/built-in/pwd.c
         src/built-in/unset.c
         src/env_variables/get_env_variables.c
@@ -207,11 +207,11 @@ add_executable(minishell
         src/expansions/arguments.c
         src/expansions/files.c
         src/expansions/here_docs.c
-        src/expansions/merge_words.c
+        src/expansions/words/merge.c
         src/expansions/quotes.c
         src/expansions/tildes.c
         src/expansions/token.c
-        src/expansions/words_splitting.c
+        src/expansions/words/splitting.c
         src/interactive/here_docs.c
         src/interactive/here_docs_syntax.c
         src/interactive/input.c
@@ -241,6 +241,6 @@ add_executable(minishell
         src/get_cursor_x_pos.c
         src/main.c
         src/run_minishellrc.c
-        src/terminal.c)
+        src/built-in/alias/get_all_aliases.c)
 
 target_link_libraries(minishell readline)

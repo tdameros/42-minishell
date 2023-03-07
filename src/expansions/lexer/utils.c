@@ -71,33 +71,3 @@ void	free_expansion(void *expansion)
 		free(expansion_ptr->content);
 	free(expansion_ptr);
 }
-
-void	print_expansion_tokens(t_list *tokens)
-{
-	t_expansion *expansion;
-
-	while (tokens != NULL)
-	{
-		expansion = tokens->content;
-		ft_printf("----------------------\n");
-		if (expansion->type == DOLLAR)
-			ft_printf("Type -> DOLLAR\n");
-		else if (expansion->type == SIMPLE_QUOTE)
-			ft_printf("Type -> SIMPLE_QUOTE\n");
-		else if (expansion->type == DOUBLE_QUOTE)
-			ft_printf("Type -> DOUBLE_QUOTE\n");
-		else if (expansion->type == WORD)
-			ft_printf("Type -> WORD\n");
-		else if (expansion->type == SPACE)
-			ft_printf("Type -> SPACE\n");
-		else if (expansion->type == SLASH)
-			ft_printf("Type -> SLASH\n");
-		else if (expansion->type == STAR)
-			ft_printf("Type -> STAR\n");
-		if (expansion->content != NULL)
-			ft_printf("Content / Len -> %s | %d\n", expansion->content, ft_strlen(expansion->content));
-		else
-			ft_printf("Content -> NULL\n");
-		tokens = tokens->next;
-	}
-}

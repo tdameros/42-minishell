@@ -29,14 +29,14 @@ static int	run_interactive_command(char **command, t_minishell *minishell);
 int	run_interactive_shell(t_minishell *minishell, bool colored_prompt)
 {
 	char	*command;
-	int 	return_code;
+	int		return_code;
 
 	command = get_command(minishell->env_variables, colored_prompt);
 	while (command != NULL && ft_strcmp(command, "exit"))
 	{
 		return_code = run_interactive_command(&command, minishell);
 		if (return_code < 0)
-			break;
+			break ;
 		command = get_command(minishell->env_variables, colored_prompt);
 	}
 	if (return_code >= 0)
@@ -44,7 +44,6 @@ int	run_interactive_shell(t_minishell *minishell, bool colored_prompt)
 		free(command);
 		ft_putstr("exit\n");
 	}
-	ft_hm_clear(&minishell->env_variables, &free);
 	return (exit_code(GET));
 }
 
@@ -84,7 +83,6 @@ static int	run_interactive_command(char **command, t_minishell *minishell)
 	if (exit_code(GET) < 0)
 	{
 		print_error(NULL, "Fatal error with errno", get_error());
-		ft_hm_clear(&minishell->env_variables, &free);
 		return (-1);
 	}
 	if (*command == NULL)

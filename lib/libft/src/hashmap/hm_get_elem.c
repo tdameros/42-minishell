@@ -23,6 +23,8 @@ t_hashmap_content	*ft_hm_get_elem(t_hashmap map, char *target)
 {
 	t_list	*cursor;
 
+	if (target == NULL)
+		return (NULL);
 	cursor = map[ft_hm_get_index(target)];
 	while (cursor != NULL
 		&& ft_strcmp(((t_hashmap_content *)cursor->content)->target, target)

@@ -58,6 +58,7 @@ static int	add_simple_match_in_list(t_list **path_list,
 		{
 			new_relative_path = ft_strjoin(path.relative, file->d_name);
 			if (add_wildcard_with_space(new_relative_path, WORD, path_list) < 0)
+				//	TODO: add front clearly
 //			if (add_expansion_node(new_relative_path, WORD, path_list) < 0)
 				return (free(new_relative_path), closedir(dir) - 1);
 		}

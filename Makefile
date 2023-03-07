@@ -4,16 +4,20 @@ NAME			=	minishell
 SRC_PATH		=	src/
 
 SRC				=\
-	built-in/alias.c					\
-	built-in/cd/cd.c					\
-	built-in/cd/get_cleaned_path.c		\
+	built-in/alias/alias.c				\
+	built-in/alias/get_all_aliases.c	\
+\
+	built-in/cd/cd.c				\
+	built-in/cd/get_cleaned_path.c	\
+\
+	built-in/export/export.c			\
+	built-in/export/export_print.c		\
+	built-in/export/export_variables.c	\
+	built-in/export/export_variable.c	\
+\
 	built-in/echo.c						\
 	built-in/env.c						\
 	built-in/exit.c						\
-	built-in/export.c					\
-	built-in/export_print.c				\
-	built-in/export_variables.c			\
-	built-in/export_variable.c			\
 	built-in/pwd.c						\
 	built-in/unset.c					\
 \
@@ -50,15 +54,15 @@ SRC				=\
 	expansions/wildcards/replace.c		\
 	expansions/wildcards/slash.c		\
 	expansions/wildcards/utils.c		\
+	expansions/words/merge.c			\
+	expansions/words/splitting.c		\
 	expansions/alias.c					\
 	expansions/arguments.c				\
 	expansions/files.c					\
 	expansions/here_docs.c				\
-	expansions/merge_words.c			\
 	expansions/quotes.c					\
 	expansions/tildes.c					\
 	expansions/token.c					\
-	expansions/words_splitting.c		\
 \
 \
 	error/error.c	\

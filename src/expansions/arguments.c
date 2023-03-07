@@ -1,6 +1,15 @@
-//
-// Created by tdameros on 3/5/23.
-//
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   arguments.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tdameros <tdameros@student.42lyon.fr>      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/03/07 23:48:12 by tdameros          #+#    #+#             */
+/*   Updated: 2023/03/07 23:48:17 by tdameros         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <stdlib.h>
 #include <errno.h>
 
@@ -25,7 +34,7 @@ int	apply_arguments_expansion(t_token *token, t_hashmap env_variables)
 	while (token->args[index] != NULL)
 	{
 		errno = 0;
-		argument = get_argument_expansion(token->args[index], env_variables);
+		argument = get_str_expansion(token->args[index], env_variables);
 		if (errno != 0)
 			return (ft_lstclear(&arguments, free_expansion), -1);
 		ft_lstadd_back(&arguments, argument);
@@ -40,7 +49,7 @@ int	apply_arguments_expansion(t_token *token, t_hashmap env_variables)
 	return (0);
 }
 
-t_list	*get_argument_expansion(char *argument, t_hashmap env_variables)
+t_list	*get_str_expansion(char *argument, t_hashmap env_variables)
 {
 	t_list	*tokens;
 

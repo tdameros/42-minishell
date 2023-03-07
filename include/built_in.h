@@ -27,6 +27,7 @@ int		export_variables(char **args, t_hashmap env_variables);
 int		export_variable(char *variable, t_hashmap env_variables);
 int		pwd(t_hashmap env_variables);
 int		unset(char **args, t_hashmap env_variables);
-int		alias(char **args, t_hashmap alias_variables);
+int		alias(char **args, t_hashmap alias);
+char	**get_all_aliases(t_hashmap aliases);
 
 #endif

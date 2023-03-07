@@ -10,22 +10,43 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "expansions.h"
-#include "libft.h"
 #include <stdlib.h>
 
-int	replace_alias(char **args, t_hashmap alias_variables)
+#include "libft.h"
+
+#include "expansions.h"
+
+static int	replace_alias_in_command(t_token *token, t_hashmap alias);
+
+int	replace_alias(t_list *tokens, t_hashmap alias)
+{
+	t_token	*token;
+
+	while (tokens != NULL)
+	{
+		token = tokens->content;
+		if (token->type == COMMAND
+			&& replace_alias_in_command(token, alias) < 0)
+			return (-1);
+		else if (token->type == SUBSHELL
+			&& replace_alias(token->subshell, alias) < 0)
+			return (-1);
+		tokens = tokens->next;
+	}
+	return (0);
+}
+
+static int	replace_alias_in_command(t_token *token, t_hashmap alias)
 {
 	char	*alias_content;
 
-	alias_content = ft_hm_get_content(alias_variables, args[0]);
-	if (alias_content != NULL)
-	{
-		alias_content = ft_strdup(alias_content);
-		if (alias_content == NULL)
-			return (-1);
-		free(args[0]);
-		args[0] = alias_content;
-	}
+	alias_content = ft_hm_get_content(alias, token->args[0]);
+	if (alias_content == NULL)
+		return (0);
+	alias_content = ft_strdup(alias_content);
+	if (alias_content == NULL)
+		return (-1);
+	free(token->args[0]);
+	token->args[0] = alias_content;
 	return (0);
 }
