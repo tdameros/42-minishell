@@ -6,7 +6,7 @@
 /*   By: vfries <vfries@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 13:31:41 by vfries            #+#    #+#             */
-/*   Updated: 2023/02/17 02:56:28 by vfries           ###   ########lyon.fr   */
+/*   Updated: 2023/03/07 18:06:44 by vfries           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,8 @@ static int	print_error_get_error_code(t_token *command)
 {
 	struct stat	stat_ptr;
 
-	if (command->type == COMMAND)
+	if (ft_strcmp(command->name, COMMAND_NOT_FOUND) == 0
+		|| command->type == COMMAND)
 	{
 		print_error(command->args[0], NULL, "command not found");
 		return (127);

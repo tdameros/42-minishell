@@ -6,7 +6,7 @@
 /*   By: vfries <vfries@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 01:58:31 by vfries            #+#    #+#             */
-/*   Updated: 2023/01/24 06:10:11 by vfries           ###   ########lyon.fr   */
+/*   Updated: 2023/03/07 18:05:56 by vfries           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,10 @@ static int	get_path(t_token *command, char **path_strs, char **paths)
 			return (0);
 		free(command->name);
 	}
-	command->name = ft_strdup(command->args[0]);
+	if (ft_strchr(command->args[0], '/') != NULL)
+		command->name = ft_strdup(command->args[0]);
+	else
+		command->name = ft_strdup(COMMAND_NOT_FOUND);
 	if (command->name == NULL)
 		return (-1);
 	return (0);

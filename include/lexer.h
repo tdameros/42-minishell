@@ -6,7 +6,7 @@
 /*   By: vfries <vfries@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/30 02:41:29 by vfries            #+#    #+#             */
-/*   Updated: 2023/02/14 22:55:50 by vfries           ###   ########lyon.fr   */
+/*   Updated: 2023/03/07 18:05:52 by vfries           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define LEXER_H
 
 # define IFS " \t"
+# define COMMAND_NOT_FOUND "command not found"
 
 # include "libft.h"
 
