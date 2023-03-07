@@ -20,7 +20,7 @@ static char	*next_wildcard(char *content, bool is_quoted);
 static int	search_in_word(char *content, bool is_quoted, t_list **new_list);
 static int	add_wildcard(char *next_wildcard, t_list **new_list);
 
-t_list	*wildcard_lexer(t_list *expansions_tokens)
+t_list	*wildcards_lexer(t_list *expansions_tokens)
 {
 	int			quote;
 	t_expansion	*expansion;

@@ -7,7 +7,7 @@ static bool	is_wildcard_pattern(t_list *wildcard);
 static int	get_wildcard_pattern(t_list *wildcard);
 static int	search_match(t_list **wildcards, char **string);
 
-int	is_wilcard_match(t_list *wildcards, char *string)
+int	is_wildcard_match(t_list *wildcards, char *string)
 {
 	t_expansion	*expansion;
 

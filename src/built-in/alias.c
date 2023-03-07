@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   alias.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tdameros <tdamerose@student.42lyon.fr      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/03/07 17:24:39 by tdameros          #+#    #+#             */
+/*   Updated: 2023/03/07 17:24:40 by tdameros         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <stdlib.h>
 
 #include "libft.h"
@@ -6,10 +18,10 @@
 #include "error.h"
 #include "exit_code.h"
 
-static int	print_alias_variables(char **envp);
-
-static int add_alias_variables(char **args, t_hashmap alias_variable);
-int	print_alias(t_hashmap alias);
+static int	print_alias(t_hashmap alias);
+static int	print_alias_variables(char **alias);
+static int	add_alias_variables(char **args, t_hashmap alias_variable);
+static int	print_simple_alias(char *key, t_hashmap alias);
 
 int	alias(char **args, t_hashmap alias_variables)
 {
@@ -29,35 +41,11 @@ int	alias(char **args, t_hashmap alias_variables)
 	return (exit_code(0));
 }
 
-static int add_alias_variables(char **args, t_hashmap alias_variable)
-{
-	char	*value;
-	char 	*equal;
-
-	while (*args != NULL)
-	{
-		equal = ft_strchr(*args, '=');
-		if (equal == NULL)
-			print_error("alias", *args, "not found");
-		else
-		{
-			*equal = '\0';
-			value = ft_strdup(equal + 1);
-			if (value == NULL)
-				return (-1);
-			if (ft_hm_add_elem(alias_variable, *args, value, &free) < 0)
-				return (free(value), -1);
-		}
-		args++;
-	}
-	return (0);
-}
-
-int	print_alias(t_hashmap alias)
+static int	print_alias(t_hashmap alias)
 {
 	char	**envp;
 
-	if (ft_hm_size(alias) == 1)
+	if (ft_hm_size(alias) == 0)
 		return (0);
 	envp = get_all_envp(alias);
 	if (envp == NULL)
@@ -70,24 +58,69 @@ int	print_alias(t_hashmap alias)
 	return (print_alias_variables(envp));
 }
 
-static int	print_alias_variables(char **envp)
+static int	print_alias_variables(char **alias)
 {
-	char *equal;
-	size_t index;
+	char	*equal;
+	size_t	index;
 
 	index = 0;
-	while (envp[index] != NULL) {
-		equal = ft_strchr(envp[index], '=');
+	while (alias[index] != NULL)
+	{
+		equal = ft_strchr(alias[index], '=');
 		if (equal == NULL)
-			ft_printf("alias %s\n", envp[index]);
+			ft_printf("alias %s\n", alias[index]);
 		else
 		{
 			*equal = '\0';
-			ft_printf("alias %s='%s'\n", envp[index], equal + 1);
+			ft_printf("alias %s='%s'\n", alias[index], equal + 1);
 		}
-		free(envp[index]);
+		free(alias[index]);
 		index++;
 	}
-	free(envp);
+	free(alias);
+	return (0);
+}
+
+static int	add_alias_variables(char **args, t_hashmap alias_variable)
+{
+	char	*value;
+	char	*equal;
+	int		exit_code;
+
+	exit_code = 0;
+	while (*args != NULL)
+	{
+		equal = ft_strchr(*args, '=');
+		if (equal == NULL)
+		{
+			if (print_simple_alias(*args, alias_variable) == 1)
+				exit_code = 1;
+		}
+		else
+		{
+			*equal = '\0';
+			value = ft_strdup(equal + 1);
+			if (value == NULL)
+				return (-1);
+			if (ft_hm_add_elem(alias_variable, *args, value, &free) < 0)
+				return (free(value), -1);
+		}
+		args++;
+	}
+	return (exit_code);
+}
+
+static int	print_simple_alias(char *key, t_hashmap alias)
+{
+	char	*value;
+
+	value = ft_hm_get_content(alias, key);
+	if (value == NULL)
+	{
+		print_error("alias", key, "not found");
+		return (1);
+	}
+	else
+		ft_printf("alias %s='%s'", key, value);
 	return (0);
 }

@@ -3,17 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tomy <tomy@student.42lyon.fr>              +#+  +:+       +#+        */
+/*   By: tdameros <tdamerose@student.42lyon.fr      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/06 23:19:00 by tomy              #+#    #+#             */
-/*   Updated: 2023/02/06 23:19:00 by tomy             ###   ########lyon.fr   */
+/*   Created: 2023/03/07 17:37:56 by tdameros          #+#    #+#             */
+/*   Updated: 2023/03/07 17:37:57 by tdameros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <dirent.h>
 #include <stdlib.h>
+#include <errno.h>
+#include <dirent.h>
 #include <sys/stat.h>
-#include <error.h>
+
 #include "expansions.h"
 
 bool	ft_isdir(char *path, char *file_name)

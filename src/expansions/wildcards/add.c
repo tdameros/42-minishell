@@ -54,7 +54,7 @@ static int	add_simple_match_in_list(t_list **path_list,
 	file = readdir(dir);
 	while (file != NULL)
 	{
-		if (is_wilcard_match(pattern, file->d_name))
+		if (is_wildcard_match(pattern, file->d_name))
 		{
 			new_relative_path = ft_strjoin(path.relative, file->d_name);
 			if (add_wildcard_with_space(new_relative_path, WORD, path_list) < 0)
@@ -97,7 +97,7 @@ static int	add_dir_match_in_list(t_list **path_list, t_path path,
 
 	slash = get_slash_token(pattern);
 	if (ft_isdir(path.absolute, file->d_name)
-		&& is_wilcard_match(pattern, file->d_name))
+		&& is_wildcard_match(pattern, file->d_name))
 	{
 		new_path.absolute = ft_strjoin_three(path.absolute, "/", file->d_name);
 		new_path.relative = ft_strjoin_three(path.relative, file->d_name, "/");

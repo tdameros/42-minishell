@@ -10,9 +10,10 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdlib.h>
+
 #include "lexer.h"
 #include "expansions.h"
-#include <stdlib.h>
 
 int	add_path(t_token *command, t_hashmap env_variables)
 {
