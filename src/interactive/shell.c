@@ -23,19 +23,19 @@
 #include "error.h"
 #include "prompt.h"
 
-static char	*get_command(t_hashmap env_variables);
+static char	*get_command(t_hashmap env_variables, bool colored_prompt);
 static int	run_interactive_command(char **command, t_minishell *minishell);
 
-int	run_interactive_shell(t_minishell *minishell)
+int	run_interactive_shell(t_minishell *minishell, bool colored_prompt)
 {
 	char	*command;
 
-	command = get_command(minishell->env_variables);
+	command = get_command(minishell->env_variables, colored_prompt);
 	while (command != NULL && ft_strcmp(command, "exit"))
 	{
 		if (run_interactive_command(&command, minishell) < 0)
 			break ;
-		command = get_command(minishell->env_variables);
+		command = get_command(minishell->env_variables, colored_prompt);
 	}
 	free(command);
 	ft_putstr("exit\n");
@@ -43,14 +43,14 @@ int	run_interactive_shell(t_minishell *minishell)
 	return (exit_code(GET));
 }
 
-static char	*get_command(t_hashmap env_variables)
+static char	*get_command(t_hashmap env_variables, bool colored_prompt)
 {
 	char	*prompt;
 	char	*command;
 
 	if (isatty(STDIN_FILENO) == false)
 		return (readline("minishell$ "));
-	prompt = get_prompt(env_variables);
+	prompt = get_prompt(env_variables, colored_prompt);
 	if (prompt == NULL)
 	{
 		print_error(NULL, "failed to get prompt", get_error());

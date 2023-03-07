@@ -41,31 +41,34 @@
 
 #define ARROW "\001❯\002"
 
-static int	add_directory_path(t_list **prompt, t_hashmap env_variables);
-static int	add_git_branch(t_list **prompt, t_hashmap env_variables);
-static int	add_arrow(t_list **prompt);
+static int	add_directory_path(t_list **prompt, t_hashmap env_variables,
+				bool colored_prompt);
+static int	add_git_branch(t_list **prompt, t_hashmap env_variables,
+				bool colored_prompt);
+static int	add_arrow(t_list **prompt, bool colored_prompt);
 static int	add_elem_to_prompt(t_list **prompt, char *elem);
 
-char	*get_prompt(t_hashmap env_variables)
+char	*get_prompt(t_hashmap env_variables, bool colored_prompt)
 {
 	t_list	*prompt;
 	char	*prompt_str;
 
 	prompt = NULL;
-	if (add_directory_path(&prompt, env_variables) < 0)
+	if (add_directory_path(&prompt, env_variables, colored_prompt) < 0)
 		return (ft_lstclear(&prompt, &free), NULL);
-	if (add_git_branch(&prompt, env_variables) < 0)
+	if (add_git_branch(&prompt, env_variables, colored_prompt) < 0)
 		return (ft_lstclear(&prompt, &free), NULL);
-	if (add_arrow(&prompt) < 0)
+	if (add_arrow(&prompt, colored_prompt) < 0)
 		return (ft_lstclear(&prompt, &free), NULL);
-	if (add_elem_to_prompt(&prompt, ft_strdup(RESET)) < 0)
+	if (colored_prompt && add_elem_to_prompt(&prompt, ft_strdup(RESET)) < 0)
 		return (ft_lstclear(&prompt, &free), NULL);
 	prompt_str = ft_lst_join_strs(ft_lst_reverse(&prompt));
 	ft_lstclear(&prompt, &free);
 	return (prompt_str);
 }
 
-static int	add_directory_path(t_list **prompt, t_hashmap env_variables)
+static int	add_directory_path(t_list **prompt, t_hashmap env_variables,
+				bool colored_prompt)
 {
 	char	*home_dir;
 	char	*cwd;
@@ -87,18 +90,28 @@ static int	add_directory_path(t_list **prompt, t_hashmap env_variables)
 		cwd[0] = '~';
 		ft_strlcpy(cwd + 1, cwd + home_dir_len, ft_strlen(cwd) + 1 - 1);
 	}
-	result = ft_strjoin_three(BLUE_HIGH_INTENSITY, cwd, " ");
+	if (colored_prompt)
+		result = ft_strjoin_three(BLUE_HIGH_INTENSITY, cwd, " ");
+	else
+		result = ft_strjoin(cwd, " ");
 	free(cwd);
 	return (add_elem_to_prompt(prompt, result));
 }
 
-static int	add_git_branch(t_list **prompt, t_hashmap env_variables)
+static int	add_git_branch(t_list **prompt, t_hashmap env_variables,
+				bool colored_prompt)
 {
 	char	*git_branch;
 
 	git_branch = get_git_branch(env_variables);
 	if (git_branch == NULL)
 		return (0);
+	if (colored_prompt == false)
+	{
+		if (add_elem_to_prompt(prompt, git_branch) < 0)
+			return (-1);
+		return (add_elem_to_prompt(prompt, ft_strdup(" ")));
+	}
 	if (add_elem_to_prompt(prompt, ft_strdup(BLACK_HIGH_INTENSITY)) < 0)
 		return (-1);
 	if (add_elem_to_prompt(prompt, git_branch) < 0)
@@ -106,11 +119,13 @@ static int	add_git_branch(t_list **prompt, t_hashmap env_variables)
 	return (add_elem_to_prompt(prompt, ft_strdup(" ")));
 }
 
-static int	add_arrow(t_list **prompt)
+static int	add_arrow(t_list **prompt, bool colored_prompt)
 {
 	char	*arrow;
 
-	if (exit_code(GET) != 0)
+	if (colored_prompt == false)
+		arrow = ft_strdup("> ");
+	else if (exit_code(GET) != 0)
 		arrow = ft_strjoin_three(RED, ARROW, " ");
 	else
 		arrow = ft_strjoin_three(PURPLE_BOLD_HIGH_INTENSITY, ARROW, " ");
