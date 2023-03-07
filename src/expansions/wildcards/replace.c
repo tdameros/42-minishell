@@ -87,6 +87,8 @@ static int	argument_replace_wildcards(t_list **tokens)
 	pattern = wildcard_lexer(*tokens);
 	if (errno != 0)
 		return (-1);
+	if (!has_wildcard_in_pattern(pattern))
+		return (ft_lstclear(&pattern, free_expansion), 0);
 	match = get_wildcards_list(pattern);
 	ft_lstclear(&pattern, free_expansion);
 	if (errno != 0)

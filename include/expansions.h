@@ -92,6 +92,7 @@ int		replace_wildcards(t_list **tokens);
 int	replace_tildes(t_list **tokens, t_hashmap env_variables);
 t_list	*get_argument_expansion(char *argument, t_hashmap env_variables);
 int	add_wildcard_with_space(char *content, int type, t_list **tokens);
+bool	has_wildcard_in_pattern(t_list *pattern);
 
 //  add_path/
 

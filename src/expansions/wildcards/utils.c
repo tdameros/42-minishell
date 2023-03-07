@@ -56,3 +56,17 @@ int	add_wildcard_with_space(char *content, int type, t_list **tokens)
 	ft_lstadd_front(tokens, new_node);
 	return (0);
 }
+
+bool	has_wildcard_in_pattern(t_list *pattern)
+{
+	t_expansion	*expansion;
+
+	while (pattern != NULL)
+	{
+		expansion = pattern->content;
+		if (expansion->type == STAR)
+			return (true);
+		pattern = pattern->next;
+	}
+	return (false);
+}
