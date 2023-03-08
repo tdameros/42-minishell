@@ -17,6 +17,8 @@ char	*get_command_result(char *path, char **args, char **envp);
 
 char	*get_git_branch(t_hashmap env_variables);
 
-char	*get_prompt(t_hashmap env_variables, bool colored_prompt);
+char	*get_prompt(t_hashmap env_variables);
+
+bool	is_valid_term(t_hashmap env_variables);
 
 #endif

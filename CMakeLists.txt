@@ -241,6 +241,6 @@ add_executable(minishell
         src/get_cursor_x_pos.c
         src/main.c
         src/run_minishellrc.c
-        src/built-in/alias/get_all_aliases.c)
+        src/built-in/alias/get_all_aliases.c src/prompt/is_valid_term.c lib/libft/src/string/str_is_in_strs.c)
 
 target_link_libraries(minishell readline)

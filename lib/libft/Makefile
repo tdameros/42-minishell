@@ -136,8 +136,10 @@ SRC =\
 	string/join/strjoin.c		\
 	string/join/strjoin_three.c	\
 \
+	string/is_number.c			\
 	string/skip_char.c			\
 	string/skip_set.c			\
+	string/str_is_in_strs.c		\
 	string/strchr.c				\
 	string/strcmp.c				\
 	string/strcmp_ignore_case.c	\
@@ -153,8 +155,6 @@ SRC =\
 	string/strrchr.c			\
 	string/strtrim.c			\
 	string/substr.c				\
-\
-	string/is_number.c	\
 \
 \
 	sort/msort_int.c				\

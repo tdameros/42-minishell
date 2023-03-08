@@ -14,30 +14,32 @@
 #include <stdio.h>
 #include <readline/readline.h>
 #include <readline/history.h>
+
+#include "libft.h"
+
 #include "minishell_struct.h"
 #include "env_variables.h"
 #include "interactive.h"
 #include "execution.h"
 #include "exit_code.h"
-#include "libft.h"
 #include "error.h"
 #include "prompt.h"
 
-static char	*get_command(t_hashmap env_variables, bool colored_prompt);
+static char	*get_command(t_hashmap env_variables);
 static int	run_interactive_command(char **command, t_minishell *minishell);
 
-int	run_interactive_shell(t_minishell *minishell, bool colored_prompt)
+int	run_interactive_shell(t_minishell *minishell)
 {
 	char	*command;
 	int		return_code;
 
-	command = get_command(minishell->env_variables, colored_prompt);
+	command = get_command(minishell->env_variables);
 	while (command != NULL && ft_strcmp(command, "exit"))
 	{
 		return_code = run_interactive_command(&command, minishell);
 		if (return_code < 0)
 			break ;
-		command = get_command(minishell->env_variables, colored_prompt);
+		command = get_command(minishell->env_variables);
 	}
 	if (return_code >= 0)
 	{
@@ -47,14 +49,14 @@ int	run_interactive_shell(t_minishell *minishell, bool colored_prompt)
 	return (exit_code(GET));
 }
 
-static char	*get_command(t_hashmap env_variables, bool colored_prompt)
+static char	*get_command(t_hashmap env_variables)
 {
 	char	*prompt;
 	char	*command;
 
 	if (isatty(STDIN_FILENO) == false)
 		return (readline("minishell$ "));
-	prompt = get_prompt(env_variables, colored_prompt);
+	prompt = get_prompt(env_variables);
 	if (prompt == NULL)
 	{
 		print_error(NULL, "failed to get prompt", get_error());

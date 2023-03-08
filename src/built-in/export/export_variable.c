@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include <stdlib.h>
+
 #include "libft.h"
 
 static int		add_value(char *key, char *value, t_hashmap env_variables);

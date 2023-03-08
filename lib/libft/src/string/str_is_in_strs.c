@@ -1,26 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   is_number.c                                        :+:      :+:    :+:   */
+/*   str_is_in_strs.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tomy <tomy@student.42lyon.fr>              +#+  +:+       +#+        */
+/*   By: tdameros <tdameros@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/28 00:30:00 by tomy              #+#    #+#             */
-/*   Updated: 2023/01/28 00:30:00 by tomy             ###   ########lyon.fr   */
+/*   Created: 2023/03/08 04:26:23 by tdameros          #+#    #+#             */
+/*   Updated: 2023/03/08 04:26:24 by tdameros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_char.h"
+#include <stdbool.h>
 
-bool	ft_is_number(char *s)
+#include "ft_string.h"
+
+bool	ft_str_is_in_strs(char *str, char **strs)
 {
-	if (*s == '-' || *s == '+')
-		s++;
-	while (*s != '\0')
+	if (str == NULL || strs == NULL)
+		return (false);
+	while (*strs != NULL)
 	{
-		if (!ft_isdigit(*s))
-			return (false);
-		s++;
+		if (ft_strcmp(str, *strs) == 0)
+			return (true);
+		strs++;
 	}
-	return (true);
+	return (false);
 }

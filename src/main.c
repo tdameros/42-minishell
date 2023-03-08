@@ -27,8 +27,7 @@
 static int	minishell_init(t_minishell *minishell, char **envp,
 				char *argv_zero);
 static char	*get_minishell_path(char *argv_zero);
-static int	run_shell(t_minishell *minishell, int argc, char **argv,
-				bool colored_prompt);
+static int	run_shell(t_minishell *minishell, int argc, char **argv);
 
 int	main(int argc, char **argv, char **envp)
 {
@@ -44,7 +43,7 @@ int	main(int argc, char **argv, char **envp)
 			terminal_restore(minishell.termios_save);
 		return (1);
 	}
-	tmp = run_shell(&minishell, argc, argv, *envp != NULL);
+	tmp = run_shell(&minishell, argc, argv);
 	ft_hm_clear(&minishell.env_variables, &free);
 	ft_hm_clear(&minishell.alias, &free);
 	if (terminal_restore(minishell.termios_save) < 0)
@@ -89,13 +88,12 @@ static char	*get_minishell_path(char *argv_zero)
 	return (minishell_path);
 }
 
-static int	run_shell(t_minishell *minishell, int argc, char **argv,
-				bool colored_prompt)
+static int	run_shell(t_minishell *minishell, int argc, char **argv)
 {
 	if (argc == 1 || ft_strcmp(argv[1], "-c") != 0)
 	{
 		run_minishellrc(minishell);
-		return (run_interactive_shell(minishell, colored_prompt));
+		return (run_interactive_shell(minishell));
 	}
 	else if (argc > 2)
 		return (execute_single_line_command(minishell, argv[2]));

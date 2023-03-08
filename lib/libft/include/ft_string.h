@@ -14,6 +14,7 @@
 # define FT_STRING_H
 
 # include <stddef.h>
+# include <stdbool.h>
 
 char	**ft_split_set(char const *s, char *set);
 char	**ft_split(char const *s, char c);
@@ -26,8 +27,10 @@ char	*ft_strjoin(char const *s1, char const *s2);
 char	*ft_join_strs(char **strs, char const *sep);
 char	*ft_strjoin_three(char const *s1, char const *s2, char const *s3);
 
-char	*ft_skip_set(const char *str, const char *set);
+bool	ft_is_number(char *s);
 char	*ft_skip_char(const char *str, char c);
+char	*ft_skip_set(const char *str, const char *set);
+bool	ft_str_is_in_strs(char *str, char **strs);
 char	*ft_strchr(const char *s, int c);
 int		ft_strcmp(const char *s1, const char *s2);
 int		ft_strcmp_ignore_case(const char *s1, const char *s2);
@@ -43,7 +46,5 @@ char	*ft_strrstr(const char *haystack, const char *needle);
 char	*ft_strrchr(const char *s, int c);
 char	*ft_strtrim(char const *s1, char const *set);
 char	*ft_substr(char const *s, unsigned int start, size_t len);
-
-int		ft_is_number(char *s);
 
 #endif
