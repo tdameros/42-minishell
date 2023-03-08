@@ -59,7 +59,7 @@ static int	add_new_expansion_token(t_expansion *expansion,
 	else if (expansion->type == WORD)
 		return_code = split_word_expansion(expansion, new_list);
 	else
-		return_code = add_expansion_node(NULL, expansion->type, new_list);
+		return_code = add_back_expansion_node(NULL, expansion->type, new_list);
 	return (return_code);
 }
 
@@ -70,7 +70,7 @@ static int	add_new_expansion_word(t_expansion *expansion, t_list **new_list)
 	new_word = ft_strdup(expansion->content);
 	if (new_word == NULL)
 		return (-1);
-	if (add_expansion_node(new_word, WORD, new_list) < 0)
+	if (add_back_expansion_node(new_word, WORD, new_list) < 0)
 	{
 		free(new_word);
 		return (-1);
@@ -94,9 +94,10 @@ static int	split_word_expansion(t_expansion *expansion, t_list **new_list)
 	index = 0;
 	while (new_words[index] != NULL)
 	{
-		if (add_expansion_node(new_words[index], expansion->type, new_list) < 0)
+		if (add_back_expansion_node(new_words[index], expansion->type,
+									new_list) < 0)
 			return (free_no_used_words(new_words, new_words + index), -1);
-		if (add_expansion_node(NULL, SPACE, new_list) < 0)
+		if (add_back_expansion_node(NULL, SPACE, new_list) < 0)
 			return (free_no_used_words(new_words, new_words + index), -1);
 		index++;
 	}

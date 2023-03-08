@@ -63,6 +63,7 @@ SRC				=\
 	expansions/quotes.c					\
 	expansions/tildes.c					\
 	expansions/token.c					\
+	expansions/utils.c					\
 \
 \
 	error/error.c	\

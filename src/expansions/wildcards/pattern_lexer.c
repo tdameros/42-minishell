@@ -57,7 +57,7 @@ static int	search_in_word(char *content, bool is_quoted, t_list **new_list)
 			new_word = ft_substr(content, 0, wildcard - content);
 		if (ft_strlen(new_word) > 0)
 		{
-			if (add_expansion_node(new_word, WORD, new_list) < 0)
+			if (add_back_expansion_node(new_word, WORD, new_list) < 0)
 				return (free(new_word), -1);
 		}
 		else
@@ -76,12 +76,12 @@ static int	add_wildcard(char *next_wildcard, t_list **new_list)
 {
 	if (next_wildcard != NULL && *next_wildcard == '/')
 	{
-		if (add_expansion_node(NULL, SLASH, new_list) < 0)
+		if (add_back_expansion_node(NULL, SLASH, new_list) < 0)
 			return (-1);
 	}
 	else if (next_wildcard != NULL && *next_wildcard == '*')
 	{
-		if (add_expansion_node(NULL, STAR, new_list) < 0)
+		if (add_back_expansion_node(NULL, STAR, new_list) < 0)
 			return (-1);
 	}
 	return (0);

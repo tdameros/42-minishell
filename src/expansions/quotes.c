@@ -35,7 +35,7 @@ int	add_empty_word_beetween_quotes(t_list **tokens)
 				return (-1);
 			tmp_node = token->next;
 			token->next = NULL;
-			return_code = add_expansion_node(word, WORD, &token);
+			return_code = add_back_expansion_node(word, WORD, &token);
 			ft_lstadd_back(&token, tmp_node);
 			if (return_code < 0)
 				return (free(word), -1);

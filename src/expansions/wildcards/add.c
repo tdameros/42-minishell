@@ -57,9 +57,7 @@ static int	add_simple_match_in_list(t_list **path_list,
 		if (is_wildcard_match(pattern, file->d_name))
 		{
 			new_relative_path = ft_strjoin(path.relative, file->d_name);
-			if (add_wildcard_with_space(new_relative_path, WORD, path_list) < 0)
-				//	TODO: add front clearly
-//			if (add_expansion_node(new_relative_path, WORD, path_list) < 0)
+			if (add_front_expansion_node(new_relative_path, WORD, path_list) < 0)
 				return (free(new_relative_path), closedir(dir) - 1);
 		}
 		file = readdir(dir);
@@ -106,7 +104,8 @@ static int	add_dir_match_in_list(t_list **path_list, t_path path,
 			return (free_path(&new_path), -1);
 		if (slash->next == NULL)
 		{
-			if (add_wildcard_with_space(new_path.relative, WORD, path_list) < 0)
+//			if (add_wildcard_with_space(new_path.relative, WORD, path_list) < 0)
+			if (add_front_expansion_node(new_path.relative, WORD, path_list) < 0)
 				return (free_path(&new_path), -1);
 			free(new_path.absolute);
 		}

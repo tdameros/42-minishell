@@ -49,9 +49,6 @@ t_list	*get_expansion_tokens(char *arg);
 //	lexer/utils.c
 char	*get_end_expression(char *arg, char *delimiters);
 char	*get_end_dollar_parameter(char *arg);
-int		add_expansion_node(char *content, int type, t_list **expansions);
-t_list	*create_expansion_node(char *content, int type);
-void	free_expansion(void *expansion);
 
 //	parameters/replace.c
 int		replace_parameters(t_list **expansions, t_hashmap env_variables);
@@ -103,7 +100,6 @@ t_list	*get_slash_token(t_list *token);
 //	wildcards/utils.c
 bool	ft_isdir(char *path, char *file_name);
 void	free_path(t_path *path);
-int		add_wildcard_with_space(char *content, int type, t_list **tokens);
 bool	has_wildcard_in_pattern(t_list *pattern);
 
 //	words/merge.c
@@ -135,5 +131,10 @@ int		replace_tildes(t_list **tokens, t_hashmap env_variables);
 //	token.c
 int		apply_token_expansion(t_token *token, t_list *here_docs,
 			t_hashmap env_variables);
+
+//	utils.c
+int		add_back_expansion_node(char *content, int type, t_list **expansions);
+int		add_front_expansion_node(char *content, int type, t_list **expansions);
+void	free_expansion(void *expansion);
 
 #endif

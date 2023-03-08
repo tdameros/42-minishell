@@ -39,12 +39,13 @@ int	merge_words(t_list **tokens)
 		}
 		else
 		{
-			if (add_expansion_node(NULL, expansion->type, &new_list) < 0)
+			if (add_front_expansion_node(NULL, expansion->type, &new_list) < 0)
 				return (ft_lstclear(&new_list, free_expansion), -1);
 			token = token->next;
 		}
 	}
 	ft_lstclear(tokens, free_expansion);
+	ft_lst_reverse(&new_list);
 	*tokens = new_list;
 	return (0);
 }
@@ -56,7 +57,7 @@ static int	join_next_words(t_list **tokens, t_list **new_list)
 	new_word = join_words(*tokens);
 	if (new_word == NULL)
 		return (-1);
-	if (add_expansion_node(new_word, WORD, new_list) < 0)
+	if (add_front_expansion_node(new_word, WORD, new_list) < 0)
 	{
 		free(new_word);
 		return (-1);

@@ -47,17 +47,6 @@ void	free_path(t_path *path)
 	free(path->absolute);
 }
 
-int	add_wildcard_with_space(char *content, int type, t_list **tokens)
-{
-	t_list	*new_node;
-
-	new_node = create_expansion_node(content, type);
-	if (new_node == NULL)
-		return (-1);
-	ft_lstadd_front(tokens, new_node);
-	return (0);
-}
-
 bool	has_wildcard_in_pattern(t_list *pattern)
 {
 	t_expansion	*expansion;
