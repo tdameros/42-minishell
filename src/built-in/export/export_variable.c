@@ -14,6 +14,7 @@
 
 #include "libft.h"
 
+static int  export_variable_without_value(char *key, t_hashmap env_variables);
 static int		add_value(char *key, char *value, t_hashmap env_variables);
 static int		addition_export(char *key, char *value,
 					t_hashmap env_variables);
@@ -28,7 +29,7 @@ int	export_variable(char *variable, t_hashmap env_variables)
 
 	equal = ft_strchr(variable, '=');
 	if (equal == variable || equal == NULL)
-		return (is_valid_key(variable));
+		return (export_variable_without_value(variable, env_variables));
 	*equal = '\0';
 	key = variable;
 	if (!is_valid_key(key))
@@ -43,6 +44,17 @@ int	export_variable(char *variable, t_hashmap env_variables)
 	if (return_code < 0)
 		return (-1);
 	return (1);
+}
+
+static int  export_variable_without_value(char *key, t_hashmap env_variables)
+{
+    if (is_valid_key(key) && ft_hm_get_content(env_variables, key) == NULL)
+    {
+        if (ft_hm_add_elem(env_variables, key, NULL, free) < 0)
+            return (-1);
+        return (1);
+    }
+    return (is_valid_key(key));
 }
 
 static int	add_value(char *key, char *value, t_hashmap env_variables)
