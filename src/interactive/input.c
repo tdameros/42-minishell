@@ -12,14 +12,17 @@
 
 #include <stdlib.h>
 #include <errno.h>
-#include "error.h"
 #include <sys/wait.h>
-#include <stdio.h>
 #include <readline/readline.h>
+#include <stdio.h>
+
 #include "libft.h"
+
+#include "error.h"
 #include "get_here_docs.h"
 #include "minishell_signal.h"
 #include "interactive.h"
+#include "exit_code.h"
 
 static int	get_input(char **input, t_minishell *minishell);
 static int	get_forked_input(int *pipe_fd);
@@ -86,15 +89,13 @@ static int	get_forked_input(int *pipe_fd)
 		return (free(input), close_pipe(pipe_fd), 1);
 	free(input);
 	close_pipe(pipe_fd);
-	if (errno != 0)
-		return (1);
-	return (0);
+	return (errno != 0);
 }
 
 static int	read_input(int *pipe_fd, char **input, pid_t fork_input_pid)
 {
-	char	*tmp;
-	int		exit_code;
+	char	*temp;
+	int		exit_status;
 
 	if (close(pipe_fd[1]) < 0)
 	{
@@ -103,19 +104,19 @@ static int	read_input(int *pipe_fd, char **input, pid_t fork_input_pid)
 	}
 	*input = get_next_line(pipe_fd[0]);
 	if (close(pipe_fd[0]) < 0)
-		return (1);
-	if (waitpid(fork_input_pid, &exit_code, 0) < 0)
-		return (1);
-	exit_code = WEXITSTATUS(exit_code);
-	if (exit_code == 130 || exit_code == 1)
-		return (free(*input), exit_code);
+		return (free(*input), 1);
+	if (waitpid(fork_input_pid, &exit_status, 0) < 0)
+		return (free(*input), 1);
+	exit_status = WEXITSTATUS(exit_status);
+	if (exit_status == 130 || exit_status == 1)
+		return (free(*input), exit_status);
 	if (*input == NULL)
 		return (print_error("syntax error", NULL, "unexpected end of file"), 2);
-	tmp = ft_strtrim(*input, " ");
+	temp = ft_strtrim(*input, " ");
 	free(*input);
-	if (tmp == NULL)
+	if (temp == NULL)
 		return (1);
-	*input = tmp;
+	*input = temp;
 	return (0);
 }
 
@@ -126,5 +127,7 @@ static int	return_input_error(int return_code, char **command)
 		free(*command);
 		*command = NULL;
 	}
+	if (return_code == 1)
+		exit_code(-1);
 	return (return_code);
 }
