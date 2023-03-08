@@ -18,6 +18,7 @@
 
 int		cd(char **args, t_hashmap env_variables);
 char	*get_cleaned_path(const char *path);
+int		handle_cwd_doesnt_exist(char *path, t_hashmap env_variables);
 int		echo(char **args);
 int		env(char **args, t_hashmap env_variables);
 int		exit_builtin(char **args, t_minishell *minishell);

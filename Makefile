@@ -7,8 +7,9 @@ SRC				=\
 	built-in/alias/alias.c				\
 	built-in/alias/get_all_aliases.c	\
 \
-	built-in/cd/cd.c				\
-	built-in/cd/get_cleaned_path.c	\
+	built-in/cd/cd.c						\
+	built-in/cd/get_cleaned_path.c			\
+	built-in/cd/handle_cwd_doesnt_exist.c	\
 \
 	built-in/export/export.c			\
 	built-in/export/export_print.c		\
@@ -96,9 +97,11 @@ SRC				=\
 	interactive/utils.c				\
 \
 \
-	prompt/get_command_result.c	\
-	prompt/get_git_branch.c		\
-	prompt/get_prompt.c			\
+	prompt/add_directory_to_path.c	\
+	prompt/add_elem_to_prompt.c		\
+	prompt/add_git_branch.c			\
+	prompt/get_command_result.c		\
+	prompt/get_prompt.c				\
 	prompt/is_valid_term.c		\
 \
 \

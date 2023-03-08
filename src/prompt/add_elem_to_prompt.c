@@ -1,28 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   libft.h                                            :+:      :+:    :+:   */
+/*   add_elem_to_prompt.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vfries <vfries@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/09/07 19:22:16 by vfries            #+#    #+#             */
-/*   Updated: 2023/01/17 15:58:03 by vfries           ###   ########lyon.fr   */
+/*   Created: 2023/03/08 21:42:00 by vfries            #+#    #+#             */
+/*   Updated: 2023/03/08 21:42:00 by vfries           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef LIBFT_H
-# define LIBFT_H
+#include <stdlib.h>
 
-# include "ft_bools.h"
-# include "ft_char.h"
-# include "ft_colors.h"
-# include "ft_hashmap.h"
-# include "ft_io.h"
-# include "ft_linked_list.h"
-# include "ft_math.h"
-# include "ft_mem.h"
-# include "ft_numbers.h"
-# include "ft_string.h"
-# include "ft_sort.h"
+#include "libft.h"
 
-#endif
+int	add_elem_to_prompt(t_list **prompt, char *elem)
+{
+	t_list	*new_node;
+
+	if (elem == NULL)
+		return (-1);
+	new_node = ft_lstnew(elem);
+	if (new_node == NULL)
+	{
+		free(elem);
+		return (-1);
+	}
+	ft_lstadd_front(prompt, new_node);
+	return (0);
+}

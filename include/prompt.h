@@ -13,10 +13,21 @@
 #ifndef PROMPT_H
 # define PROMPT_H
 
+// add_directory_path.c
+int		add_directory_path(t_list **prompt, t_hashmap env_variables,
+			bool colored_prompt);
+
+// add_elem_to_prompt.c
+int		add_elem_to_prompt(t_list **prompt, char *elem);
+
+// add_git_branch.c
+int		add_git_branch(t_list **prompt, t_hashmap env_variables,
+			bool colored_prompt);
+
+// get_command_result.c
 char	*get_command_result(char *path, char **args, char **envp);
 
-char	*get_git_branch(t_hashmap env_variables);
-
+// get_prompt.c
 char	*get_prompt(t_hashmap env_variables);
 
 bool	is_valid_term(t_hashmap env_variables);

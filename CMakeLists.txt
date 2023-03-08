@@ -230,7 +230,7 @@ add_executable(minishell
         src/parser/quotes.c
         src/parser/syntax.c
         src/prompt/get_command_result.c
-        src/prompt/get_git_branch.c
+        src/prompt/add_git_branch.c
         src/prompt/get_prompt.c
         src/signals/general_signal_handling.c
         src/signals/interactive_signal_handling.c
@@ -241,6 +241,5 @@ add_executable(minishell
         src/get_cursor_x_pos.c
         src/main.c
         src/run_minishellrc.c
-        src/built-in/alias/get_all_aliases.c src/prompt/is_valid_term.c lib/libft/src/string/str_is_in_strs.c src/env_variables/get_env_variables_new.c src/expansions/utils.c src/expansions/utils.c)
 
 target_link_libraries(minishell readline)
