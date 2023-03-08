@@ -23,7 +23,7 @@
 
 static int	get_input(char **input, t_minishell *minishell);
 static int	get_forked_input(int *pipe_fd);
-static int	read_input(int *pipe_fd, char **input);
+static int	read_input(int *pipe_fd, char **input, pid_t fork_input_pid);
 static int	return_input_error(int return_code, char **command);
 
 int	get_input_command(char **command, char *join, t_minishell *minishell)
@@ -40,7 +40,7 @@ int	get_input_command(char **command, char *join, t_minishell *minishell)
 	if (new_command != NULL && ft_strlen(new_input) > 0)
 	{
 		return_code = get_here_docs_if_valid_syntax(new_input, new_command,
-													minishell);
+				minishell);
 		if (return_code != 0)
 		{
 			*command = new_command;
@@ -50,7 +50,7 @@ int	get_input_command(char **command, char *join, t_minishell *minishell)
 	*command = new_command;
 	return (free(new_input), *command == NULL);
 }
-pid_t	wegwe;
+
 static int	get_input(char **input, t_minishell *minishell)
 {
 	int		pipe_fd[2];
@@ -68,13 +68,7 @@ static int	get_input(char **input, t_minishell *minishell)
 		free_minishell(minishell);
 		exit(exit_code);
 	}
-	wegwe = pid;
-//	if (waitpid(pid, &exit_code, 0) < 0)
-//		return (close_pipe(pipe_fd), 1);
-//	exit_code = WEXITSTATUS(exit_code);
-//	if (exit_code == 130 || exit_code == 1)
-//		return (close_pipe(pipe_fd), exit_code);
-	return (read_input(pipe_fd, input));
+	return (read_input(pipe_fd, input, pid));
 }
 
 static int	get_forked_input(int *pipe_fd)
@@ -97,9 +91,10 @@ static int	get_forked_input(int *pipe_fd)
 	return (0);
 }
 
-static int	read_input(int *pipe_fd, char **input)
+static int	read_input(int *pipe_fd, char **input, pid_t fork_input_pid)
 {
 	char	*tmp;
+	int		exit_code;
 
 	if (close(pipe_fd[1]) < 0)
 	{
@@ -109,19 +104,15 @@ static int	read_input(int *pipe_fd, char **input)
 	*input = get_next_line(pipe_fd[0]);
 	if (close(pipe_fd[0]) < 0)
 		return (1);
-	if (*input == NULL)
-	{
-		print_error("syntax error", NULL, "unexpected end of file");
-		return (2);
-	}
-	tmp = ft_strtrim(*input, " ");
-	free(*input);
-	int exit_code;
-	if (waitpid(wegwe, &exit_code, 0) < 0)
+	if (waitpid(fork_input_pid, &exit_code, 0) < 0)
 		return (1);
 	exit_code = WEXITSTATUS(exit_code);
 	if (exit_code == 130 || exit_code == 1)
-		return (free(tmp), exit_code);
+		return (free(*input), exit_code);
+	if (*input == NULL)
+		return (print_error("syntax error", NULL, "unexpected end of file"), 2);
+	tmp = ft_strtrim(*input, " ");
+	free(*input);
 	if (tmp == NULL)
 		return (1);
 	*input = tmp;

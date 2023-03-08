@@ -86,6 +86,9 @@ static int	run_interactive_command(char **command, t_minishell *minishell)
 		return (-1);
 	}
 	if (*command == NULL)
+	{
+		ft_putstr_fd("exit\n", STDERR_FILENO);
 		return (-1);
+	}
 	return (0);
 }
