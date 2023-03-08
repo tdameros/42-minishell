@@ -46,7 +46,6 @@ int	replace_wildcards(t_list **tokens)
 		change_token_and_space(&token, &space);
 		ft_lstadd_back(&new_list, space);
 	}
-	ft_lst_reverse(&new_list);
 	*tokens = new_list;
 	return (0);
 }
@@ -99,6 +98,7 @@ static int	argument_replace_wildcards(t_list **tokens)
 		if (add_space_between_wildcards(&match) < 0)
 			return (ft_lstclear(&match, free_expansion), -1);
 		ft_lstclear(tokens, free_expansion);
+		ft_lst_reverse(&match);
 		*tokens = match;
 	}
 	else
@@ -117,9 +117,7 @@ static int	add_space_between_wildcards(t_list **match_wildcards)
 	{
 		*match_wildcards = match->next;
 		match->next = NULL;
-//		ft_lstadd_back(&match_with_space, match);
 		ft_lstadd_front(&match_with_space, match);
-//		if (add_back_expansion_node(NULL, SPACE, &match_with_space) < 0)
 		if (add_front_expansion_node(NULL, SPACE, &match_with_space) < 0)
 		{
 			ft_lstclear(&match_with_space, free_expansion);
