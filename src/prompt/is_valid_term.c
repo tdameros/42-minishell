@@ -5,7 +5,8 @@
 bool	is_valid_term(t_hashmap env_variables)
 {
 	const char	*accepted_terms[6] = {"xterm-256color", "gnome-256color",
-		"konsole-256color", "rxvt-unicode-256color", "konsole-16-color", NULL};
+		"konsole-256color", "rxvt-unicode-256color", "konsole-16-color",
+		"xterm", NULL};
 	char		*term;
 
 	term = ft_hm_get_content(env_variables, "TERM");
