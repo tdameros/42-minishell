@@ -40,7 +40,7 @@ int	get_input_command(char **command, char *join, t_minishell *minishell)
 	if (new_command != NULL && ft_strlen(new_input) > 0)
 	{
 		return_code = get_here_docs_if_valid_syntax(new_input, new_command,
-				minishell);
+													minishell);
 		if (return_code != 0)
 		{
 			*command = new_command;
@@ -50,7 +50,7 @@ int	get_input_command(char **command, char *join, t_minishell *minishell)
 	*command = new_command;
 	return (free(new_input), *command == NULL);
 }
-
+pid_t	wegwe;
 static int	get_input(char **input, t_minishell *minishell)
 {
 	int		pipe_fd[2];
@@ -68,11 +68,12 @@ static int	get_input(char **input, t_minishell *minishell)
 		free_minishell(minishell);
 		exit(exit_code);
 	}
-	if (waitpid(pid, &exit_code, 0) < 0)
-		return (close_pipe(pipe_fd), 1);
-	exit_code = WEXITSTATUS(exit_code);
-	if (exit_code == 130 || exit_code == 1)
-		return (close_pipe(pipe_fd), exit_code);
+	wegwe = pid;
+//	if (waitpid(pid, &exit_code, 0) < 0)
+//		return (close_pipe(pipe_fd), 1);
+//	exit_code = WEXITSTATUS(exit_code);
+//	if (exit_code == 130 || exit_code == 1)
+//		return (close_pipe(pipe_fd), exit_code);
 	return (read_input(pipe_fd, input));
 }
 
@@ -115,6 +116,12 @@ static int	read_input(int *pipe_fd, char **input)
 	}
 	tmp = ft_strtrim(*input, " ");
 	free(*input);
+	int exit_code;
+	if (waitpid(wegwe, &exit_code, 0) < 0)
+		return (1);
+	exit_code = WEXITSTATUS(exit_code);
+	if (exit_code == 130 || exit_code == 1)
+		return (free(tmp), exit_code);
 	if (tmp == NULL)
 		return (1);
 	*input = tmp;
