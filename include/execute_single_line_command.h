@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_single_line_command.h                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdameros <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: vfries <vfries@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 15:49:43 by tdameros          #+#    #+#             */
-/*   Updated: 2023/02/23 15:49:45 by tdameros         ###   ########.fr       */
+/*   Updated: 2023/03/07 19:43:08 by vfries           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,6 @@
 
 # include "minishell_struct.h"
 
-int	execute_single_line_command(t_minishell *minishell, char *command);
+int	execute_single_line_command(t_minishell *minishell, char *line);
 
 #endif
