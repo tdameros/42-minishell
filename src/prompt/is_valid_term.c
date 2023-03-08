@@ -4,7 +4,7 @@
 
 bool	is_valid_term(t_hashmap env_variables)
 {
-	const char	*accepted_terms[6] = {"xterm-256color", "gnome-256color",
+	const char	*accepted_terms[] = {"xterm-256color", "gnome-256color",
 		"konsole-256color", "rxvt-unicode-256color", "konsole-16-color",
 		"xterm", NULL};
 	char		*term;
