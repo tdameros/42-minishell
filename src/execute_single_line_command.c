@@ -6,7 +6,7 @@
 /*   By: vfries <vfries@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 15:51:22 by tdameros          #+#    #+#             */
-/*   Updated: 2023/02/23 22:46:39 by vfries           ###   ########lyon.fr   */
+/*   Updated: 2023/03/07 19:41:38 by vfries           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,21 +20,20 @@
 static int	bad_quote(char *line);
 static int	handle_here_docs(t_minishell *minishell);
 
-int	execute_single_line_command(t_minishell *minishell, char *command,
-		char *line)
+int	execute_single_line_command(t_minishell *minishell, char *line)
 {
 	if (line == NULL || *line == '\0')
 		return (exit_code(GET));
-	if (is_valid_quote(command) == 0)
+	if (is_valid_quote(line) == 0)
 		return (bad_quote(line));
-	minishell->tokens = get_tokens(command);
+	minishell->tokens = get_tokens(line);
 	if (minishell->tokens == NULL)
 		return (exit_code(GET));
 	minishell->here_docs = NULL;
 	if (parse_syntax(minishell->tokens) < 1)
 	{
 		ft_lstclear(&minishell->tokens, &free_token);
-		print_error("execute_single_line_command()", "syntax error", line);
+		print_error("execute_single_comamnd_command()", "syntax error", line);
 		return (2);
 	}
 	if (handle_here_docs(minishell) < 0)
