@@ -124,6 +124,7 @@ int		apply_here_docs_expansions(t_token *token, t_list *here_docs,
 
 //	quotes.c
 int		add_empty_word_beetween_quotes(t_list **tokens);
+char	*strdup_without_quotes(char *command);
 
 //	tildes.c
 int		replace_tildes(t_list **tokens, t_hashmap env_variables);

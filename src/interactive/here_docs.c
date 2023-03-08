@@ -12,9 +12,11 @@
 
 #include <stdlib.h>
 #include <stdio.h>
+#include "expansions.h"
 #include <readline/readline.h>
 #include <sys/wait.h>
 #include <errno.h>
+
 #include "lexer.h"
 #include "minishell_signal.h"
 #include "error.h"
@@ -31,6 +33,7 @@ int	get_here_docs(t_list *tokens, t_minishell *minishell)
 	t_token	*token;
 	t_token	*next_token;
 	int		return_code;
+	char	*limiter;
 
 	return_code = 0;
 	while (tokens->next != NULL)
@@ -38,7 +41,13 @@ int	get_here_docs(t_list *tokens, t_minishell *minishell)
 		token = tokens->content;
 		next_token = tokens->next->content;
 		if (token->operator == HERE_DOC)
-			return_code = add_here_doc(minishell, next_token->name);
+		{
+			limiter = strdup_without_quotes(next_token->name);
+			if (limiter == NULL)
+				return (-1);
+			return_code = add_here_doc(minishell, limiter);
+			free(limiter);
+		}
 		if (return_code != 0)
 			return (return_code);
 		tokens = tokens->next;
