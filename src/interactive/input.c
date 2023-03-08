@@ -13,8 +13,8 @@
 #include <stdlib.h>
 #include <errno.h>
 #include <sys/wait.h>
-#include <readline/readline.h>
 #include <stdio.h>
+#include <readline/readline.h>
 
 #include "libft.h"
 

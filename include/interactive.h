@@ -14,6 +14,7 @@
 # define INTERACTIVE_H
 
 # include "libft.h"
+
 # include "minishell_struct.h"
 
 int		get_input_command(char **command, char *join, t_minishell *minishell);
