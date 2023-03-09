@@ -6,17 +6,14 @@
 /*   By: vfries <vfries@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 11:40:00 by tomy              #+#    #+#             */
-/*   Updated: 2023/03/06 02:30:16 by vfries           ###   ########lyon.fr   */
+/*   Updated: 2023/03/09 01:52:52 by vfries           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 
-#include "libft.h"
-
 #include "exit_code.h"
 #include "prompt.h"
-#include "env_variables.h"
 
 #define ARROW "\001❯\002"
 

@@ -3,16 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   here_docs.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdameros <tdameros@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: vfries <vfries@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 16:10:20 by tdameros          #+#    #+#             */
-/*   Updated: 2023/02/23 16:10:24 by tdameros         ###   ########.fr       */
+/*   Updated: 2023/03/09 02:05:18 by vfries           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
-#include "libft.h"
-#include "lexer.h"
+
 #include "expansions.h"
 
 static int	replace_parameter(t_list *here_doc, t_hashmap env_variables);

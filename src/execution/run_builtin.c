@@ -6,13 +6,12 @@
 /*   By: vfries <vfries@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/29 01:01:57 by vfries            #+#    #+#             */
-/*   Updated: 2023/02/15 00:29:51 by vfries           ###   ########lyon.fr   */
+/*   Updated: 2023/03/09 01:34:04 by vfries           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "built_in.h"
 #include "execution.h"
-#include "lexer.h"
 #include "exit_code.h"
 
 static int	prep_io(int *io_save, t_minishell *minishell, t_token *command);

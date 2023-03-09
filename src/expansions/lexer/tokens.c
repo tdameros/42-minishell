@@ -3,14 +3,12 @@
 /*                                                        :::      ::::::::   */
 /*   tokens.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdameros <tdameros@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: vfries <vfries@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/06 18:27:23 by tdameros          #+#    #+#             */
-/*   Updated: 2023/03/06 18:27:24 by tdameros         ###   ########.fr       */
+/*   Updated: 2023/03/09 02:00:08 by vfries           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
-
-#include "libft.h"
 
 #include "expansions.h"
 

@@ -10,15 +10,12 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <unistd.h>
 #include <stdlib.h>
-#include "libft.h"
+
 #include "error.h"
-#include "minishell_struct.h"
 #include "exit_code.h"
-#include "built_in.h"
 #include "terminal.h"
-#include "execution.h"
+#include "minishell_struct.h"
 
 static void	restore_terminal_and_free_everything(t_minishell *minishell);
 

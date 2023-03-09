@@ -6,11 +6,12 @@
 /*   By: vfries <vfries@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 03:14:57 by vfries            #+#    #+#             */
-/*   Updated: 2023/02/06 15:43:51 by vfries           ###   ########lyon.fr   */
+/*   Updated: 2023/03/09 01:27:19 by vfries           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+
 #include "env_variables.h"
 
 void	print_env_variables(t_hashmap env_variables)

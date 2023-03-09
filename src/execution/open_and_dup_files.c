@@ -6,16 +6,15 @@
 /*   By: vfries <vfries@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/28 18:51:38 by vfries            #+#    #+#             */
-/*   Updated: 2023/02/06 09:00:40 by vfries           ###   ########lyon.fr   */
+/*   Updated: 2023/03/09 01:33:38 by vfries           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <fcntl.h>
-#include "parser.h"
+
 #include "execution.h"
 #include "error.h"
 #include "exit_code.h"
-#include "env_variables.h"
 
 static int	open_and_dup(t_token *file);
 static int	open_file(t_token *file);

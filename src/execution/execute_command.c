@@ -6,19 +6,17 @@
 /*   By: vfries <vfries@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 13:31:41 by vfries            #+#    #+#             */
-/*   Updated: 2023/03/07 18:06:44 by vfries           ###   ########lyon.fr   */
+/*   Updated: 2023/03/09 01:31:02 by vfries           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <sys/stat.h>
 #include <stdlib.h>
+
 #include "minishell_signal.h"
-#include "lexer.h"
 #include "terminal.h"
 #include "error.h"
-#include "minishell_struct.h"
 #include "exit_code.h"
-#include "env_variables.h"
 #include "execution.h"
 
 static void	run_subshell(t_minishell *minishell, t_token *command);

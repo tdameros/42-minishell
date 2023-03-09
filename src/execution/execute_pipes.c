@@ -6,18 +6,17 @@
 /*   By: vfries <vfries@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 10:44:03 by vfries            #+#    #+#             */
-/*   Updated: 2023/02/19 16:42:10 by vfries           ###   ########lyon.fr   */
+/*   Updated: 2023/03/09 01:32:29 by vfries           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "lexer.h"
+#include <sys/wait.h>
+#include <stdlib.h>
+
 #include "error.h"
-#include "env_variables.h"
 #include "execution.h"
 #include "minishell_signal.h"
 #include "exit_code.h"
-#include <sys/wait.h>
-#include <stdlib.h>
 
 static t_list	*create_sub_tokens(t_list **tokens);
 static int		execute_pipes_sub_tokens(t_minishell *minishell,

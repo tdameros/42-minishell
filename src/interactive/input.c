@@ -3,20 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   input.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vfries <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: vfries <vfries@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/24 15:32:35 by vfries            #+#    #+#             */
-/*   Updated: 2023/02/24 15:32:40 by vfries           ###   ########.fr       */
+/*   Updated: 2023/03/09 01:48:01 by vfries           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
-#include <errno.h>
 #include <sys/wait.h>
-#include <stdio.h>
 #include <readline/readline.h>
-
-#include "libft.h"
 
 #include "error.h"
 #include "minishell_signal.h"

@@ -13,8 +13,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "libft.h"
-
 #include "built_in.h"
 #include "error.h"
 

@@ -6,13 +6,13 @@
 /*   By: vfries <vfries@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 01:44:27 by vfries            #+#    #+#             */
-/*   Updated: 2023/02/23 02:10:27 by vfries           ###   ########lyon.fr   */
+/*   Updated: 2023/03/09 01:56:42 by vfries           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <fcntl.h>
 #include <stdlib.h>
-#include "minishell_struct.h"
+
 #include "error.h"
 #include "execute_single_line_command.h"
 

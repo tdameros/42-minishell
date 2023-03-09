@@ -3,18 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   get_command_result.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tomy <tomy@student.42lyon.fr>              +#+  +:+       +#+        */
+/*   By: vfries <vfries@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 11:40:00 by tomy              #+#    #+#             */
-/*   Updated: 2023/02/15 11:40:00 by tomy             ###   ########lyon.fr   */
+/*   Updated: 2023/03/09 01:52:28 by vfries           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <sys/wait.h>
 #include <stdlib.h>
+
 #include "libft.h"
 
-static int	execute_forked_command_in_pipe(char *path, char **args, char **envp, int *fd);
+static int	execute_forked_command_in_pipe(char *path, char **args, char **envp,
+				int *fd);
 static char	*get_str_in_pipe(int *fd);
 static char	*get_str_in_fd(int fd);
 static void	close_pipe(int *fd);
@@ -40,7 +42,8 @@ char	*get_command_result(char *path, char **args, char **envp)
 	return (get_str_in_pipe(fd));
 }
 
-static int	execute_forked_command_in_pipe(char *path, char **args, char **envp, int *fd)
+static int	execute_forked_command_in_pipe(char *path, char **args, char **envp,
+				int *fd)
 {
 	if (close(fd[0]) < 0)
 	{

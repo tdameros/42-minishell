@@ -3,19 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   arguments.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdameros <tdameros@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: vfries <vfries@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/07 23:48:12 by tdameros          #+#    #+#             */
-/*   Updated: 2023/03/07 23:48:17 by tdameros         ###   ########.fr       */
+/*   Updated: 2023/03/09 02:04:23 by vfries           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 #include <errno.h>
 
-#include "libft.h"
-
-#include "lexer.h"
 #include "expansions.h"
 
 static char		**get_args_array(t_list *arguments);

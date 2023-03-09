@@ -10,7 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "env_variables.h"
 #include "exit_code.h"
 #include "built_in.h"
 

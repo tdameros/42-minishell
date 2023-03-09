@@ -6,13 +6,15 @@
 /*   By: vfries <vfries@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/25 16:19:00 by vfries            #+#    #+#             */
-/*   Updated: 2023/02/18 05:19:24 by vfries           ###   ########lyon.fr   */
+/*   Updated: 2023/03/09 01:27:08 by vfries           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "env_variables.h"
-#include "libft.h"
 #include <stdlib.h>
+
+#include "libft.h"
+
+#include "env_variables.h"
 
 static int	add_variables_non_empty(char **envp, t_list *variables, int *envp_i,
 				char *executable_path);

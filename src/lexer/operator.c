@@ -6,12 +6,12 @@
 /*   By: vfries <vfries@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/15 14:06:00 by tdameros          #+#    #+#             */
-/*   Updated: 2023/01/20 04:21:38 by vfries           ###   ########lyon.fr   */
+/*   Updated: 2023/03/09 01:50:02 by vfries           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
-#include "libft.h"
+
 #include "lexer.h"
 
 int	get_operator(char *string)

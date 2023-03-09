@@ -6,17 +6,16 @@
 /*   By: vfries <vfries@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/19 18:03:22 by vfries            #+#    #+#             */
-/*   Updated: 2023/02/19 18:37:53 by vfries           ###   ########lyon.fr   */
+/*   Updated: 2023/03/09 01:32:56 by vfries           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 #include <sys/wait.h>
-#include "lexer.h"
+
 #include "terminal.h"
 #include "exit_code.h"
 #include "execution.h"
-#include "minishell_struct.h"
 #include "minishell_signal.h"
 
 static void				execute_commands_loop(t_minishell *minishell);

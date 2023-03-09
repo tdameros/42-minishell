@@ -6,11 +6,10 @@
 /*   By: vfries <vfries@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/16 15:55:09 by vfries            #+#    #+#             */
-/*   Updated: 2023/01/27 16:02:00 by vfries           ###   ########lyon.fr   */
+/*   Updated: 2023/03/09 01:50:59 by vfries           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "lexer.h"
 #include "parser.h"
 
 static void	free_lsts(t_list **simplified_tokens, t_list **tokens);

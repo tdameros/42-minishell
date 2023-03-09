@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   free_minishell.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdameros <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: vfries <vfries@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/24 10:12:21 by tdameros          #+#    #+#             */
-/*   Updated: 2023/02/24 10:12:22 by tdameros         ###   ########.fr       */
+/*   Updated: 2023/03/09 01:55:22 by vfries           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
+
 #include "minishell_struct.h"
 #include "lexer.h"
 

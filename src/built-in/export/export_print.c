@@ -11,7 +11,9 @@
 /* ************************************************************************** */
 
 #include <stdlib.h>
+
 #include "libft.h"
+
 #include "env_variables.h"
 
 static	int	print_env_variables_export(char **envp);

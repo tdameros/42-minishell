@@ -3,15 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   interactive_signal_handling.c                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vfries <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: vfries <vfries@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 17:26:05 by vfries            #+#    #+#             */
-/*   Updated: 2023/02/23 17:26:06 by vfries           ###   ########.fr       */
+/*   Updated: 2023/03/09 01:54:08 by vfries           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <signal.h>
 #include <stdlib.h>
+
 #include "error.h"
 
 static void	interactive_signal_handler(int sig);
