@@ -6,7 +6,7 @@
 /*   By: vfries <vfries@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/06 18:28:00 by tdameros          #+#    #+#             */
-/*   Updated: 2023/03/09 02:00:27 by vfries           ###   ########lyon.fr   */
+/*   Updated: 2023/03/09 02:13:38 by vfries           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,4 +27,3 @@ char	*get_end_dollar_parameter(char *arg)
 		arg++;
 	return (arg - 1);
 }
-

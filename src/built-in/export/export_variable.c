@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_variable.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdameros <tdameros@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: vfries <vfries@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 17:01:17 by tdameros          #+#    #+#             */
-/*   Updated: 2023/02/23 17:01:19 by tdameros         ###   ########.fr       */
+/*   Updated: 2023/03/09 02:14:51 by vfries           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,8 @@
 
 #include "libft.h"
 
-static int  export_variable_without_value(char *key, t_hashmap env_variables);
+static int		export_variable_without_value(char *key,
+					t_hashmap env_variables);
 static int		add_value(char *key, char *value, t_hashmap env_variables);
 static int		addition_export(char *key, char *value,
 					t_hashmap env_variables);
@@ -46,15 +47,15 @@ int	export_variable(char *variable, t_hashmap env_variables)
 	return (1);
 }
 
-static int  export_variable_without_value(char *key, t_hashmap env_variables)
+static int	export_variable_without_value(char *key, t_hashmap env_variables)
 {
-    if (is_valid_key(key) && ft_hm_get_content(env_variables, key) == NULL)
-    {
-        if (ft_hm_add_elem(env_variables, key, NULL, free) < 0)
-            return (-1);
-        return (1);
-    }
-    return (is_valid_key(key));
+	if (is_valid_key(key) && ft_hm_get_content(env_variables, key) == NULL)
+	{
+		if (ft_hm_add_elem(env_variables, key, NULL, free) < 0)
+			return (-1);
+		return (1);
+	}
+	return (is_valid_key(key));
 }
 
 static int	add_value(char *key, char *value, t_hashmap env_variables)

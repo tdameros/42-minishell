@@ -6,7 +6,7 @@
 /*   By: vfries <vfries@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/06 18:25:42 by tdameros          #+#    #+#             */
-/*   Updated: 2023/03/09 02:03:31 by vfries           ###   ########lyon.fr   */
+/*   Updated: 2023/03/09 02:12:25 by vfries           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,7 @@ int	merge_words(t_list **tokens)
 		}
 	}
 	ft_lstclear(tokens, free_expansion);
-	ft_lst_reverse(&new_list);
-	*tokens = new_list;
+	*tokens = ft_lst_reverse(&new_list);
 	return (0);
 }
 

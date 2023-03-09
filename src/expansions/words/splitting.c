@@ -6,7 +6,7 @@
 /*   By: vfries <vfries@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/07 23:47:56 by tdameros          #+#    #+#             */
-/*   Updated: 2023/03/09 02:03:42 by vfries           ###   ########lyon.fr   */
+/*   Updated: 2023/03/09 02:12:51 by vfries           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ static int	split_word_expansion(t_expansion *expansion, t_list **new_list)
 	while (new_words[index] != NULL)
 	{
 		if (add_back_expansion_node(new_words[index], expansion->type,
-									new_list) < 0)
+				new_list) < 0)
 			return (free_no_used_words(new_words, new_words + index), -1);
 		if (add_back_expansion_node(NULL, SPACE, new_list) < 0)
 			return (free_no_used_words(new_words, new_words + index), -1);
