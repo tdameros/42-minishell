@@ -11,9 +11,11 @@
 /* ************************************************************************** */
 
 #include <stdlib.h>
+
 #include "lexer.h"
 #include "expansions.h"
 #include "minishell_struct.h"
+#include "minishell_signal.h"
 #include "error.h"
 #include "execution.h"
 #include "exit_code.h"
@@ -82,7 +84,7 @@ static pid_t	fork_and_execute_command(t_minishell *minishell,
 		envp = get_non_empty_envp(minishell->env_variables, command->args[0]);
 	else
 		envp = NULL;
-	pid = fork();
+	pid = execution_fork();
 	if (pid == -1)
 	{
 		ft_free_split(envp);

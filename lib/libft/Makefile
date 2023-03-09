@@ -42,11 +42,12 @@ SRC =\
 	io/get_next_line/get_next_line_utils.c			\
 	io/get_next_line/get_next_line.c				\
 \
-	io/putchar_fd.c	\
-	io/putendl_fd.c	\
-	io/putnbr_fd.c	\
-	io/putstr_fd.c	\
-	io/putstr.c		\
+	io/print_position_in_code.c	\
+	io/putchar_fd.c				\
+	io/putendl_fd.c				\
+	io/putnbr_fd.c				\
+	io/putstr_fd.c				\
+	io/putstr.c					\
 \
 	io/printf/printf.c			\
 	io/printf/get_final_str.c	\

@@ -11,8 +11,10 @@
 /* ************************************************************************** */
 
 #include <stdlib.h>
+
 #include "lexer.h"
 #include "error.h"
+#include "minishell_signal.h"
 #include "expansions.h"
 #include "minishell_struct.h"
 #include "execution.h"
@@ -44,7 +46,7 @@ pid_t	execute_piped_command(t_minishell *minishell,
 	envp = NULL;
 	if (command->type != BUILTIN && command->type != SUBSHELL)
 		envp = get_non_empty_envp(minishell->env_variables, command->args[0]);
-	pid = fork();
+	pid = execution_fork();
 	if (pid == -1)
 		print_error(command->args[0], FORK_FAILED, get_error());
 	else if (pid == 0)
