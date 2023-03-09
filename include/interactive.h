@@ -25,4 +25,5 @@ int		get_here_docs_if_valid_syntax(char *command, char *complete_command,
 
 int		run_interactive_shell(t_minishell *minishell);
 
+int		remove_quotes_in_delimiter(char *command);
 #endif

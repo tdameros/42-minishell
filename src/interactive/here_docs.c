@@ -20,6 +20,8 @@
 #include "error.h"
 #include "interactive.h"
 
+#define HERE_DOCS_PROMPT "> "
+
 static int	add_here_doc(t_minishell *minishell, char *limiter);
 static int	get_input(t_list **input_lst, char *limiter,
 				t_minishell *minishell);
@@ -105,7 +107,7 @@ static int	get_forked_input(int *pipe_fd, char *limiter)
 	init_interactive_fork_signal_handling();
 	if (errno != 0)
 		return (close_pipe(pipe_fd), 1);
-	input = readline("> ");
+	input = readline(HERE_DOCS_PROMPT);
 	while (input != NULL && ft_strcmp(input, limiter) != 0)
 	{
 		ft_putstr_fd(input, pipe_fd[1]);
@@ -113,7 +115,7 @@ static int	get_forked_input(int *pipe_fd, char *limiter)
 		if (errno != 0)
 			return (free(input), close_pipe(pipe_fd), 1);
 		free(input);
-		input = readline("> ");
+		input = readline(HERE_DOCS_PROMPT);
 	}
 	if (input == NULL)
 		print_error(NULL, "warning", "here-document delimited by end-of-file");

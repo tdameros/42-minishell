@@ -83,4 +83,5 @@ enum e_type	identify_token(t_list *previous_tokens, char *command);
 int			get_index_end_token(char *command);
 int			get_index_next_token(char *command);
 
+
 #endif

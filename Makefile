@@ -95,6 +95,7 @@ SRC				=\
 	interactive/parsing.c			\
 	interactive/shell.c				\
 	interactive/utils.c				\
+	interactive/delimiters.c		\
 \
 \
 	prompt/add_directory_to_path.c	\
