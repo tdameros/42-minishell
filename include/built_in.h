@@ -16,19 +16,46 @@
 # include "env_variables.h"
 # include "minishell_struct.h"
 
-int		cd(char **args, t_hashmap env_variables);
-char	*get_cleaned_path(const char *path);
-int		handle_cwd_doesnt_exist(char *path, t_hashmap env_variables);
-int		echo(char **args);
-int		env(char **args, t_hashmap env_variables);
-int		exit_builtin(char **args, t_minishell *minishell);
-int		export(char **args, t_hashmap env_variables);
-int		print_export(t_hashmap env_variables);
-int		export_variables(char **args, t_hashmap env_variables);
-int		export_variable(char *variable, t_hashmap env_variables);
-int		pwd(t_hashmap env_variables);
-int		unset(char **args, t_hashmap env_variables);
+//	alias/alias.c
 int		alias(char **args, t_hashmap alias);
+
+//	alias/get_all_aliases.c
 char	**get_all_aliases(t_hashmap aliases);
+
+//	cd/cd.c
+int		cd(char **args, t_hashmap env_variables);
+
+//	cd/get_cleaned_path.c
+char	*get_cleaned_path(const char *path);
+
+//	cd/handle_cwd_doesnt_exist.c
+int		handle_cwd_doesnt_exist(char *path, t_hashmap env_variables);
+
+//	export/export.c
+int		export(char **args, t_hashmap env_variables);
+
+//	export/export_print.c
+int		print_export(t_hashmap env_variables);
+
+//	export/export_variable.c
+int		export_variable(char *variable, t_hashmap env_variables);
+
+//	export/export_variables.c
+int		export_variables(char **args, t_hashmap env_variables);
+
+//	echo.c
+int		echo(char **args);
+
+//	env.c
+int		env(char **args, t_hashmap env_variables);
+
+//	exit.c
+int		exit_builtin(char **args, t_minishell *minishell);
+
+//	pwd.c
+int		pwd(t_hashmap env_variables);
+
+//	unset.c
+int		unset(char **args, t_hashmap env_variables);
 
 #endif

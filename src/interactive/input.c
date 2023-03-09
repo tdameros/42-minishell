@@ -19,7 +19,6 @@
 #include "libft.h"
 
 #include "error.h"
-#include "get_here_docs.h"
 #include "minishell_signal.h"
 #include "interactive.h"
 #include "exit_code.h"

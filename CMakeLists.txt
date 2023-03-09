@@ -16,7 +16,6 @@ add_executable(minishell
         include/exit_code.h
         include/expansions.h
         include/get_cursor_x_pos.h
-        include/get_here_docs.h
         include/interactive.h
         include/lexer.h
         include/minishell_signal.h
@@ -241,5 +240,6 @@ add_executable(minishell
         src/get_cursor_x_pos.c
         src/main.c
         src/run_minishellrc.c
+        src/interactive/delimiters.c)
 
 target_link_libraries(minishell readline)

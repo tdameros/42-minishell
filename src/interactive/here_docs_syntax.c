@@ -14,8 +14,8 @@
 #include "libft.h"
 #include "lexer.h"
 #include "parser.h"
-#include "get_here_docs.h"
 #include "minishell_struct.h"
+#include "interactive.h"
 
 int	get_here_docs_if_valid_syntax(char *command, char *complete_command,
 									t_minishell *minishell)

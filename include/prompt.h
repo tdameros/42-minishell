@@ -30,6 +30,7 @@ char	*get_command_result(char *path, char **args, char **envp);
 // get_prompt.c
 char	*get_prompt(t_hashmap env_variables);
 
+//	is_valid_term.c
 bool	is_valid_term(t_hashmap env_variables);
 
 #endif

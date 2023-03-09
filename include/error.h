@@ -27,8 +27,7 @@
 # define BUILTIN_DUP_FAILED "dup() failed on builtin"
 # define BUILTIN_DUP2_FAILED "dup2() failed on builtin"
 
-# define MALLOC_FAILED -1
-
+//	error.c
 void	print_error(const char *command, const char *context,
 			const char *error);
 char	*get_name(t_list *token);

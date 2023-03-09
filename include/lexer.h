@@ -69,19 +69,21 @@ typedef struct s_token
 	t_list				*subshell;
 }	t_token;
 
-t_list		*get_tokens(char *command);
-void		free_token(void *token);
-t_token		*create_token(enum e_type type, enum e_operators operator,
-				char *name);
+//	identifier.c
+enum e_type	identify_token(t_list *previous_tokens, char *command);
+int			get_index_end_token(char *command);
+int			get_index_next_token(char *command);
 
+//	operator.c
 int			get_operator(char *string);
 int			add_operator_token(t_list **tokens, enum e_operators operator);
 bool		is_file_operator_token(t_token *token);
 bool		is_operator(char *command);
 
-enum e_type	identify_token(t_list *previous_tokens, char *command);
-int			get_index_end_token(char *command);
-int			get_index_next_token(char *command);
-
+//	token.c
+t_list		*get_tokens(char *command);
+void		free_token(void *token);
+t_token		*create_token(enum e_type type, enum e_operators operator,
+				char *name);
 
 #endif
