@@ -6,7 +6,7 @@
 /*   By: vfries <vfries@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/12 16:37:00 by tomy              #+#    #+#             */
-/*   Updated: 2023/03/09 01:49:34 by vfries           ###   ########lyon.fr   */
+/*   Updated: 2023/03/09 17:18:04 by vfries           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ static int	run_interactive_command(char **command, t_minishell *minishell)
 	int	return_code;
 
 	errno = 0;
-	if (ft_strlen(*command) > 0)
+	if (ft_strlen(*command) > 0 && *ft_skip_set(*command, IFS) != '\0')
 	{
 		return_code = run_interactive_parsing(command, minishell);
 		if (return_code != 0)
