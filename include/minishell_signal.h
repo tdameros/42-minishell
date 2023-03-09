@@ -13,6 +13,12 @@
 #ifndef MINISHELL_SIGNAL_H
 # define MINISHELL_SIGNAL_H
 
+// execution_fork.c
+pid_t	execution_fork(void);
+
+// fork_signal_handling.c
+int		signal_init_fork_handling(void);
+
 // general_signal_handling.c
 int		signal_init_handling_outside_execution(void);
 int		signal_init_handling_inside_execution(void);

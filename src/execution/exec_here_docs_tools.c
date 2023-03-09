@@ -11,6 +11,8 @@
 /* ************************************************************************** */
 
 #include <stdlib.h>
+
+#include "minishell_signal.h"
 #include "lexer.h"
 #include "error.h"
 #include "execution.h"
@@ -69,7 +71,7 @@ int	read_here_doc(t_minishell *minishell)
 		return (-1);
 	if (pipe(pipe_fd) == -1)
 		return (-1);
-	pid = fork();
+	pid = execution_fork();
 	if (pid == -1)
 	{
 		print_error(NULL, "Failed to create fork for here_doc", get_error());

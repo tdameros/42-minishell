@@ -105,6 +105,8 @@ SRC				=\
 	prompt/is_valid_term.c		\
 \
 \
+	signals/execution_fork.c				\
+	signals/fork_signal_handling.c			\
 	signals/general_signal_handling.c		\
 	signals/interactive_signal_handling.c	\
 	signals/pipes_signal_handling.c			\

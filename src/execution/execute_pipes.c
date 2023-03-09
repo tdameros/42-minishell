@@ -92,7 +92,7 @@ static int	execute_pipes_sub_tokens(t_minishell *minishell,
 static int	fork_and_execute_command_no_pipe(t_minishell *minishell,
 				t_list *sub_tokens)
 {
-	const pid_t	pid = fork();
+	const pid_t	pid = execution_fork();
 	t_token		*token;
 	int			status;
 
