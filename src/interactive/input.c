@@ -24,6 +24,8 @@
 #include "interactive.h"
 #include "exit_code.h"
 
+#define NO_TERMINATE_COMMAND_PROMPT "> "
+
 static int	get_input(char **input, t_minishell *minishell);
 static int	get_forked_input(int *pipe_fd);
 static int	read_input(int *pipe_fd, char **input, pid_t fork_input_pid);
@@ -80,7 +82,7 @@ static int	get_forked_input(int *pipe_fd)
 
 	if (init_interactive_fork_signal_handling() < 0)
 		return (close_pipe(pipe_fd), 1);
-	input = readline("> ");
+	input = readline(NO_TERMINATE_COMMAND_PROMPT);
 	errno = 0;
 	if (input != NULL && ft_strlen(input) == 0)
 		ft_putstr_fd(" ", pipe_fd[1]);
