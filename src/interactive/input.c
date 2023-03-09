@@ -12,6 +12,7 @@
 
 #include <stdlib.h>
 #include <sys/wait.h>
+#include <stdio.h>
 #include <readline/readline.h>
 
 #include "error.h"

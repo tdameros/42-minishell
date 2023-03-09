@@ -10,8 +10,10 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdio.h>
 #include <readline/readline.h>
 #include <sys/wait.h>
+#include <signal.h>
 
 #include "error.h"
 #include "exit_code.h"
