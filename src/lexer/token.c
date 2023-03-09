@@ -6,12 +6,12 @@
 /*   By: vfries <vfries@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/15 15:01:00 by tdameros          #+#    #+#             */
-/*   Updated: 2023/01/28 14:43:29 by vfries           ###   ########lyon.fr   */
+/*   Updated: 2023/03/09 01:50:12 by vfries           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
-#include "libft.h"
+
 #include "lexer.h"
 
 static int	add_token(t_list **tokens, enum e_type type,

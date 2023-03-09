@@ -6,7 +6,7 @@
 /*   By: vfries <vfries@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/19 19:13:15 by vfries            #+#    #+#             */
-/*   Updated: 2023/02/19 21:35:07 by vfries           ###   ########.fr       */
+/*   Updated: 2023/03/09 01:28:59 by vfries           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 #include "lexer.h"
 #include "expansions.h"
-#include "minishell_struct.h"
 #include "minishell_signal.h"
 #include "error.h"
 #include "execution.h"

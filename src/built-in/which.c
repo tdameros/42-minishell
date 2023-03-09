@@ -10,7 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell_struct.h"
 #include "exit_code.h"
 
 int	which(char **argv, t_minishell *minishell)

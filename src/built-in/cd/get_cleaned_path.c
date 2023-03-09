@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include <stdlib.h>
+
 #include "libft.h"
 
 static t_list		*init_lst(void);

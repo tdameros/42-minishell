@@ -6,12 +6,10 @@
 /*   By: vfries <vfries@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 15:51:22 by tdameros          #+#    #+#             */
-/*   Updated: 2023/03/07 19:41:38 by vfries           ###   ########lyon.fr   */
+/*   Updated: 2023/03/09 01:54:46 by vfries           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell_struct.h"
-#include "lexer.h"
 #include "error.h"
 #include "parser.h"
 #include "execution.h"

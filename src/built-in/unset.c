@@ -12,10 +12,7 @@
 
 #include <stdlib.h>
 
-#include "ft_hashmap.h"
-
 #include "exit_code.h"
-#include "built_in.h"
 #include "error.h"
 
 static	bool	is_valid_key(char *key);

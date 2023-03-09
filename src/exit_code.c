@@ -6,13 +6,14 @@
 /*   By: vfries <vfries@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/05 16:10:16 by vfries            #+#    #+#             */
-/*   Updated: 2023/02/14 23:54:39 by vfries           ###   ########lyon.fr   */
+/*   Updated: 2023/03/09 01:55:05 by vfries           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdlib.h>
+
 #include "exit_code.h"
 #include "env_variables.h"
-#include <stdlib.h>
 
 static int	static_exit_code(int new_exit_code, t_hashmap_content *env_var_ptr);
 

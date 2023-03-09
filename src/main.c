@@ -6,17 +6,16 @@
 /*   By: vfries <vfries@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/14 18:07:30 by vfries            #+#    #+#             */
-/*   Updated: 2023/02/23 02:04:22 by vfries           ###   ########lyon.fr   */
+/*   Updated: 2023/03/09 01:56:17 by vfries           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
-#include "minishell_struct.h"
+
 #include "error.h"
 #include "run_minishellrc.h"
 #include "minishell_signal.h"
 #include "exit_code.h"
-#include "env_variables.h"
 #include "interactive.h"
 #include "terminal.h"
 #include "execute_single_line_command.h"

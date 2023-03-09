@@ -6,18 +6,16 @@
 /*   By: vfries <vfries@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 09:17:54 by vfries            #+#    #+#             */
-/*   Updated: 2023/02/14 05:30:55 by vfries           ###   ########lyon.fr   */
+/*   Updated: 2023/03/09 01:47:12 by vfries           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
-#include <stdio.h>
 #include "expansions.h"
 #include <readline/readline.h>
 #include <sys/wait.h>
 #include <errno.h>
 
-#include "lexer.h"
 #include "minishell_signal.h"
 #include "error.h"
 #include "interactive.h"

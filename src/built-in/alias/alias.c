@@ -12,8 +12,6 @@
 
 #include <stdlib.h>
 
-#include "libft.h"
-
 #include "env_variables.h"
 #include "error.h"
 #include "exit_code.h"

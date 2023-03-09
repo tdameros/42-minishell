@@ -6,13 +6,13 @@
 /*   By: vfries <vfries@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 08:54:37 by vfries            #+#    #+#             */
-/*   Updated: 2023/01/24 06:10:35 by vfries           ###   ########lyon.fr   */
+/*   Updated: 2023/03/09 01:50:30 by vfries           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "lexer.h"
-#include "libft.h"
 #include <stdlib.h>
+
+#include "lexer.h"
 
 static char	**get_args_strs(t_list **args);
 

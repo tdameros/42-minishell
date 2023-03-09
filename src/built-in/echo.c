@@ -10,9 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdbool.h>
-#include "libft.h"
-#include "built_in.h"
 #include "exit_code.h"
 
 static bool	is_n_flag(char *arg);

@@ -10,11 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <string.h>
 #include <errno.h>
 #include <stdlib.h>
-#include <stdio.h>
-#include "libft.h"
+
 #include "exit_code.h"
 #include "error.h"
 #include "built_in.h"

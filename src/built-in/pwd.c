@@ -11,11 +11,9 @@
 /* ************************************************************************** */
 
 #include <stdlib.h>
-#include <unistd.h>
-#include "libft.h"
+
 #include "error.h"
 #include "exit_code.h"
-#include "built_in.h"
 
 int	pwd(t_hashmap env_variables)
 {

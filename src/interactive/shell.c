@@ -6,19 +6,14 @@
 /*   By: vfries <vfries@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/12 16:37:00 by tomy              #+#    #+#             */
-/*   Updated: 2023/03/06 00:37:19 by vfries           ###   ########.fr       */
+/*   Updated: 2023/03/09 01:49:34 by vfries           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
-#include <stdio.h>
 #include <readline/readline.h>
 #include <readline/history.h>
 
-#include "libft.h"
-
-#include "minishell_struct.h"
-#include "env_variables.h"
 #include "interactive.h"
 #include "execution.h"
 #include "exit_code.h"

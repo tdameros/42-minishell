@@ -6,11 +6,10 @@
 /*   By: vfries <vfries@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 18:14:00 by vfries            #+#    #+#             */
-/*   Updated: 2023/01/24 06:11:41 by vfries           ###   ########lyon.fr   */
+/*   Updated: 2023/03/09 01:50:40 by vfries           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "lexer.h"
 #include "parser.h"
 
 static void	seperate_command_elements(t_list **tokens, t_list **args,

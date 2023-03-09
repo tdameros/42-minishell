@@ -3,20 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdameros <tdameros@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: vfries <vfries@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 16:21:59 by tdameros          #+#    #+#             */
-/*   Updated: 2023/02/23 16:22:02 by tdameros         ###   ########.fr       */
+/*   Updated: 2023/03/09 01:48:37 by vfries           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
-#include <unistd.h>
-
-#include "libft.h"
 
 #include "parser.h"
-#include "lexer.h"
 #include "interactive.h"
 #include "minishell_signal.h"
 #include "exit_code.h"

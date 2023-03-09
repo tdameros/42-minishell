@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include <stdlib.h>
+
 #include "libft.h"
 
 static int	add_all_aliases_from_node(char **aliases, t_list *variables,

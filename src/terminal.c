@@ -6,12 +6,12 @@
 /*   By: vfries <vfries@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 04:04:09 by vfries            #+#    #+#             */
-/*   Updated: 2023/02/15 17:49:11 by vfries           ###   ########lyon.fr   */
+/*   Updated: 2023/03/09 01:57:01 by vfries           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <termios.h>
-#include <unistd.h>
+
 #include "error.h"
 
 int	terminal_restore(struct termios termios_save)
