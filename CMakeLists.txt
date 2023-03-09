@@ -8,14 +8,13 @@ include_directories(lib/libft/include)
 include_directories(lib/libft/src/io/get_next_line)
 
 add_executable(minishell
-        include/built_in.h
+        include/builtin.h
         include/env_variables.h
         include/error.h
         include/execute_single_line_command.h
         include/execution.h
         include/exit_code.h
         include/expansions.h
-        include/get_cursor_x_pos.h
         include/interactive.h
         include/lexer.h
         include/minishell_signal.h
@@ -27,6 +26,7 @@ add_executable(minishell
         lib/libft/include/ft_bitmask.h
         lib/libft/include/ft_bools.h
         lib/libft/include/ft_char.h
+        lib/libft/include/ft_colors.h
         lib/libft/include/ft_hashmap.h
         lib/libft/include/ft_io.h
         lib/libft/include/ft_linked_list.h
@@ -66,6 +66,7 @@ add_executable(minishell
         lib/libft/src/io/printf/formating/format_u_x.c
         lib/libft/src/io/printf/get_final_str.c
         lib/libft/src/io/printf/printf.c
+        lib/libft/src/io/print_position_in_code.c
         lib/libft/src/io/putchar_fd.c
         lib/libft/src/io/putendl_fd.c
         lib/libft/src/io/putnbr_fd.c
@@ -146,6 +147,7 @@ add_executable(minishell
         lib/libft/src/string/is_number.c
         lib/libft/src/string/skip_char.c
         lib/libft/src/string/skip_set.c
+        lib/libft/src/string/str_is_in_strs.c
         lib/libft/src/string/strchr.c
         lib/libft/src/string/strcmp.c
         lib/libft/src/string/strcmp_ignore_case.c
@@ -161,18 +163,20 @@ add_executable(minishell
         lib/libft/src/string/strrstr.c
         lib/libft/src/string/strtrim.c
         lib/libft/src/string/substr.c
-        src/built-in/cd/cd.c
-        src/built-in/cd/get_cleaned_path.c
-        src/built-in/alias/alias.c
-        src/built-in/echo.c
-        src/built-in/env.c
-        src/built-in/exit.c
-        src/built-in/export/export.c
-        src/built-in/export/export_print.c
-        src/built-in/export/export_variable.c
-        src/built-in/export/export_variables.c
-        src/built-in/pwd.c
-        src/built-in/unset.c
+        src/builtin/alias/alias.c
+        src/builtin/alias/get_all_aliases.c
+        src/builtin/cd/cd.c
+        src/builtin/cd/get_cleaned_path.c
+        src/builtin/cd/handle_cwd_doesnt_exist.c
+        src/builtin/export/export.c
+        src/builtin/export/print.c
+        src/builtin/export/variable.c
+        src/builtin/export/variables.c
+        src/builtin/echo.c
+        src/builtin/env.c
+        src/builtin/exit.c
+        src/builtin/pwd.c
+        src/builtin/unset.c
         src/env_variables/get_env_variables.c
         src/env_variables/get_envp.c
         src/env_variables/print_env_variables.c
@@ -202,15 +206,17 @@ add_executable(minishell
         src/expansions/wildcards/replace.c
         src/expansions/wildcards/slash.c
         src/expansions/wildcards/utils.c
+        src/expansions/words/merge.c
+        src/expansions/words/splitting.c
         src/expansions/alias.c
         src/expansions/arguments.c
         src/expansions/files.c
         src/expansions/here_docs.c
-        src/expansions/words/merge.c
         src/expansions/quotes.c
         src/expansions/tildes.c
         src/expansions/token.c
-        src/expansions/words/splitting.c
+        src/expansions/utils.c
+        src/interactive/delimiters.c
         src/interactive/here_docs.c
         src/interactive/here_docs_syntax.c
         src/interactive/input.c
@@ -225,21 +231,23 @@ add_executable(minishell
         src/parser/simplify_tokens/add_command/get_files.c
         src/parser/simplify_tokens/get_subshells.c
         src/parser/simplify_tokens/simplify_tokens.c
-        src/parser/parse_tokens.c
         src/parser/quotes.c
         src/parser/syntax.c
-        src/prompt/get_command_result.c
+        src/prompt/add_directory_to_path.c
+        src/prompt/add_elem_to_prompt.c
         src/prompt/add_git_branch.c
+        src/prompt/get_command_result.c
         src/prompt/get_prompt.c
+        src/prompt/is_valid_term.c
+        src/signals/execution_fork.c
+        src/signals/fork_signal_handling.c
         src/signals/general_signal_handling.c
         src/signals/interactive_signal_handling.c
         src/signals/pipes_signal_handling.c
         src/execute_single_line_command.c
         src/exit_code.c
         src/free_minishell.c
-        src/get_cursor_x_pos.c
+        src/signals/get_cursor_x_pos.c
         src/main.c
         src/run_minishellrc.c
-        src/interactive/delimiters.c)
-
-target_link_libraries(minishell readline)
+        src/terminal.c)

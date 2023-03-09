@@ -14,12 +14,13 @@
 # define MINISHELL_STRUCT_H
 
 # include <termios.h>
+
 # include "libft.h"
 
 typedef struct s_minishell
 {
 	t_hashmap		env_variables;
-	t_hashmap 		alias;
+	t_hashmap		alias;
 	t_list			*tokens;
 	t_list			*here_docs;
 	struct termios	termios_save;

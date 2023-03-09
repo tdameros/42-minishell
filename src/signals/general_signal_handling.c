@@ -15,7 +15,7 @@
 
 #include "error.h"
 #include "exit_code.h"
-#include "get_cursor_x_pos.h"
+#include "minishell_signal.h"
 
 static void	signal_handler_outside_execution(int sig);
 static void	signal_handler_inside_execution(int sig);

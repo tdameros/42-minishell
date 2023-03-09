@@ -23,6 +23,9 @@ int		signal_init_fork_handling(void);
 int		signal_init_handling_outside_execution(void);
 int		signal_init_handling_inside_execution(void);
 
+//	get_cursor_x_pos.c
+int		get_cursor_x_pos(void);
+
 //	interactive_signal_handling.c
 int		init_interactive_signal_handling(void);
 int		init_interactive_fork_signal_handling(void);

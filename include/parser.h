@@ -32,9 +32,6 @@ t_list	*get_subshells(t_list *tokens);
 //	simplify_tokens/simplify_tokens.c
 int		simplify_tokens(t_list **tokens);
 
-//	parse_tokens.c
-int		parse_tokens(t_list	**tokens);
-
 //	quotes.c
 int		is_valid_quote(char *command);
 

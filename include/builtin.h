@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef BUILT_IN_H
-# define BUILT_IN_H
+#ifndef BUILTIN_H
+# define BUILTIN_H
 
 # include "env_variables.h"
 # include "minishell_struct.h"
@@ -34,13 +34,13 @@ int		handle_cwd_doesnt_exist(char *path, t_hashmap env_variables);
 //	export/export.c
 int		export(char **args, t_hashmap env_variables);
 
-//	export/export_print.c
+//	export/print.c
 int		print_export(t_hashmap env_variables);
 
-//	export/export_variable.c
+//	export/variable.c
 int		export_variable(char *variable, t_hashmap env_variables);
 
-//	export/export_variables.c
+//	export/variables.c
 int		export_variables(char **args, t_hashmap env_variables);
 
 //	echo.c

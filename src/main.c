@@ -19,7 +19,7 @@
 #include "interactive.h"
 #include "terminal.h"
 #include "execute_single_line_command.h"
-#include "built_in.h"
+#include "builtin.h"
 
 #define FAILED_TO_SAVE_TERMINAL -2
 
@@ -43,8 +43,7 @@ int	main(int argc, char **argv, char **envp)
 		return (1);
 	}
 	tmp = run_shell(&minishell, argc, argv);
-	ft_hm_clear(&minishell.env_variables, &free);
-	ft_hm_clear(&minishell.alias, &free);
+	free_minishell(&minishell);
 	if (terminal_restore(minishell.termios_save) < 0)
 		return (2);
 	return (tmp);

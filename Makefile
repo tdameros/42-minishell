@@ -4,28 +4,31 @@ NAME			=	minishell
 SRC_PATH		=	src/
 
 SRC				=\
-	built-in/alias/alias.c				\
-	built-in/alias/get_all_aliases.c	\
+	builtin/alias/alias.c				\
+	builtin/alias/get_all_aliases.c		\
 \
-	built-in/cd/cd.c						\
-	built-in/cd/get_cleaned_path.c			\
-	built-in/cd/handle_cwd_doesnt_exist.c	\
+	builtin/cd/cd.c							\
+	builtin/cd/get_cleaned_path.c			\
+	builtin/cd/handle_cwd_doesnt_exist.c	\
 \
-	built-in/export/export.c			\
-	built-in/export/export_print.c		\
-	built-in/export/export_variables.c	\
-	built-in/export/export_variable.c	\
+	builtin/export/export.c		\
+	builtin/export/print.c		\
+	builtin/export/variables.c	\
+	builtin/export/variable.c	\
 \
-	built-in/echo.c						\
-	built-in/env.c						\
-	built-in/exit.c						\
-	built-in/pwd.c						\
-	built-in/unset.c					\
+	builtin/echo.c						\
+	builtin/env.c						\
+	builtin/exit.c						\
+	builtin/pwd.c						\
+	builtin/unset.c						\
 \
 \
 	env_variables/get_env_variables.c	\
 	env_variables/get_envp.c			\
 	env_variables/print_env_variables.c	\
+\
+\
+	error/error.c	\
 \
 \
 	execution/exec_here_docs_tools.c	\
@@ -42,19 +45,23 @@ SRC				=\
 	expansions/lexer/expressions.c		\
 	expansions/lexer/tokens.c			\
 	expansions/lexer/utils.c			\
-	expansions/parameters/replace.c		\
-	expansions/parameters/strdup_parameters.c \
+\
+	expansions/parameters/replace.c				\
+	expansions/parameters/strdup_parameters.c	\
+\
 	expansions/paths/absolute_path.c	\
 	expansions/paths/add_path.c			\
 	expansions/paths/builtin.c			\
 	expansions/paths/command.c			\
-	expansions/wildcards/add.c			\
-	expansions/wildcards/list.c			\
-	expansions/wildcards/match.c		\
+\
+	expansions/wildcards/add.c				\
+	expansions/wildcards/list.c				\
+	expansions/wildcards/match.c			\
 	expansions/wildcards/pattern_lexer.c	\
-	expansions/wildcards/replace.c		\
-	expansions/wildcards/slash.c		\
-	expansions/wildcards/utils.c		\
+	expansions/wildcards/replace.c			\
+	expansions/wildcards/slash.c			\
+	expansions/wildcards/utils.c			\
+\
 	expansions/words/merge.c			\
 	expansions/words/splitting.c		\
 	expansions/alias.c					\
@@ -67,35 +74,29 @@ SRC				=\
 	expansions/utils.c					\
 \
 \
-	error/error.c	\
-\
-\
-	lexer/identifier.c \
-	lexer/operator.c	\
-	lexer/token.c		\
-\
-\
-	parser/quotes.c	\
-\
-	parser/simplify_tokens/add_command/add_args.c		\
-	parser/simplify_tokens/add_command/add_command.c	\
-	parser/simplify_tokens/add_command/get_files.c		\
-\
-	parser/simplify_tokens/get_subshells.c			\
-	parser/simplify_tokens/simplify_tokens.c		\
-\
-	parser/syntax.c		\
-\
-	parser/parse_tokens.c	\
-\
-\
+	interactive/delimiters.c		\
 	interactive/here_docs.c			\
 	interactive/here_docs_syntax.c	\
 	interactive/input.c				\
 	interactive/parsing.c			\
 	interactive/shell.c				\
 	interactive/utils.c				\
-	interactive/delimiters.c		\
+\
+	lexer/identifier.c \
+	lexer/operator.c	\
+	lexer/token.c		\
+\
+\
+\
+	parser/simplify_tokens/get_subshells.c			\
+	parser/simplify_tokens/simplify_tokens.c		\
+\
+	parser/simplify_tokens/add_command/add_args.c		\
+	parser/simplify_tokens/add_command/add_command.c	\
+	parser/simplify_tokens/add_command/get_files.c		\
+\
+	parser/syntax.c			\
+	parser/quotes.c			\
 \
 \
 	prompt/add_directory_to_path.c	\
@@ -103,19 +104,19 @@ SRC				=\
 	prompt/add_git_branch.c			\
 	prompt/get_command_result.c		\
 	prompt/get_prompt.c				\
-	prompt/is_valid_term.c		\
+	prompt/is_valid_term.c			\
 \
 \
 	signals/execution_fork.c				\
 	signals/fork_signal_handling.c			\
 	signals/general_signal_handling.c		\
+	signals/get_cursor_x_pos.c				\
 	signals/interactive_signal_handling.c	\
 	signals/pipes_signal_handling.c			\
 \
 \
 	execute_single_line_command.c	\
 	exit_code.c						\
-	get_cursor_x_pos.c				\
 	main.c							\
 	run_minishellrc.c				\
 	terminal.c						\
@@ -149,7 +150,7 @@ DIR_BUILD		=	.build/
 OBJS			=	$(patsubst %.c, $(DIR_BUILD)%.o, $(SRC))
 DEPS			=	$(patsubst %.c, $(DIR_BUILD)%.d, $(SRC))
 DEPS_FLAGS		=	-MMD -MP
-CFLAGS			=	-Wall -Wextra -Werror -g3 -fsanitize=address
+CFLAGS			=	-Wall -Wextra -Werror
 RM				=	rm -rf
 AR				=	ar rcs
 
@@ -187,24 +188,6 @@ fclean:	clean
 .PHONY:	re
 re:		fclean
 		$(MAKE) all
-
-.PHONY:	leaks
-leaks:	all
-		echo "{" > valgrind_ignore_leaks.txt
-		echo "    leak readline" >> valgrind_ignore_leaks.txt
-		echo "    Memcheck:Leak" >> valgrind_ignore_leaks.txt
-		echo "    ..." >> valgrind_ignore_leaks.txt
-		echo "    fun:readline" >> valgrind_ignore_leaks.txt
-		echo "}" >> valgrind_ignore_leaks.txt
-		echo "{" >> valgrind_ignore_leaks.txt
-		echo "    leak add_history" >> valgrind_ignore_leaks.txt
-		echo "    Memcheck:Leak" >> valgrind_ignore_leaks.txt
-		echo "    ..." >> valgrind_ignore_leaks.txt
-		echo "    fun:add_history" >> valgrind_ignore_leaks.txt
-		echo "}" >> valgrind_ignore_leaks.txt
-		valgrind --suppressions=valgrind_ignore_leaks.txt --leak-check=full\
-			--show-leak-kinds=all --track-origins=yes --verbose\
-			--show-mismatched-frees=yes --read-var-info=yes ./${NAME}
 
 -include $(DEPS)
 

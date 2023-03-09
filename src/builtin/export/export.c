@@ -1,26 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse_tokens.c                                     :+:      :+:    :+:   */
+/*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vfries <vfries@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/08 21:45:10 by vfries            #+#    #+#             */
-/*   Updated: 2023/03/09 01:51:09 by vfries           ###   ########lyon.fr   */
+/*   Created: 2023/01/27 17:41:00 by tdameros          #+#    #+#             */
+/*   Updated: 2023/02/06 16:02:11 by vfries           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "parser.h"
+#include "error.h"
+#include "builtin.h"
 #include "exit_code.h"
 
-int	parse_tokens(t_list	**tokens)
+int	export(char **args, t_hashmap env_variables)
 {
-	if (parse_syntax(*tokens) != 1)
+	size_t	index;
+
+	index = 1;
+	if (args[index] == NULL)
 	{
-		exit_code(2);
-		return (-1);
+		if (print_export(env_variables) < 0)
+		{
+			print_error("export", args[index], strerror(errno));
+			return (exit_code(1));
+		}
 	}
-	if (simplify_tokens(tokens))
-		return (-1);
-	return (0);
+	else
+		return (exit_code(export_variables(args + index, env_variables)));
+	return (exit_code(0));
 }

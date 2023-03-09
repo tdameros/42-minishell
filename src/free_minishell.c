@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include <stdlib.h>
+#include <readline/readline.h>
 
 #include "minishell_struct.h"
 #include "lexer.h"
@@ -21,4 +22,5 @@ void	free_minishell(t_minishell *minishell)
 	ft_hm_clear(&minishell->alias, &free);
 	ft_lstclear(&minishell->tokens, &free_token);
 	ft_lst_of_lst_clear(&minishell->here_docs, &free);
+	rl_clear_history();
 }
