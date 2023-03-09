@@ -3,16 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   replace.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdameros <tdameros@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: vfries <vfries@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/06 19:37:16 by tdameros          #+#    #+#             */
-/*   Updated: 2023/03/06 19:37:16 by tdameros         ###   ########.fr       */
+/*   Updated: 2023/03/09 02:02:50 by vfries           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <errno.h>
-
-#include "libft.h"
 
 #include "expansions.h"
 

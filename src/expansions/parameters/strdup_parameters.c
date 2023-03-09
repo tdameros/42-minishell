@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   strdup_parameters.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdameros <tdameros@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: vfries <vfries@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/06 19:39:41 by tdameros          #+#    #+#             */
-/*   Updated: 2023/03/06 19:39:42 by tdameros         ###   ########.fr       */
+/*   Updated: 2023/03/09 02:00:47 by vfries           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 

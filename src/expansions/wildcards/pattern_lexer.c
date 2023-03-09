@@ -3,16 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   pattern_lexer.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdameros <tdameros@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: vfries <vfries@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/06 19:31:42 by tdameros          #+#    #+#             */
-/*   Updated: 2023/03/06 19:31:43 by tdameros         ###   ########.fr       */
+/*   Updated: 2023/03/09 02:02:40 by vfries           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
-
-#include "libft.h"
 
 #include "expansions.h"
 

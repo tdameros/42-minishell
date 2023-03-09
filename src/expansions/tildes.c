@@ -3,16 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   tildes.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdameros <tdameros@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: vfries <vfries@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/07 23:48:08 by tdameros          #+#    #+#             */
-/*   Updated: 2023/03/07 23:48:08 by tdameros         ###   ########.fr       */
+/*   Updated: 2023/03/09 02:05:56 by vfries           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
-
-#include "libft.h"
 
 #include "expansions.h"
 

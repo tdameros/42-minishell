@@ -3,18 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   list.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tomy <tomy@student.42lyon.fr>              +#+  +:+       +#+        */
+/*   By: vfries <vfries@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 22:50:00 by tomy              #+#    #+#             */
-/*   Updated: 2023/02/06 22:50:00 by tomy             ###   ########lyon.fr   */
+/*   Updated: 2023/03/09 02:02:14 by vfries           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 #include <error.h>
-#include <dirent.h>
-
-#include "libft.h"
 
 #include "expansions.h"
 

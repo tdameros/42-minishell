@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   add.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tomy <tomy@student.42lyon.fr>              +#+  +:+       +#+        */
+/*   By: vfries <vfries@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 23:19:00 by tomy              #+#    #+#             */
-/*   Updated: 2023/02/06 23:19:00 by tomy             ###   ########lyon.fr   */
+/*   Updated: 2023/03/09 02:01:52 by vfries           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
-#include <dirent.h>
 #include <error.h>
+
 #include "expansions.h"
 
 static int	add_simple_match_in_list(t_list **path_list, t_path path,

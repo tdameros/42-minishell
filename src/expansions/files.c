@@ -1,21 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   arguments.c                                        :+:      :+:    :+:   */
+/*   files.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tomy <tomy@student.42lyon.fr>              +#+  +:+       +#+        */
+/*   By: vfries <vfries@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 00:02:00 by tomy              #+#    #+#             */
-/*   Updated: 2023/02/10 00:02:00 by tomy             ###   ########lyon.fr   */
+/*   Updated: 2023/03/09 02:04:53 by vfries           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 #include <errno.h>
 
-#include "libft.h"
-
-#include "lexer.h"
 #include "expansions.h"
 
 static int	file_expansion(t_token *file, t_hashmap env_variables);

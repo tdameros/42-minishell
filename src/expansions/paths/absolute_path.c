@@ -6,11 +6,9 @@
 /*   By: vfries <vfries@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 01:39:50 by vfries            #+#    #+#             */
-/*   Updated: 2023/03/07 18:45:27 by vfries           ###   ########lyon.fr   */
+/*   Updated: 2023/03/09 02:00:58 by vfries           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
-
-#include <stdbool.h>
 
 #include "lexer.h"
 

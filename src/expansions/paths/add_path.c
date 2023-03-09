@@ -6,13 +6,10 @@
 /*   By: vfries <vfries@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 05:32:11 by vfries            #+#    #+#             */
-/*   Updated: 2023/01/28 14:43:14 by vfries           ###   ########lyon.fr   */
+/*   Updated: 2023/03/09 02:01:12 by vfries           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
-
-#include "lexer.h"
 #include "expansions.h"
 
 int	add_path(t_token *command, t_hashmap env_variables)
