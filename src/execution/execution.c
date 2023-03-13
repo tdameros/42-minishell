@@ -30,7 +30,7 @@ void	execute_commands(t_minishell *minishell)
 	{
 		ft_lstclear(&minishell->tokens, &free_token);
 		ft_lst_of_lst_clear(&minishell->here_docs, &free);
-		exit_code(-1);
+		set_exit_code(-1);
 		return ;
 	}
 	if (signal_init_handling_inside_execution() < 0)
@@ -38,16 +38,16 @@ void	execute_commands(t_minishell *minishell)
 		ft_lstclear(&minishell->tokens, &free_token);
 		ft_lst_of_lst_clear(&minishell->here_docs, &free);
 		terminal_disable_ctrl_backslash_output();
-		exit_code(-1);
+		set_exit_code(-1);
 		return ;
 	}
 	execute_commands_loop(minishell);
 	ft_lstclear(&minishell->tokens, &free_token);
 	ft_lst_of_lst_clear(&minishell->here_docs, &free);
 	if (signal_init_handling_outside_execution() < 0)
-		exit_code(-1);
+		set_exit_code(-1);
 	if (terminal_disable_ctrl_backslash_output() < 0)
-		exit_code(-1);
+		set_exit_code(-1);
 	while (waitpid(-1, NULL, WNOHANG) > 0)
 		;
 }
@@ -62,10 +62,10 @@ static void	execute_commands_loop(t_minishell *minishell)
 			execute_pipes(minishell);
 		else
 			execute_command_no_pipe(minishell, false);
-		if (exit_code(GET) == -1)
+		if (get_exit_code() == -1)
 			return ;
 		if (minishell->tokens != NULL)
-			get_next_command(&minishell->tokens, exit_code(GET));
+			get_next_command(&minishell->tokens, get_exit_code());
 	}
 }
 

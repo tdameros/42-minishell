@@ -16,9 +16,9 @@
 # include <limits.h>
 # include "libft.h"
 
-# define GET INT_MIN
-
-int	exit_code(int new_exit_code);
-int	init_exit_code(t_hashmap env_variables);
+//	exit_code.c
+int	set_exit_code(int new_exit_code);
+int	get_exit_code(void);
+int	update_exit_code_in_env_variables(t_hashmap env_variables);
 
 #endif

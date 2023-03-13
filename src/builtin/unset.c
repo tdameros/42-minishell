@@ -35,7 +35,7 @@ int	unset(char **args, t_hashmap env_variables)
 			ft_hm_delete_elem(env_variables, args[index], free);
 		index++;
 	}
-	return (exit_code(exit));
+	return (set_exit_code(exit));
 }
 
 static	bool	is_valid_key(char *key)

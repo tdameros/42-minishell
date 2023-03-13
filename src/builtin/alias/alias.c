@@ -32,12 +32,12 @@ int	alias(char **args, t_hashmap alias)
 		if (print_alias(alias) < 0)
 		{
 			print_error("alias", args[index], strerror(errno));
-			return (exit_code(1));
+			return (set_exit_code(1));
 		}
 	}
 	else
-		return (exit_code(add_alias_variables(args + index, alias)));
-	return (exit_code(0));
+		return (set_exit_code(add_alias_variables(args + index, alias)));
+	return (set_exit_code(0));
 }
 
 static int	print_alias(t_hashmap alias)

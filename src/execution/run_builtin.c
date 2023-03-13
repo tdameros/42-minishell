@@ -37,7 +37,7 @@ void	run_builtin(t_minishell *minishell, t_token *command)
 	else if (command->builtin == ALIAS)
 		alias(command->args, minishell->alias);
 	if (restore_io_and_close_io_save(io_save, command->args[0]) < 0)
-		exit_code(-1);
+		set_exit_code(-1);
 	if (command->builtin == EXIT)
 		exit_builtin(command->args, minishell);
 }
@@ -48,7 +48,7 @@ static int	prep_io(int *io_save, t_minishell *minishell, t_token *command)
 
 	if (save_io(command->args[0], io_save))
 	{
-		exit_code(-1);
+		set_exit_code(-1);
 		return (-1);
 	}
 	io_redirection = open_and_dup_files(command->files, minishell);
@@ -56,7 +56,7 @@ static int	prep_io(int *io_save, t_minishell *minishell, t_token *command)
 	{
 		restore_io_and_close_io_save(io_save, command->args[0]);
 		if (io_redirection < 0)
-			exit_code(-1);
+			set_exit_code(-1);
 		return (-1);
 	}
 	return (0);

@@ -34,7 +34,7 @@ int	exit_builtin(char **args, t_minishell *minishell)
 	if (args[2] != NULL && errno != EINVAL)
 	{
 		print_error("exit", NULL, "too many arguments");
-		return (exit_code(1));
+		return (set_exit_code(1));
 	}
 	if (errno == ERANGE || errno == EINVAL)
 	{

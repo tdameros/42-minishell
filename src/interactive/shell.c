@@ -42,7 +42,7 @@ int	run_interactive_shell(t_minishell *minishell)
 		free(command);
 		ft_putstr("exit\n");
 	}
-	return (exit_code(GET));
+	return (get_exit_code());
 }
 
 static char	*get_command(t_hashmap env_variables)
@@ -72,13 +72,13 @@ static int	run_interactive_command(char **command, t_minishell *minishell)
 	{
 		return_code = run_interactive_parsing(command, minishell);
 		if (return_code != 0)
-			exit_code(return_code);
+			set_exit_code(return_code);
 		else
 			execute_commands(minishell);
 		add_history(*command);
 	}
 	free(*command);
-	if (exit_code(GET) < 0)
+	if (get_exit_code() < 0)
 	{
 		print_error(NULL, "Fatal error with errno", get_error());
 		return (-1);

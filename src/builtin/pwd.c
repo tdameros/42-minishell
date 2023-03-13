@@ -23,15 +23,15 @@ int	pwd(t_hashmap env_variables)
 	if (current_path != NULL)
 	{
 		ft_printf("%s\n", current_path);
-		return (exit_code(0));
+		return (set_exit_code(0));
 	}
 	current_path = getcwd(NULL, 0);
 	if (current_path == NULL)
 	{
 		print_error("pwd", NULL, strerror(errno));
-		return (exit_code(1));
+		return (set_exit_code(1));
 	}
 	ft_printf("%s\n", current_path);
 	free(current_path);
-	return (exit_code(0));
+	return (set_exit_code(0));
 }

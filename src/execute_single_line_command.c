@@ -21,12 +21,12 @@ static int	handle_here_docs(t_minishell *minishell);
 int	execute_single_line_command(t_minishell *minishell, char *line)
 {
 	if (line == NULL || *line == '\0')
-		return (exit_code(GET));
+		return (get_exit_code());
 	if (is_valid_quote(line) == 0)
 		return (bad_quote(line));
 	minishell->tokens = get_tokens(line);
 	if (minishell->tokens == NULL)
-		return (exit_code(GET));
+		return (get_exit_code());
 	minishell->here_docs = NULL;
 	if (parse_syntax(minishell->tokens) < 1)
 	{
@@ -44,7 +44,7 @@ int	execute_single_line_command(t_minishell *minishell, char *line)
 		return (-1);
 	}
 	execute_commands(minishell);
-	return (exit_code(GET));
+	return (get_exit_code());
 }
 
 static int	bad_quote(char *line)

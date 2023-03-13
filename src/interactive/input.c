@@ -126,6 +126,6 @@ static int	return_input_error(int return_code, char **command)
 		*command = NULL;
 	}
 	if (return_code == 1)
-		exit_code(-1);
+		set_exit_code(-1);
 	return (return_code);
 }

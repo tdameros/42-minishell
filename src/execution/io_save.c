@@ -22,7 +22,7 @@ int	save_io(char *command_name, int *io_save)
 	if (io_save[0] < 0)
 	{
 		print_error(command_name, BUILTIN_DUP_FAILED, get_error());
-		exit_code(-1);
+		set_exit_code(-1);
 		ret = -1;
 	}
 	io_save[1] = dup(STDOUT_FILENO);
@@ -31,7 +31,7 @@ int	save_io(char *command_name, int *io_save)
 		if (close(io_save[0]) < 0)
 			print_error(command_name, BUILTIN_CLOSE_FAILED, get_error());
 		print_error(command_name, BUILTIN_DUP_FAILED, get_error());
-		exit_code(-1);
+		set_exit_code(-1);
 		ret = -1;
 	}
 	return (ret);
@@ -45,13 +45,13 @@ int	close_io_save(char *command_name, int *io_save)
 	if (close(io_save[0]) < 0)
 	{
 		print_error(command_name, BUILTIN_CLOSE_FAILED, get_error());
-		exit_code(-1);
+		set_exit_code(-1);
 		ret = -1;
 	}
 	if (close(io_save[1]) < 0)
 	{
 		print_error(command_name, BUILTIN_CLOSE_FAILED, get_error());
-		exit_code(-1);
+		set_exit_code(-1);
 		ret = -1;
 	}
 	return (ret);
@@ -65,18 +65,18 @@ int	restore_io_and_close_io_save(int *io_save, char *command_name)
 	if (dup2(io_save[0], STDIN_FILENO) < 0)
 	{
 		print_error(command_name, BUILTIN_DUP2_FAILED, get_error());
-		exit_code(-1);
+		set_exit_code(-1);
 		ret = -1;
 	}
 	if (dup2(io_save[1], STDOUT_FILENO) < 0)
 	{
 		print_error(command_name, BUILTIN_DUP2_FAILED, get_error());
-		exit_code(-1);
+		set_exit_code(-1);
 		ret = -1;
 	}
 	if (close_io_save(command_name, io_save) < 0)
 	{
-		exit_code(-1);
+		set_exit_code(-1);
 		ret = -1;
 	}
 	return (ret);

@@ -50,7 +50,7 @@ static void	signal_handler_outside_execution(int sig)
 	ft_putstr("\n");
 	rl_on_new_line();
 	rl_redisplay();
-	exit_code(130);
+	set_exit_code(130);
 }
 
 int	signal_init_handling_inside_execution(void)
@@ -85,12 +85,12 @@ static void	signal_handler_inside_execution(int sig)
 	{
 		if (get_cursor_x_pos() > 1)
 			ft_putstr_fd("Quit (core dumped)\n", STDERR_FILENO);
-		exit_code(131);
+		set_exit_code(131);
 	}
 	else if (sig == SIGINT)
 	{
 		if (get_cursor_x_pos() > 1)
 			ft_putchar_fd('\n', STDERR_FILENO);
-		exit_code(130);
+		set_exit_code(130);
 	}
 }

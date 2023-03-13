@@ -13,6 +13,7 @@
 #include <stdlib.h>
 
 #include "expansions.h"
+#include "exit_code.h"
 
 static int	apply_parameter_expansion(t_list *expansions, bool between_quotes,
 				t_hashmap env_variables);
@@ -28,6 +29,8 @@ int	replace_parameters(t_list **expansions, t_hashmap env_variables)
 	token = *expansions;
 	begin = expansions;
 	quote = 0;
+	if (update_exit_code_in_env_variables(env_variables) < 0)
+		return (-1);
 	while (token != NULL)
 	{
 		if (((t_expansion *)(token->content))->type == DOUBLE_QUOTE)

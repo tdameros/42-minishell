@@ -17,5 +17,5 @@ int	env(char **args, t_hashmap env_variables)
 {
 	(void ) args;
 	print_env_variables(env_variables);
-	return (exit_code(0));
+	return (set_exit_code(0));
 }

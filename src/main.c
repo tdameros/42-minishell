@@ -63,8 +63,8 @@ static int	minishell_init(t_minishell *minishell, char **envp, char *argv_zero)
 	minishell->alias = ft_hm_init();
 	if (minishell->env_variables == NULL
 		|| minishell->alias == NULL
+		|| update_exit_code_in_env_variables(minishell->env_variables) < 0
 		|| signal_init_handling_outside_execution() < 0
-		|| init_exit_code(minishell->env_variables) < 0
 		|| terminal_disable_ctrl_backslash_output() < 0)
 		return (-1);
 	return (0);

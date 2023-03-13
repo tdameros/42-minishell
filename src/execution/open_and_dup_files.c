@@ -31,13 +31,13 @@ int	open_and_dup_files(t_list *files, t_minishell *minishell)
 		{
 			if (handle_here_doc(token, minishell))
 			{
-				exit_code(1);
+				set_exit_code(1);
 				return (-1);
 			}
 		}
 		else if (open_and_dup(token))
 		{
-			exit_code(1);
+			set_exit_code(1);
 			return (1);
 		}
 		files = files->next;
