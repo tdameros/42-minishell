@@ -34,7 +34,7 @@ void	execute_command(t_minishell *minishell, t_token *command, char **envp)
 	if (io_redirection != 0)
 	{
 		if (io_redirection < 0)
-			exit_code(-1);
+			set_exit_code(-1);
 		return ;
 	}
 	if (command->type == SUBSHELL)
@@ -53,10 +53,10 @@ static void	run_subshell(t_minishell *minishell, t_token *command)
 	execute_commands(minishell);
 	free_minishell(minishell);
 	if (signal_init_handling_inside_execution())
-		exit_code(-1);
+		set_exit_code(-1);
 	if (terminal_restore(minishell->termios_save) < 0)
-		exit_code(-1);
-	exit(exit_code(GET));
+		set_exit_code(-1);
+	exit(get_exit_code());
 }
 
 static void	run_command(t_minishell *minishell, t_token *command, char **envp)
@@ -77,7 +77,6 @@ static void	run_command_error(t_minishell *minishell, t_token *command)
 
 	ret = print_error_get_error_code(command);
 	free_minishell(minishell);
-	(void)minishell;
 	exit(ret);
 }
 

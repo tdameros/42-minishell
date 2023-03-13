@@ -32,19 +32,19 @@ void	execute_pipes(t_minishell *minishell)
 	sub_tokens = create_sub_tokens(&minishell->tokens);
 	if (signal_init_handling_pipes() < 0)
 	{
-		exit_code(-1);
+		set_exit_code(-1);
 		return ;
 	}
 	if (save_io("Pipes", io_save) < 0)
 	{
-		exit_code(-1);
+		set_exit_code(-1);
 		return ;
 	}
-	exit_code(execute_pipes_sub_tokens(minishell, &sub_tokens));
+	set_exit_code(execute_pipes_sub_tokens(minishell, &sub_tokens));
 	if (restore_io_and_close_io_save(io_save, "Pipes") < 0)
-		exit_code(-1);
+		set_exit_code(-1);
 	if (signal_init_handling_inside_execution() < 0)
-		exit_code(-1);
+		set_exit_code(-1);
 	ft_lstclear(&sub_tokens, &free_token);
 }
 
@@ -106,10 +106,10 @@ static int	fork_and_execute_command_no_pipe(t_minishell *minishell,
 		skip_token_here_docs(token, &minishell->here_docs);
 		if (waitpid(pid, &status, 0) >= 0 && WIFSIGNALED(status) == false)
 			return (WEXITSTATUS(status));
-		return (exit_code(GET));
+		return (get_exit_code());
 	}
 	ft_lstclear(&minishell->tokens, &free_token);
 	minishell->tokens = sub_tokens;
 	execute_command_no_pipe(minishell, true);
-	exit(exit_code(GET));
+	exit(get_exit_code());
 }

@@ -47,7 +47,7 @@ static int	add_arrow(t_list **prompt, bool colored_prompt)
 
 	if (colored_prompt == false)
 		arrow = ft_strdup("> ");
-	else if (exit_code(GET) != 0)
+	else if (get_exit_code() != 0)
 		arrow = ft_strjoin_three(RED, ARROW, " ");
 	else
 		arrow = ft_strjoin_three(PURPLE_BOLD_HIGH_INTENSITY, ARROW, " ");

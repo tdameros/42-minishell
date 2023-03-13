@@ -28,7 +28,7 @@ int	run_interactive_parsing(char **command, t_minishell *minishell)
 	int		return_code;
 
 	if (init_interactive_signal_handling() < 0)
-		return (exit_code(-1));
+		return (set_exit_code(-1));
 	return_code = get_here_docs_if_valid_syntax(*command, *command, minishell);
 	if (return_code != 0)
 		return (leave_run_interactive_parsing(minishell, return_code));
@@ -104,6 +104,6 @@ static int	leave_run_interactive_parsing(t_minishell *minishell, int ret)
 		ft_lst_of_lst_clear(&minishell->here_docs, &free);
 	}
 	if (signal_init_handling_outside_execution() < 0)
-		ret = exit_code(-1);
+		ret = set_exit_code(-1);
 	return (ret);
 }

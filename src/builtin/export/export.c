@@ -24,10 +24,10 @@ int	export(char **args, t_hashmap env_variables)
 		if (print_export(env_variables) < 0)
 		{
 			print_error("export", args[index], strerror(errno));
-			return (exit_code(1));
+			return (set_exit_code(1));
 		}
 	}
 	else
-		return (exit_code(export_variables(args + index, env_variables)));
-	return (exit_code(0));
+		return (set_exit_code(export_variables(args + index, env_variables)));
+	return (set_exit_code(0));
 }

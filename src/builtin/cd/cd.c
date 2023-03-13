@@ -28,7 +28,7 @@ int	cd(char **args, t_hashmap env_variables)
 	if (args[1] != NULL && args[2] != NULL)
 	{
 		print_error("cd", NULL, "too many arguments");
-		return (exit_code(1));
+		return (set_exit_code(1));
 	}
 	if (args[1] == NULL)
 		path = ft_hm_get_content(env_variables, "HOME");
@@ -37,9 +37,9 @@ int	cd(char **args, t_hashmap env_variables)
 	if (path == NULL)
 	{
 		print_error("cd", NULL, "HOME not set");
-		return (exit_code(1));
+		return (set_exit_code(1));
 	}
-	return (exit_code(change_directory(path, env_variables)));
+	return (set_exit_code(change_directory(path, env_variables)));
 }
 
 static int	change_directory(char *path, t_hashmap env_variables)

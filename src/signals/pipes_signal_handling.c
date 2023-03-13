@@ -42,11 +42,11 @@ static void	signal_handler_pipes(int sig)
 	if (sig == SIGQUIT)
 	{
 		ft_putstr_fd("Quit (core dumped)\n", STDERR_FILENO);
-		exit_code(131);
+		set_exit_code(131);
 	}
 	else if (sig == SIGINT)
 	{
 		ft_putchar_fd('\n', STDERR_FILENO);
-		exit_code(130);
+		set_exit_code(130);
 	}
 }

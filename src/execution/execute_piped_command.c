@@ -51,7 +51,7 @@ pid_t	execute_piped_command(t_minishell *minishell,
 		exit(execute_piped_command_fork(minishell, sub_tokens, pipe_fd, envp));
 	execute_piped_command_main_process(sub_tokens, minishell, pipe_fd, envp);
 	if (pid == -1)
-		exit_code(-1);
+		set_exit_code(-1);
 	return (pid);
 }
 
@@ -79,10 +79,10 @@ static int	execute_piped_command_fork(t_minishell *minishell, t_list **tokens,
 		dont_execute_command = true;
 	}
 	if (dont_execute_command)
-		return (exit_code(-1));
+		return (set_exit_code(-1));
 	execute_command(
 		get_piped_command_minishell(minishell, *tokens), command, envp);
-	return (exit_code(GET));
+	return (get_exit_code());
 }
 
 static void	execute_piped_command_main_process(t_list **sub_tokens,
@@ -92,17 +92,17 @@ static void	execute_piped_command_main_process(t_list **sub_tokens,
 	if (dup2(pipe_fd[0], STDIN_FILENO) == -1)
 	{
 		print_error(get_name(*sub_tokens), PIPE_DUP2_FAILED, get_error());
-		exit_code(-1);
+		set_exit_code(-1);
 	}
 	if (close(pipe_fd[0]) == -1)
 	{
 		print_error(get_name(*sub_tokens), PIPE_CLOSE_FAILED, get_error());
-		exit_code(-1);
+		set_exit_code(-1);
 	}
 	if (close(pipe_fd[1]) == -1)
 	{
 		print_error(get_name(*sub_tokens), PIPE_CLOSE_FAILED, get_error());
-		exit_code(-1);
+		set_exit_code(-1);
 	}
 	skip_token_here_docs((*sub_tokens)->content, &minishell->here_docs);
 	ft_lst_get_next_free_current(sub_tokens, &free_token);

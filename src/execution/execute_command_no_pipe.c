@@ -39,7 +39,7 @@ void	execute_command_no_pipe(t_minishell *minishell,
 	if (apply_token_expansion(
 			token, minishell->here_docs, minishell->env_variables) < 0)
 	{
-		exit_code(-1);
+		set_exit_code(-1);
 		print_error(token->name, NULL, get_error());
 		return ;
 	}
@@ -67,10 +67,10 @@ static void	execute_non_builtin_no_pipe(t_minishell *minishell, t_token *token,
 	skip_token_here_docs(token, &minishell->here_docs);
 	ft_lst_get_next_free_current(&minishell->tokens, &free_token);
 	if (pid == -1)
-		exit_code(-1);
+		set_exit_code(-1);
 	else if ((is_last_piped_command == false && waitpid(pid, &status, 0) >= 0)
 		|| (waitpid(pid, &status, 0) >= 0 && WIFSIGNALED(status) == false))
-		exit_code(WEXITSTATUS(status));
+		set_exit_code(WEXITSTATUS(status));
 }
 
 static pid_t	fork_and_execute_command(t_minishell *minishell,
@@ -98,5 +98,5 @@ static pid_t	fork_and_execute_command(t_minishell *minishell,
 	execute_command(minishell, command, envp);
 	ft_free_split(envp);
 	free_minishell(minishell);
-	exit(exit_code(GET));
+	exit(get_exit_code());
 }

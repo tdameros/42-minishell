@@ -32,14 +32,14 @@ int	echo(char **args)
 		else
 			return_code = ft_printf("%s", args[index]);
 		if (return_code < 0)
-			return (exit_code(-1));
+			return (set_exit_code(-1));
 		index++;
 	}
 	if (!n_flag)
 		return_code = ft_printf("\n");
 	if (return_code < 0)
-		return (exit_code(-1));
-	return (exit_code(0));
+		return (set_exit_code(-1));
+	return (set_exit_code(0));
 }
 
 static bool	is_n_flag(char *arg)
