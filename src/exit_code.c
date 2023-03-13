@@ -6,7 +6,7 @@
 /*   By: vfries <vfries@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/05 16:10:16 by vfries            #+#    #+#             */
-/*   Updated: 2023/03/09 01:55:05 by vfries           ###   ########lyon.fr   */
+/*   Updated: 2023/03/13 20:21:27 by vfries           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ int	g_exit_code = 0;
 
 int	set_exit_code(int new_exit_code)
 {
+	if (g_exit_code == -1)
+		return (-1);
 	g_exit_code = new_exit_code;
 	return (new_exit_code);
 }
