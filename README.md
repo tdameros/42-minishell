@@ -6,8 +6,8 @@ Minishell is a project from the 42 school curriculum that involves creating a ba
 
 This project was realized in 2 months by :
 
-- Vincent Fries (_vfries_)
-- Tom Damerose (_tdameros_)
+- [Vincent Fries](https://github.com/Riescent) (_vfries_)
+- [Tom Damerose](https://github.com/tdameros) (_tdameros_)
 
 ![Minishell example](example.png)
 
