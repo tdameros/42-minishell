@@ -15,7 +15,7 @@
 #include "env_variables.h"
 #include "error.h"
 #include "exit_code.h"
-#include "builtin.h"
+#include "builtins.h"
 
 static int	print_alias(t_hashmap alias);
 static int	print_alias_variables(char **alias);

@@ -56,6 +56,7 @@ enum e_builtin
 	ENV = 5,
 	EXIT = 6,
 	ALIAS = 7,
+	UNALIAS = 8,
 };
 
 typedef struct s_token

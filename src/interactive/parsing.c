@@ -32,7 +32,6 @@ int	run_interactive_parsing(char **command, t_minishell *minishell)
 	return_code = get_here_docs_if_valid_syntax(*command, *command, minishell);
 	if (return_code != 0)
 		return (leave_run_interactive_parsing(minishell, return_code));
-	remove_quotes_in_delimiter(*command);
 	return_code = loop_interactive_parsing(command, minishell);
 	if (return_code != 0)
 		return (leave_run_interactive_parsing(minishell, return_code));

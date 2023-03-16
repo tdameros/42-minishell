@@ -19,7 +19,7 @@
 #include "interactive.h"
 #include "terminal.h"
 #include "execute_single_line_command.h"
-#include "builtin.h"
+#include "builtins.h"
 
 #define FAILED_TO_SAVE_TERMINAL -2
 

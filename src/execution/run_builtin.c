@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "builtin.h"
+#include "builtins.h"
 #include "execution.h"
 #include "exit_code.h"
 
@@ -36,6 +36,8 @@ void	run_builtin(t_minishell *minishell, t_token *command)
 		env(command->args, minishell->env_variables);
 	else if (command->builtin == ALIAS)
 		alias(command->args, minishell->alias);
+	else if (command->builtin == UNALIAS)
+		unalias(command->args, minishell->alias);
 	if (restore_io_and_close_io_save(io_save, command->args[0]) < 0)
 		set_exit_code(-1);
 	if (command->builtin == EXIT)

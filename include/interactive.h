@@ -17,9 +17,6 @@
 
 # include "minishell_struct.h"
 
-//	delimiters.c
-int		remove_quotes_in_delimiter(char *command);
-
 //	here_docs.c
 int		get_here_docs(t_list *tokens, t_minishell *minishell);
 

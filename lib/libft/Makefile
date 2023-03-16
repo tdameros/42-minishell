@@ -216,7 +216,7 @@ DEPS_TEST_DEBUG =	$(addprefix $(TEST_BUILD_DIR),$(SRCS_TEST:.c=.debug.d))
 DEPS_FLAGS =	-MMD -MP
 FLAGS_NO_O3 =	-Wall -Wextra -Werror $(DEPS_FLAGS)
 
-FLAGS =			$(FLAGS_NO_O3) -g3
+FLAGS =			$(FLAGS_NO_O3)
 DEBUG_FLAGS	=	$(FLAGS_NO_O3) -g3 -fsanitize=address
 
 

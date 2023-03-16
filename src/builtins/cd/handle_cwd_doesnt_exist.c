@@ -13,7 +13,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "builtin.h"
+#include "builtins.h"
 #include "error.h"
 
 static int	change_dir(char *path, t_hashmap env_variables);

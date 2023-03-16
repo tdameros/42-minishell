@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef BUILTIN_H
-# define BUILTIN_H
+#ifndef BUILTINS_H
+# define BUILTINS_H
 
 # include "env_variables.h"
 # include "minishell_struct.h"
@@ -54,6 +54,9 @@ int		exit_builtin(char **args, t_minishell *minishell);
 
 //	pwd.c
 int		pwd(t_hashmap env_variables);
+
+//	unalias.c
+int		unalias(char **args, t_hashmap alias);
 
 //	unset.c
 int		unset(char **args, t_hashmap env_variables);

@@ -30,5 +30,7 @@ enum e_builtin	is_builtin(char *command_name)
 		return (EXIT);
 	if (ft_strcmp(command_name, "alias") == 0)
 		return (ALIAS);
+	if (ft_strcmp(command_name, "unalias") == 0)
+		return (UNALIAS);
 	return (-1);
 }
