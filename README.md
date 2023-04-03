@@ -1,7 +1,5 @@
 # Minishell Project
 
-*As beautiful as a shell*
-
 Minishell is a project from the 42 school curriculum that involves creating a basic shell similar to bash.
 
 This project was realized in 2 months by :
