@@ -15,8 +15,6 @@ This project was realized in 2 months by :
 
  ⚠️ Readline is required
 ```
-git clone https://github.com/Riescent/42-minishell.c
-cd 42-minishell/
 make -j
 ./minishell
 ```
