@@ -80,6 +80,10 @@ static char	*get_minishell_path(char *argv_zero)
 		return (ft_strdup(argv_zero));
 	cwd = getcwd(NULL, 0);
 	tmp = ft_strjoin_three(cwd, "/", argv_zero);
+	if (tmp == NULL) {
+		free(cwd);
+		return (NULL);
+	}
 	minishell_path = get_cleaned_path(tmp);
 	free(cwd);
 	free(tmp);
